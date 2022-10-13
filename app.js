@@ -31,7 +31,6 @@ console.log("DB_USER:", process.env.DB_USER);
 console.log("DB_PSWORD:", process.env.DB_PSWORD);
 console.log("SESSION_SECRET:", process.env.SESSION_SECRET);
 
-/* s3 test */
 
 
 

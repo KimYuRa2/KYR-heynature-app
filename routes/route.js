@@ -1,3 +1,9 @@
+//# 환경변수 관리 ( "dotenv"사용 : 어떤 os에서 개발하더라도 , 동일하게 환경변수를 등록하고 가져올 수 있게됨.)
+const dotenv = require("dotenv");
+// # 환경변수 관리
+dotenv.config(); //config(현재디렉토리의 .env파일을 자동으로 인식하여 환경변수 세팅)라는 메서드를 실행하면, dotenv라는 모듈이 자동적으로 .env에 등록돼있는 변수들을 node.js에서 접근할 수 있도록  "process.env.환경변수"에 등록을 시켜줌!!
+
+
 const express = require('express');
 const router = express.Router(); 
 // 20220513 express-ejs-layouts
@@ -7,10 +13,6 @@ const {check, validationResult} = require('express-validator');
 /* db.js 파일 연결 */
 const db = require('../db');
 
-//# 환경변수 관리 ( "dotenv"사용 : 어떤 os에서 개발하더라도 , 동일하게 환경변수를 등록하고 가져올 수 있게됨.)
-const dotenv = require("dotenv");
-// # 환경변수 관리
-dotenv.config(); //config(현재디렉토리의 .env파일을 자동으로 인식하여 환경변수 세팅)라는 메서드를 실행하면, dotenv라는 모듈이 자동적으로 .env에 등록돼있는 변수들을 node.js에서 접근할 수 있도록  "process.env.환경변수"에 등록을 시켜줌!!
 
 /* test */
 console.log("accessKeyId:", process.env.accessKeyId);
@@ -36,7 +38,12 @@ const multer = require('multer');
 // const path = require('path'); //설치X
 // const fs = require('fs'); // 설치 x
 
-let s3 = new aws.S3();
+//1013 s3 설정 - https://myunji.tistory.com/403
+let s3 = new aws.S3({
+    accessKeyId: process.env.accessKeyId,
+    secretAccessKey: process.env.secretAccessKey,
+    region: process.env.region
+});
 
 let upload = multer({
   storage: multerS3({
@@ -60,7 +67,7 @@ router.post('/upload', upload.single("imgFile"), function(req, res, next){
   
 router.get('/upload', function(req, res, next) {
     res.render('upload');
-  });
+});
   
 
 
