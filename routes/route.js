@@ -73,7 +73,8 @@ router.post('/upload', upload.single("imgFile"), function(req, res, next){
 })
   
 router.get('/upload', function(req, res, next) {
-    res.render('upload');
+    let imgFile = req.file;
+    res.render('upload', {imgFile : req.file.location});
 });
 
 /* 이미지 보이는 페이지 테스트!! testtsetsetes */
