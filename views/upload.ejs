@@ -1,6 +1,8 @@
 <section style="padding:200px">
+    <!--클라이언트에서 서버로 파일을 보내기 위해서는 인코딩 타입으로 multipart/form-date를 명시해줘야 함!!-->
     <form action="/upload" method="post" enctype="multipart/form-data">
         <input type="file" name="imgFile">
         <input type="submit" value="S3에 보내기">
     </form>
+    <!-- <img src = "https://s3.ap-northeast-2.amazonaws.com/heynature/파일이름.png" alt=""> -->
 </section>

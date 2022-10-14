@@ -38,37 +38,50 @@ const multer = require('multer');
 // const path = require('path'); //설치X
 // const fs = require('fs'); // 설치 x
 
-//1013 s3 설정 - https://myunji.tistory.com/403
-let s3 = new aws.S3({
+//sdk 로딩 방법 : aws.config.loadFromPath() 메서드를 호출할 때 매개변수로 AWS SDK 환경 설정 파일 경로를 전달하기
+//1013 s3 설정 - https://myunji.tistory.com/403 
+let s3 = new aws.S3({ //s3 객체 만들기
     accessKeyId: process.env.accessKeyId,
     secretAccessKey: process.env.secretAccessKey,
     region: process.env.region
 });
 
 let upload = multer({
-  storage: multerS3({
+  storage: multerS3({ // multer-s3 모듈 : 업로드된 파일을 S3에 바로 업로드할 수 있도록 도와줌
     s3: s3,
-    bucket: "heynature",
-    key: function (req, file, cb) {
+    bucket: "heynature", //파일을 업로드 할 S3 버킷 이름
+    contentType: multerS3.AUTO_CONTENT_TYPE, // 자동을 콘텐츠 타입 세팅 (url 클릭 시 이미지 다운로드 안되게!)
+    key: function (req, file, cb) { //Key : S3에 저장될 파일의 이름
       let extension = path.extname(file.originalname);
       cb(null, Date.now().toString() + extension)
     },
-    acl: 'public-read-write',
+    acl: 'public-read-write', // 파일에 대한 접근 권한
   })
 })
 
 
+// /* s3 list test */
+
+
 router.use(expressLayouts);
 
+// upload : 상품 이미지 업로드하는 페이지
 router.post('/upload', upload.single("imgFile"), function(req, res, next){
     let imgFile = req.file;
+    console.log("s3 이미지 경로 : " , imgFile.location);
     res.json(imgFile);
-  })
+})
   
 router.get('/upload', function(req, res, next) {
     res.render('upload');
 });
-  
+
+/* 이미지 보이는 페이지 테스트!! testtsetsetes */
+
+
+
+
+
 
 
 
@@ -83,7 +96,6 @@ router.get('/cscenter',(req, res,next) =>{
     db.getAllNotice((rows) => {
         res.render('cscenter',{ rows : rows , userId : req.session.userId });
     })
-
 });
 
 router.get('/newnotice', (req,res,next) => {
@@ -321,7 +333,7 @@ router.get('/intro',(req, res) =>{
 
 
 router.get('/product',(req, res) =>{
-    res.render('product')
+    res.render('product',{userId : req.session.userId});
 });
 
 module.exports = router
