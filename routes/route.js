@@ -59,17 +59,43 @@ let upload = multer({
   })
 })
 
-
-// /* s3 list test */
-
-
 router.use(expressLayouts);
+
+
+// 1017 test =>  file upload 처리 : https://velog.io/@jake0601/Summernote-Node.js-Express-%ED%99%98%EA%B2%BD%EC%97%90%EC%84%9C-AWS-S3-%EC%9D%B4%EB%AF%B8%EC%A7%80-%ED%81%B4%EB%9D%BC%EC%9A%B0%EB%93%9C-%EC%97%B0%EB%8F%99
+// router.post('/insertImage', upload.single("imgFile"), async(req, res) => {
+//     imgurl = '';
+//     if(req.file !== undefined) {
+//         var imgurl = req.file.location; // router에서 붙인 multer가 반환한 url (aws s3 object url)
+//     }
+//     res.json(imgurl); // json 형태로 반환해주어야 View에서 처리가 가능하다.
+// });
 
 // upload : 상품 이미지 업로드하는 페이지
 router.post('/upload', upload.single("imgFile"), function(req, res, next){
-    let imgFile = req.file;
-    console.log("s3 이미지 경로 : " , imgFile.location);
-    res.json(imgFile);
+    // let imgFile = req.file;
+    // console.log("s3 이미지 경로 : " , imgFile.location);
+    // res.json(imgFile);
+    // let test = upload.single()
+    console.log("s3 이미지 경로 : " , req.file.location);
+    const name = req.body.name;
+    const kind = req.body.kind;
+    const price1 = req.body.price1;
+    const price2 = req.body.price2;
+    const content = req.body.content;
+    const image = req.file.location; // image 경로 만들기
+    const useyn = req.body.useyn;// y n  --- 재고관리는 힘듦..
+    const datas = [name, kind, price1, price2, content, image, useyn];
+
+    db.connection.query('insert into product(name, kind, price1, price2, content, image, useyn) values(?,?,?,?,?,?,?)',datas,(err,rows)=>{
+        if (err) {
+            console.error("err : " + err);
+          } else {
+            console.log("rows: " + JSON.stringify(rows));
+            res.redirect("/product");
+          }
+    })
+
 })
   
 router.get('/upload', function(req, res, next) {
@@ -337,14 +363,22 @@ router.get('/product',(req, res, next) =>{
     //res.render('product',{userId : req.session.userId});
 
     //1017 상품 업로드 후 상품 뿌리기 테스트!!
-    db.connection.query('select * from product', (err,rows) => {
-        if(err){
-            console.log("query error!" + err);
-            res.send("Internal Server Error!!");
-        }else{
-            res.render('product',{title : "상품 뿌리기 테스트", rows : rows, userId : req.session.userId});
+    // db.connection.query('select * from product', (err,rows) => {
+    //     if(err){
+    //         console.log("query error!" + err);
+    //         res.send("Internal Server Error!!");
+    //     }else{
+    //         res.render('product',{title : "상품 뿌리기 테스트", rows : rows, userId : req.session.userId});
+    //     }
+    // });
+
+    db.connection.query('select * from product',(err,rows) =>{
+        if (err) {
+            console.error("err : " + err);
+        } else {
+            res.render('product',{title : "상품 뿌리기 테스트", rows:rows, userId : req.session.userId })
         }
-    });
+    })
 });
 
 module.exports = router

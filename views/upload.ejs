@@ -5,8 +5,8 @@
         <input type="submit" value="S3에 보내기">
     </form>
 
-
-    <form class="w1200" method="POST" action="/upload" style="padding-top: 100px; box-sizing: border-box;" onsubmit="return checkPw()">
+    <!-- 글 처리 경로 -->
+    <form class="w1200" method="POST" action="/upload" enctype="multipart/form-data" style="padding-top: 100px; box-sizing: border-box;" onsubmit="return checkPw()">
         <div class="cs_tabContent" style="display:block">
             <div class="cs_tabContentInner">
                 <div class="cs_box1">
@@ -17,6 +17,15 @@
                         <div class="ask_title">
                             <input type="password" name="pw" id="pw">
                             <span>관리자 비밀번호 재확인</span>
+                        </div>
+                    </div>
+
+                    <div class="ask_title_wrap">
+                        <div class="ask_box">
+                            <div class="ask_title2">
+                                <input type="file" name="imgFile">
+                                <span>이미지</span>
+                            </div>
                         </div>
                     </div>
                     
