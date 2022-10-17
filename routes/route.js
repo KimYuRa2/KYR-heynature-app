@@ -333,8 +333,18 @@ router.get('/intro',(req, res) =>{
 });
 
 
-router.get('/product',(req, res) =>{
-    res.render('product',{userId : req.session.userId});
+router.get('/product',(req, res, next) =>{
+    //res.render('product',{userId : req.session.userId});
+
+    //1017 상품 업로드 후 상품 뿌리기 테스트!!
+    db.connection.query('select * from product', (err,rows) => {
+        if(err){
+            console.log("query error!" + err);
+            res.send("Internal Server Error!!");
+        }else{
+            res.render('product',{title : "상품 뿌리기 테스트", rows : rows, userId : req.session.userId});
+        }
+    });
 });
 
 module.exports = router

@@ -19,6 +19,22 @@
                     <li class="ko"><a href="javascript:void(0);">어성초</a></li>
                 </ul>
 
+                <!-- 1017 test!! -->
+                <h1><%= title %></h1>
+                <p>Welcome to <%= title %></p>
+
+                <% for(let row of rows) { %>
+                <p><%= row.name%></p>
+                <p><%= row.kind%></p>
+                <p><%= row.price1%></p>
+                <p><%= row.price2%></p>
+                <p><%= row.content%></p>
+                <p><%= row.image%></p>
+                <p><%= row.useyn%></p>
+                <hr />
+                <% } %>
+                <!-- 1017 test END !! -->
+
                 <!-- BEST 상품 tab-->
                 <div class="tabContent pro_active">
                     <div class="tabContentInner">
