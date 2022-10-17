@@ -4,5 +4,89 @@
         <input type="file" name="imgFile">
         <input type="submit" value="S3에 보내기">
     </form>
-    <img src = "https://s3.ap-northeast-2.amazonaws.com/heynature/파일이름.png" alt="">
+
+
+    <form class="w1200" method="POST" action="/upload" style="padding-top: 100px; box-sizing: border-box;" onsubmit="return checkPw()">
+        <div class="cs_tabContent" style="display:block">
+            <div class="cs_tabContentInner">
+                <div class="cs_box1">
+                    <div class="ask_title">
+                        <p class="h3 bold">상품 업로드</p>
+                    </div>
+                    <div class="ask_title_wrap notipw">
+                        <div class="ask_title">
+                            <input type="password" name="pw" id="pw">
+                            <span>관리자 비밀번호 재확인</span>
+                        </div>
+                    </div>
+                    
+                    <div class="ask_title_wrap">
+                        <div class="ask_box">
+                            <div class="ask_title2">
+                                <input type="text" name="name" id="title">
+                                <span>상품명</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="ask_title_wrap">
+                        <div class="ask_box">
+                            <div class="ask_title2">
+                                <input type="text" name="kind">
+                                <span>상품종류</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="ask_title_wrap">
+                        <div class="ask_box">
+                            <div class="ask_title2">
+                                <input type="text" name="price1">
+                                <span>원가</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="ask_title_wrap">
+                        <div class="ask_box">
+                            <div class="ask_title2">
+                                <input type="text" name="price2">
+                                <span>판매가</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="ask_content_wrap">
+                        <div class="ask_box">
+                            <div class="ask_content2">
+                                <textarea name="content" id="content"></textarea>
+                                <span>상세 설명</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="ask_title_wrap">
+                        <div class="ask_box">
+                            <div class="ask_title2">
+                                <input type="text" name="useyn">
+                                <span>판매유무</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="ask_submit_wrap">
+                        <div class="update_submit">
+                            <input type="submit" value="업데이트">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </form>
+
+
+
+    <!-- <img src = "https://s3.ap-northeast-2.amazonaws.com/heynature/파일이름.png" alt=""> -->
+    <!-- <img src = "https://heynature.s3.ap-northeast-2.amazonaws.com/1665760617888.jpg" alt=""> -->
+
 </section>

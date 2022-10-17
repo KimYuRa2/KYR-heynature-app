@@ -26,10 +26,10 @@ const { builtinModules } = require('module');
 
 // # 환경변수 관리
 dotenv.config(); //config(현재디렉토리의 .env파일을 자동으로 인식하여 환경변수 세팅)라는 메서드를 실행하면, dotenv라는 모듈이 자동적으로 .env에 등록돼있는 변수들을 node.js에서 접근할 수 있도록  "process.env.환경변수"에 등록을 시켜줌!!
-console.log("DB_HOST:", process.env.DB_HOST);
-console.log("DB_USER:", process.env.DB_USER);
-console.log("DB_PSWORD:", process.env.DB_PSWORD);
-console.log("SESSION_SECRET:", process.env.SESSION_SECRET);
+// console.log("DB_HOST:", process.env.DB_HOST);
+// console.log("DB_USER:", process.env.DB_USER);
+// console.log("DB_PSWORD:", process.env.DB_PSWORD);
+// console.log("SESSION_SECRET:", process.env.SESSION_SECRET);
 
 
 

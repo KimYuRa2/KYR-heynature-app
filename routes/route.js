@@ -15,7 +15,7 @@ const db = require('../db');
 
 
 /* test */
-console.log("accessKeyId:", process.env.accessKeyId);
+// console.log("accessKeyId:", process.env.accessKeyId);
 
 
 
@@ -74,7 +74,7 @@ router.post('/upload', upload.single("imgFile"), function(req, res, next){
   
 router.get('/upload', function(req, res, next) {
     let imgFile = req.file;
-    res.render('upload', {imgFile : req.file.location});
+    res.render('upload');
 });
 
 /* 이미지 보이는 페이지 테스트!! testtsetsetes */

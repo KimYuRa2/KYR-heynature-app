@@ -437,7 +437,7 @@ window.onload = function(){
 
 function checkPw(){
     var pw = document.getElementById('pw').value;
-   if(pw !== "123456"){
+   if(pw !== "1234"){
        alert('관리자가 아닙니다')
        return false
    } else{
