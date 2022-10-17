@@ -79,15 +79,16 @@ router.post('/upload', upload.single("imgFile"), function(req, res, next){
     // let test = upload.single()
     console.log("s3 이미지 경로 : " , req.file.location);
     const name = req.body.name;
+    const engname = req.body.engname;
     const kind = req.body.kind;
     const price1 = req.body.price1;
     const price2 = req.body.price2;
     const content = req.body.content;
     const image = req.file.location; // image 경로 만들기
     const useyn = req.body.useyn;// y n  --- 재고관리는 힘듦..
-    const datas = [name, kind, price1, price2, content, image, useyn];
+    const datas = [name, engname, kind, price1, price2, content, image, useyn];
 
-    db.connection.query('insert into product(name, kind, price1, price2, content, image, useyn) values(?,?,?,?,?,?,?)',datas,(err,rows)=>{
+    db.connection.query('insert into product(name,engname, kind, price1, price2, content, image, useyn) values(?,?,?,?,?,?,?,?)',datas,(err,rows)=>{
         if (err) {
             console.error("err : " + err);
           } else {

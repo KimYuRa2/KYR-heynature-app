@@ -313,7 +313,7 @@ body {
     border: none;
     width: 100%;
     height: 40px;
-    background-color: #FFFEFC;
+    background-color: #FFFEFC !important;
 }
 
 .ask_title>h1{

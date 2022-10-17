@@ -175,17 +175,12 @@ body{
     letter-spacing: 0;
     word-spacing: 0;
 }
-/* .selected{
-    display:flex;
-} */
+
 .tabContent figure{
     width:25%;
     padding: 0 15px 80px;
     box-sizing: border-box;
     display: inline-block;
-    
-
-    /* background-color: #9CCB44; */
 }
 .tabContent figure>a{
     display:block;
@@ -195,6 +190,7 @@ body{
 .product_img{
     position:relative;
     width:100%;
+    
     padding-top:100%;
     background-repeat: no-repeat;
     background-size: cover;
@@ -216,6 +212,35 @@ body{
     background-color: rgba(0,0,0, 0.4);
     overflow-x: hidden; */
 }
+
+/*** 1017 test**/
+.product_img_test {
+    position: relative;
+    width: 100%;
+    /* background-color: skyblue; */
+    background-color: #f5f5f5;
+  }
+  .product_img_test::after {
+    display: block;
+    content: "";
+    padding-bottom: 100%;
+  }
+  .test_content {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+  }
+
+
+
+
+/****/
+
+
 
 .tabContent figcaption{
     /* display:block;

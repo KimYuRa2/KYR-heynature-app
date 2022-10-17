@@ -20,7 +20,7 @@
                 </ul>
 
                 <!-- 1017 test!! -->
-                <h1><%= title %></h1>
+                <!-- <h1><%= title %></h1>
                 <p>Welcome to <%= title %></p>
 
                 <% for(let row of rows) { %>
@@ -30,11 +30,10 @@
                 <p><%= row.price2%></p>
                 <p><%= row.content%></p>
                 <p><%= row.useyn%></p>
-                <!-- <img src="https://heynature.s3.ap-northeast-2.amazonaws.com/1665996914371.JPG" alt="s3이미지" width="300"/> -->
                 <img src="<%= row.image%>" alt="(S3)업로드한 이미지 가져오기" width="300"/>
                
                 <hr />
-                <% } %>
+                <% } %> -->
                 <!-- 1017 test END !! -->
 
                 <!-- BEST 상품 tab-->
@@ -281,22 +280,24 @@
                             </ul>
                             <!--유형별-ALL tab 상품-->
                             <div class="tabContent2 pro_active">
+                                <%rows.forEach(( row, index )=>{%>
                                 <figure>
                                     <a href="/detail">
-                                        <div class="product_img img38">
-                                            <div class="overlay"></div>
+                                        <div class="product_img_test">
+                                            <img class="test_content" src="<%= row.image%>" alt="(S3)업로드한 이미지 가져오기" />
                                         </div>
                                         <figcaption>
-                                            <h3>어성초 스킨+로션 세트</h3>
-                                            <h4>Eoseongcho skin+lotion Set</h4>
+                                            <h3><%= row.name%></h3>
+                                            <h4><%= row.engname%></h4>
                                         </figcaption>
                                     </a>
                                     <div>
-                                        <span class="price">₩52,000</span>
-                                        <span class="dc_price">₩41,600</span>
+                                        <span class="price">₩<%= row.price1%></span>
+                                        <span class="dc_price">₩<%= row.price2%></span>
                                     </div>
                                 </figure>
-                                <figure>
+                                <%})%>
+                                <!-- <figure>
                                     <a href="/detail">
                                         <div class="product_img img39"><div class="overlay"></div></div>
                                         <figcaption>
@@ -854,7 +855,7 @@
                                         <span class="price">₩21,000</span>
                                         <span class="dc_price">₩12,600</span>
                                     </div>
-                                </figure>
+                                </figure> -->
                                 <div class="more_btn">
                                     <a href="javascript:void(0);" class="more">
                                         더보기 <span>(<span class="currentPage">1</span> / <span class="totalPage">1</span>)</span>  ▼
@@ -862,9 +863,27 @@
                                 </div>
 
                             </div>
-                            <!--(완)유형별-SKIN/LOTION tab 상품-->
+                            <!--(완)유형별-SKIN/LOTION tab (kind = 1) 상품-->
                             <div class="tabContent2">
+                                <%rows.forEach(( row, index )=>{%>
+                                    <%if(row.kind=="1"){%>
                                 <figure>
+                                    <a href="/detail">
+                                        <div class="product_img_test">
+                                            <img class="test_content" src="<%= row.image%>" alt="(S3)업로드한 이미지 가져오기" />
+                                        </div>
+                                        <figcaption>
+                                            <h3><%= row.name%></h3>
+                                            <h4>Eoseongcho skin+lotion Set</h4>
+                                        </figcaption>
+                                    </a>
+                                    <div>
+                                        <span class="price">₩<%= row.price1%></span>
+                                        <span class="dc_price">₩<%= row.price2%></span>
+                                    </div>
+                                </figure>
+                                <%}})%>
+                                <!-- <figure>
                                     <a href="/detail">
                                         <div class="product_img img1"><div class="overlay"></div></div>
                                         <figcaption>
@@ -1019,7 +1038,7 @@
                                         <span class="price">₩21,000</span>
                                         <span class="dc_price">₩12,600</span>
                                     </div>
-                                </figure>
+                                </figure> -->
                                 <div class="more_btn">
                                     <a href="javascript:void(0);" class="more">
                                         더보기 <span>(<span id="currentPage">1</span> / <span id="totalPage">1</span>)</span>  ▼
@@ -1027,9 +1046,27 @@
                                 </div>
                             </div>
                             
-                            <!--(완)유형별-SERUM / AMPLE tab 상품-->
+                            <!--(완)유형별-SERUM / AMPLE tab (kind = 2) 상품-->
                              <div class="tabContent2">
+                                <%rows.forEach(( row, index )=>{%>
+                                    <%if(row.kind=="2"){%>
                                 <figure>
+                                    <a href="/detail">
+                                        <div class="product_img_test">
+                                            <img class="test_content" src="<%= row.image%>" alt="(S3)업로드한 이미지 가져오기" />
+                                        </div>
+                                        <figcaption>
+                                            <h3><%= row.name%></h3>
+                                            <h4>Eoseongcho skin+lotion Set</h4>
+                                        </figcaption>
+                                    </a>
+                                    <div>
+                                        <span class="price">₩<%= row.price1%></span>
+                                        <span class="dc_price">₩<%= row.price2%></span>
+                                    </div>
+                                </figure>
+                                <%}})%>
+                                <!-- <figure>
                                     <a href="/detail">
                                         <div class="product_img img4"><div class="overlay"></div></div>
                                         <figcaption>
@@ -1366,7 +1403,7 @@
                                         <span class="price">₩116,000</span>
                                         <span class="dc_price">₩100,920</span>
                                     </div>
-                                </figure>
+                                </figure> -->
                                 <div class="more_btn">
                                     <a href="javascript:void(0);" class="more">
                                         더보기 <span>(<span class="currentPage">1</span> / <span class="totalPage">1</span>)</span>  ▼
@@ -1374,9 +1411,27 @@
                                 </div>
                             </div>
 
-                            <!--(완)유형별-Cleansing tab 상품-->
+                            <!--(완)유형별-Cleansing tab (kind=3) 상품-->
                             <div class="tabContent2">
+                                <%rows.forEach(( row, index )=>{%>
+                                    <%if(row.kind=="3"){%>
                                 <figure>
+                                    <a href="/detail">
+                                        <div class="product_img_test">
+                                            <img class="test_content" src="<%= row.image%>" alt="(S3)업로드한 이미지 가져오기" />
+                                        </div>
+                                        <figcaption>
+                                            <h3><%= row.name%></h3>
+                                            <h4>Eoseongcho skin+lotion Set</h4>
+                                        </figcaption>
+                                    </a>
+                                    <div>
+                                        <span class="price">₩<%= row.price1%></span>
+                                        <span class="dc_price">₩<%= row.price2%></span>
+                                    </div>
+                                </figure>
+                                <%}})%>
+                                <!-- <figure>
                                     <a href="/detail">
                                         <div class="product_img img9"><div class="overlay"></div></div>
                                         <figcaption>
@@ -1479,7 +1534,7 @@
                                         <span class="price">₩22,000</span>
                                         <span class="dc_price">₩19,800</span>
                                     </div>
-                                </figure>
+                                </figure> -->
                                 <div class="more_btn">
                                     <a href="javascript:void(0);" class="more">
                                         더보기 <span>(<span class="currentPage">1</span> / <span class="totalPage">1</span>)</span>  ▼
@@ -1487,9 +1542,27 @@
                                 </div>
                             </div>
 
-                            <!--(완)유형별-cream/mask tab 상품-->
+                            <!--(완)유형별-cream/mask tab (kind=4) 상품-->
                             <div class="tabContent2">
+                                <%rows.forEach(( row, index )=>{%>
+                                    <%if(row.kind=="4"){%>
                                 <figure>
+                                    <a href="/detail">
+                                        <div class="product_img_test">
+                                            <img class="test_content" src="<%= row.image%>" alt="(S3)업로드한 이미지 가져오기" />
+                                        </div>
+                                        <figcaption>
+                                            <h3><%= row.name%></h3>
+                                            <h4>Eoseongcho skin+lotion Set</h4>
+                                        </figcaption>
+                                    </a>
+                                    <div>
+                                        <span class="price">₩<%= row.price1%></span>
+                                        <span class="dc_price">₩<%= row.price2%></span>
+                                    </div>
+                                </figure>
+                                <%}})%>
+                                <!-- <figure>
                                     <a href="/detail">
                                         <div class="product_img img52"><div class="overlay"></div></div>
                                         <figcaption>
@@ -1735,7 +1808,7 @@
                                         <span class="price">₩78,000</span>
                                         <span class="dc_price">₩50,700</span>
                                     </div>
-                                </figure>
+                                </figure> -->
                                 <div class="more_btn">
                                     <a href="javascript:void(0);" class="more">
                                         더보기 <span>(<span class="currentPage">1</span> / <span class="totalPage">1</span>)</span>  ▼
@@ -1743,9 +1816,27 @@
                                 </div>
                             </div>
 
-                            <!--(완)유형별-bb tab 상품-->
+                            <!--(완)유형별-bb tab (kind=5)상품-->
                             <div class="tabContent2">
+                                <%rows.forEach(( row, index )=>{%>
+                                    <%if(row.kind=="5"){%>
                                 <figure>
+                                    <a href="/detail">
+                                        <div class="product_img_test">
+                                            <img class="test_content" src="<%= row.image%>" alt="(S3)업로드한 이미지 가져오기" />
+                                        </div>
+                                        <figcaption>
+                                            <h3><%= row.name%></h3>
+                                            <h4>Eoseongcho skin+lotion Set</h4>
+                                        </figcaption>
+                                    </a>
+                                    <div>
+                                        <span class="price">₩<%= row.price1%></span>
+                                        <span class="dc_price">₩<%= row.price2%></span>
+                                    </div>
+                                </figure>
+                                <%}})%>
+                                <!-- <figure>
                                     <a href="/detail">
                                         <div class="product_img img29"><div class="overlay"></div></div>
                                         <figcaption>
@@ -1822,7 +1913,7 @@
                                         <span class="price">₩32,000</span>
                                         <span class="dc_price">₩16,000</span>
                                     </div>
-                                </figure>
+                                </figure> -->
                                 <div class="more_btn">
                                     <a href="javascript:void(0);" class="more">
                                         더보기 <span>(<span class="currentPage">1</span> / <span class="totalPage">1</span>)</span>  ▼
@@ -1830,9 +1921,27 @@
                                 </div>
                             </div>
 
-                            <!--(완)유형별-cushion tab 상품-->
+                            <!--(완)유형별-cushion tab (kind = 6) 상품-->
                             <div class="tabContent2">
+                                <%rows.forEach(( row, index )=>{%>
+                                    <%if(row.kind=="6"){%>
                                 <figure>
+                                    <a href="/detail">
+                                        <div class="product_img_test">
+                                            <img class="test_content" src="<%= row.image%>" alt="(S3)업로드한 이미지 가져오기" />
+                                        </div>
+                                        <figcaption>
+                                            <h3><%= row.name%></h3>
+                                            <h4>Eoseongcho skin+lotion Set</h4>
+                                        </figcaption>
+                                    </a>
+                                    <div>
+                                        <span class="price">₩<%= row.price1%></span>
+                                        <span class="dc_price">₩<%= row.price2%></span>
+                                    </div>
+                                </figure>
+                                <%}})%>
+                                <!-- <figure>
                                     <a href="/detail">
                                         <div class="product_img img31"><div class="overlay"></div></div>
                                         <figcaption>
@@ -1883,7 +1992,7 @@
                                         <span class="price"></span>
                                         <span class="dc_price">₩12,000</span>
                                     </div>
-                                </figure>
+                                </figure> -->
                                 <div class="more_btn">
                                     <a href="javascript:void(0);" class="more">
                                         더보기 <span>(<span class="currentPage">1</span> / <span class="totalPage">1</span>)</span>  ▼
@@ -1891,9 +2000,27 @@
                                 </div>
                             </div>
 
-                            <!--(완)유형별-eye tab 상품-->
+                            <!--(완)유형별-eye tab (kind=7) 상품-->
                             <div class="tabContent2">
+                                <%rows.forEach(( row, index )=>{%>
+                                    <%if(row.kind=="7"){%>
                                 <figure>
+                                    <a href="/detail">
+                                        <div class="product_img_test">
+                                            <img class="test_content" src="<%= row.image%>" alt="(S3)업로드한 이미지 가져오기" />
+                                        </div>
+                                        <figcaption>
+                                            <h3><%= row.name%></h3>
+                                            <h4>Eoseongcho skin+lotion Set</h4>
+                                        </figcaption>
+                                    </a>
+                                    <div>
+                                        <span class="price">₩<%= row.price1%></span>
+                                        <span class="dc_price">₩<%= row.price2%></span>
+                                    </div>
+                                </figure>
+                                <%}})%>
+                                <!-- <figure>
                                     <a href="/detail">
                                         <div class="product_img img36"><div class="overlay"></div></div>
                                         <figcaption>
@@ -1905,7 +2032,7 @@
                                         <span class="price"></span>
                                         <span class="dc_price">₩16,000</span>
                                     </div>
-                                </figure>
+                                </figure> -->
                                 <div class="more_btn">
                                     <a href="javascript:void(0);" class="more">
                                         더보기 <span>(<span class="currentPage">1</span> / <span class="totalPage">1</span>)</span>  ▼
@@ -1913,9 +2040,27 @@
                                 </div>
                             </div>
 
-                            <!--(완)유형별-set tab 상품-->
+                            <!--(완)유형별-set tab (kind=8) 상품-->
                             <div class="tabContent2">
+                                <%rows.forEach(( row, index )=>{%>
+                                    <%if(row.kind=="8"){%>
                                 <figure>
+                                    <a href="/detail">
+                                        <div class="product_img_test">
+                                            <img class="test_content" src="<%= row.image%>" alt="(S3)업로드한 이미지 가져오기" />
+                                        </div>
+                                        <figcaption>
+                                            <h3><%= row.name%></h3>
+                                            <h4>Eoseongcho skin+lotion Set</h4>
+                                        </figcaption>
+                                    </a>
+                                    <div>
+                                        <span class="price">₩<%= row.price1%></span>
+                                        <span class="dc_price">₩<%= row.price2%></span>
+                                    </div>
+                                </figure>
+                                <%}})%>
+                                <!-- <figure>
                                     <a href="/detail">
                                         <div class="product_img img38"><div class="overlay"></div></div>
                                         <figcaption>
@@ -2044,7 +2189,7 @@
                                         <span class="price">₩116,000</span>
                                         <span class="dc_price">₩100,920</span>
                                     </div>
-                                </figure>
+                                </figure> -->
                                 <div class="more_btn">
                                     <a href="javascript:void(0);" class="more">
                                         더보기 <span>(<span class="currentPage">1</span> / <span class="totalPage">1</span>)</span>  ▼
@@ -2052,9 +2197,27 @@
                                 </div>
                             </div>
 
-                            <!--(완)유형별-etc tab 상품-->
+                            <!--(완)유형별-etc tab(kind=9) 상품-->
                             <div class="tabContent2">
+                                <%rows.forEach(( row, index )=>{%>
+                                    <%if(row.kind=="9"){%>
                                 <figure>
+                                    <a href="/detail">
+                                        <div class="product_img_test">
+                                            <img class="test_content" src="<%= row.image%>" alt="(S3)업로드한 이미지 가져오기" />
+                                        </div>
+                                        <figcaption>
+                                            <h3><%= row.name%></h3>
+                                            <h4>Eoseongcho skin+lotion Set</h4>
+                                        </figcaption>
+                                    </a>
+                                    <div>
+                                        <span class="price">₩<%= row.price1%></span>
+                                        <span class="dc_price">₩<%= row.price2%></span>
+                                    </div>
+                                </figure>
+                                <%}})%>
+                                <!-- <figure>
                                     <a href="/detail">
                                         <div class="product_img img37"><div class="overlay"></div></div>
                                         <figcaption>
@@ -2105,7 +2268,7 @@
                                         <span class="price"></span>
                                         <span class="dc_price">₩900</span>
                                     </div>
-                                </figure>
+                                </figure> -->
                                 <div class="more_btn">
                                     <a href="javascript:void(0);" class="more">
                                         더보기 <span>(<span class="currentPage">1</span> / <span class="totalPage">1</span>)</span>  ▼
@@ -2120,8 +2283,26 @@
                 <div class="tabContent">
                     <div class="tabContentInner">
                         <div class="product_box1">
-                            <!-- 어성초 상품 나열 -->
+                            <!-- 어성초 상품 (kind=10) 나열 -->
+                            <%rows.forEach(( row, index )=>{%>
+                                <%if(row.kind=="10"){%>
                             <figure>
+                                <a href="/detail">
+                                    <div class="product_img_test">
+                                        <img class="test_content" src="<%= row.image%>" alt="(S3)업로드한 이미지 가져오기" />
+                                    </div>
+                                    <figcaption>
+                                        <h3><%= row.name%></h3>
+                                        <h4>Eoseongcho skin+lotion Set</h4>
+                                    </figcaption>
+                                </a>
+                                <div>
+                                    <span class="price">₩<%= row.price1%></span>
+                                    <span class="dc_price">₩<%= row.price2%></span>
+                                </div>
+                            </figure>
+                            <%}})%>
+                            <!-- <figure>
                                 <a href="/detail">
                                     <div class="product_img img16"><div class="overlay"></div></div>
                                     <figcaption>
@@ -2575,7 +2756,7 @@
                                     <span class="price">₩21,000</span>
                                     <span class="dc_price">₩12,600</span>
                                 </div>
-                            </figure>
+                            </figure> -->
                             <div class="more_btn">
                                 <a href="javascript:void(0);" class="more_tab1">
                                     더보기 <span>(<span class="currentPage">1</span> / <span class="totalPage">1</span>)</span>  ▼

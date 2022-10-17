@@ -23,8 +23,8 @@
                     <div class="ask_title_wrap">
                         <div class="ask_box">
                             <div class="ask_title2">
-                                <input type="file" name="imgFile">
                                 <span>이미지</span>
+                                <input type="file" name="imgFile" style="padding-top:20px;height:25px;">
                             </div>
                         </div>
                     </div>
@@ -41,8 +41,30 @@
                     <div class="ask_title_wrap">
                         <div class="ask_box">
                             <div class="ask_title2">
-                                <input type="text" name="kind">
+                                <input type="text" name="engname" id="title">
+                                <span>(ENG)상품명</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="ask_title_wrap">
+                        <div class="ask_box">
+                            <div class="ask_title2" style="padding-top:20px;">
                                 <span>상품종류</span>
+                                <!-- <input type="text" name="kind"> -->
+                                <select name="kind">
+                                    <option value="" selected>---선택---</option>
+                                    <option value="1">SKIN / LOTION</option>
+                                    <option value="2">SERUM / AMPLE</option>
+                                    <option value="3">CLEANSING</option>
+                                    <option value="4">CREAM / MASK</option>
+                                    <option value="5">BB</option>
+                                    <option value="6">CUSHION</option>
+                                    <option value="7">EYE</option>
+                                    <option value="8">SET</option>
+                                    <option value="9">ETC</option>
+                                    <option value="10">Eoseongcho</option>
+                                </select>
                             </div>
                         </div>
                     </div>
