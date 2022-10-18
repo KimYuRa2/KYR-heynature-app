@@ -282,7 +282,7 @@
                             <div class="tabContent2 pro_active">
                                 <%rows.forEach(( row, index )=>{%>
                                 <figure>
-                                    <a href="/detail">
+                                    <a href="javascript:void(0);" onclick="javascript:location.href='/detail?prodnum=<%=row.prodnum%>'">
                                         <div class="product_img_test">
                                             <img class="test_content" src="<%= row.image%>" alt="(S3)업로드한 이미지 가져오기" />
                                         </div>

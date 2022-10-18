@@ -5,14 +5,17 @@ var amount;
 var total_price1 = document.querySelector('#total1');
 
 window.onload = function init() {
-    sell_price = document.form.sell_price.value;
+  // price데이터 천단위 콤마 테스트 1018 
+    console.log("10181018test");
+    // sell_price = document.form.sell_price.value;
+    // console.log("!!!!!!!!!!!!!!!!!!!!",sell_price);
   
     var init_price = Number(sell_price);
     var init_price_comma = init_price.toLocaleString('ko-KR');
 
 
     amount = document.form.amount.value;
-
+    
     total_price1.innerHTML = init_price_comma;
     change();
 }

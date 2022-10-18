@@ -1546,6 +1546,16 @@ span.star-prototype > * {
   display: flex;
 }
 
+
+.test_content_d {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+}
 /************************* 공통 css *************************/
 
 .weight500{
@@ -2038,6 +2048,10 @@ span.star-prototype > * {
 
   .pr_option_txt>p{
     font-size: 12px;
+  }
+
+  .test_content_d {
+    position: relative;
   }
 
 

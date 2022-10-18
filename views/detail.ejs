@@ -4,17 +4,19 @@
 </ul>
         <section class="w1200" onload="init()">
             <div class="product_wrap">
-                <div class="product_detail">
+
+
+                <form class="product_detail">
                     <div class="product_detail_left">
                         <div class="product_main_pic">
-                            <img src="../img/2.png">
+                            <img class="test_content_d" src="<%=sql1_result.image%>" alt="(S3)업로드한 이미지 가져오기" />
                         </div>
                     </div>
                     <div class="product_detail_right">
                         <div class="product_sale">
                             <span>15%↓</span>
                         </div>
-                        <div class="product_title">헤이네이처 어성초 로션</div>
+                        <div class="product_title"><%=sql1_result.name%></div>
                         <ul>
                             <li class="normal_font">
                                 <span class="weight700">추천피부</span><br>
@@ -26,10 +28,10 @@
                                 <span>파라벤, 페녹시에탄올, 인공 방부제, 인공 색소, 알러지 유발 향료</span>
                             </li>
                             <li class="product_price">
-                                <span>27,000원</span>
+                                <span><%=sql1_result.price1%>원</span>
                             </li>
                             <li class="product_saleprice">
-                                <span class="green">22,950원</span>
+                                <span class="green"><%=sql1_result.price2%>원</span>
                             </li>
                         </ul>
                         <div class="product_totalprice">
@@ -37,19 +39,21 @@
                                 <tbody>
                                     <tr>
                                         <form name="form" method="get">
-                                        <td class="product_totalprice_left">헤이네이처 어성초 로션 100ml</td>
-                                        <td class="product_totalprice_middle">
-                                            <span>                                             
-                                                <input type=hidden name="sell_price" value="22950">
-                                                <input type="text" name="amount" value="1" width="22px" onchange="change();">
-                                                <input type="button" value="" onclick="add();">
-                                                <input type="button" value="" onclick="del();">                                                
-                                            </span>
-                                        </td>
-                                        <td class="product_totalprice_right">                                              
-                                <div><div id="total1"></div><span class="sum1">원</span></div>
-                                        </td>
-                                    </form>
+                                            <td class="product_totalprice_left"></td>
+                                                <td class="product_totalprice_middle">
+                                                    <span>                                             
+                                                        <input type=hidden name="sell_price" value="<%=sql1_result.price2%>">
+                                                        <input type="text" name="amount" value="1" width="22px" onchange="change();">
+                                                        <input type="button" value="" onclick="add();">
+                                                        <input type="button" value="" onclick="del();">                                                
+                                                    </span>
+                                                </td>
+                                            <td class="product_totalprice_right">                                              
+                                                <div>
+                                                    <div id="total1"></div><span class="sum1">원</span>
+                                                </div>
+                                            </td>
+                                        </form>
                                     </tr>
                                 </tbody>
                             </table>
@@ -250,7 +254,7 @@
                 <!-- 리뷰 1페이지 start -->
 
                 <section class="review_page_section" id="review_section1">
-                    <%rows.forEach(( row, index )=>{%>
+                    <% sql2_result.forEach(( row, index )=>{%>
                         <div class="product_review_comment_wrap">
                             <div class="product_review_comment">
                                 <div class="product_review_comment_left">
@@ -266,60 +270,7 @@
                             </div>
                         </div>
                     <%})%>
-                    <!-- <div class="product_review_comment_wrap">
-                        <div class="product_review_comment">
-                            <div class="product_review_comment_left">
-                                <div class="product_review_comment_star">★★★★★</div>
-                                <div class="product_review_comment_name">주이＊</div>
-                                <div class="product_review_comment_date">2022-04-28</div>
-                            </div>
-                            <div class="product_review_comment_right">
-                                <div class="product_review_comment_detail">믿고쓰는 헤이네이처 재구매하고 갑니당~ ㅎㅎ</div>
-                                <div class="product_review_comment_where">알파리뷰에서 작성됨</div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="product_review_comment_wrap">
-                        <div class="product_review_comment">
-                            <div class="product_review_comment_left">
-                                <div class="product_review_comment_star">★★★★★</div>
-                                <div class="product_review_comment_name">안소＊</div>
-                                <div class="product_review_comment_date">2022-04-22</div>
-                            </div>
-                            <div class="product_review_comment_right">
-                                <div class="product_review_comment_detail">헤이네이처? 친구 추천으로 써봤는데 나름 만족스러워요. 꾸준히 써봐야 알 것 같아요.</div>
-                                <div class="product_review_comment_where">알파리뷰에서 작성됨</div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="product_review_comment_wrap">
-                        <div class="product_review_comment">
-                            <div class="product_review_comment_left">
-                                <div class="product_review_comment_star">★★★★★</div>
-                                <div class="product_review_comment_name">김성＊</div>
-                                <div class="product_review_comment_date">2022-04-03</div>
-                            </div>
-                            <div class="product_review_comment_right">
-                                <div class="product_review_comment_detail">스킨만 구매했었는데 로션도 좋네요. 역시 헤이네이처를 선택한 것은 신의 한 수!</div>
-                                <div class="product_review_comment_where">알파리뷰에서 작성됨</div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="product_review_comment_wrap">
-                        <div class="product_review_comment">
-                            <div class="product_review_comment_left">
-                                <div class="product_review_comment_star">★★★★★</div>
-                                <div class="product_review_comment_name">백동＊</div>
-                                <div class="product_review_comment_date">2022-03-29</div>
-                            </div>
-                            <div class="product_review_comment_right">
-                                <div class="product_review_comment_detail">촉촉하고 수분감이 오래가요 :)</div>
-                                <div class="product_review_comment_where">알파리뷰에서 작성됨</div>
-                            </div>
-                        </div>
-                    </div> -->
                 </section>
-
                                 <!-- 리뷰 2페이지 start -->
                 
                                 <section class="review_page_section" id="review_section2">

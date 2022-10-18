@@ -17,7 +17,8 @@ var connection = mysql.createConnection({
     password : process.env.DB_PSWORD || '1234',
     port : '3306',
     database : process.env.DB_DATABASE || 'heynature-local',
-    dateStrings:'date'
+    dateStrings:'date',
+    multipleStatements : true // 다중쿼리 사용 설정 - 여러 쿼리를 ';'를 기준으로 한번에 보낼 수 있게한다.
 })
 
 

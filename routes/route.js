@@ -62,15 +62,6 @@ let upload = multer({
 router.use(expressLayouts);
 
 
-// 1017 test =>  file upload 처리 : https://velog.io/@jake0601/Summernote-Node.js-Express-%ED%99%98%EA%B2%BD%EC%97%90%EC%84%9C-AWS-S3-%EC%9D%B4%EB%AF%B8%EC%A7%80-%ED%81%B4%EB%9D%BC%EC%9A%B0%EB%93%9C-%EC%97%B0%EB%8F%99
-// router.post('/insertImage', upload.single("imgFile"), async(req, res) => {
-//     imgurl = '';
-//     if(req.file !== undefined) {
-//         var imgurl = req.file.location; // router에서 붙인 multer가 반환한 url (aws s3 object url)
-//     }
-//     res.json(imgurl); // json 형태로 반환해주어야 View에서 처리가 가능하다.
-// });
-
 // upload : 상품 이미지 업로드하는 페이지
 router.post('/upload', upload.single("imgFile"), function(req, res, next){
     // let imgFile = req.file;
@@ -103,15 +94,6 @@ router.get('/upload', function(req, res, next) {
     let imgFile = req.file;
     res.render('upload');
 });
-
-/* 이미지 보이는 페이지 테스트!! testtsetsetes */
-
-
-
-
-
-
-
 
 
 //route, routing 
@@ -198,14 +180,43 @@ router.get('/deleteNotice',(req,res)=>{
 
 /* review_write */
 router.get('/detail',(req, res,next) =>{
-    db.getAlldetail((rows) => {
-        res.render('detail',{ rows : rows }); 
+    //1)
+    // db.getAlldetail((rows) => {
+    //     res.render('detail',{ rows : rows }); 
+    // })
+
+    //2) === 1)
+    // db.connection.query( 'select * from review_detail ORDER BY id DESC',  (err, rows, fields) => {
+    //     if(err) throw err;
+    //      res.render('detail',{ rows : rows }); 
+    // });
+
+    let prodnum = req.query.prodnum; //상품 index번호
+    console.log("prodnum : ", prodnum);
+
+    var sql1 = `select * from product where prodnum=${prodnum};`;
+    sql1= mysql.format(sql1,prodnum);
+
+    var sql2 = 'select * from review_detail ORDER BY id DESC;';
+    
+    db.connection.query(sql1 + sql2,(err,rows,field)=>{
+        
+        var sql1_result = rows[0];	//sql1 의 결과값
+        var sql2_result = rows[1];	//sql2 의 결과값
+        // console.log("1)) sql1_result : ",sql1_result);
+        // console.log("2)) sql2_result : ",sql2_result);
+
+        if (err) {
+            console.error("err : " + err);
+        } else {
+            res.render('detail', { sql1_result : sql1_result[0], sql2_result : sql2_result });
+        }
     })
 });
 
-router.get('/detail', (req,res,next) => {
-    res.render('detail');
-})
+// router.get('/detail', (req,res,next) => {
+//     res.render('detail');
+// })
 
 router.get('/review_write', (req,res,next) => {
     res.render('review_write');
