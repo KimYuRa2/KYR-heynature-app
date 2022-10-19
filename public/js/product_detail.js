@@ -7,33 +7,38 @@ var total_price1 = document.querySelector('#total1');
 window.onload = function init() {
   // price데이터 천단위 콤마 테스트 1018 
     console.log("10181018test");
-    // sell_price = document.form.sell_price.value;
-    // console.log("!!!!!!!!!!!!!!!!!!!!",sell_price);
+    // sell_price = document.forms[forma].sell_price.value;
+    // alert("333")
   
-    var init_price = Number(sell_price);
-    var init_price_comma = init_price.toLocaleString('ko-KR');
+    // var init_price = Number(sell_price);
+    // var init_price_comma = init_price.toLocaleString('ko-KR');
 
 
-    amount = document.form.amount.value;
-    
-    total_price1.innerHTML = init_price_comma;
-    change();
+    // amount = document.form.amount.value;
+
+    // total_price1.innerHTML = init_price_comma;
+    // change();
 }
 
 function add () {
-    hm = document.form.amount;
+  console.log("add clicked!!!!");
+    let hm = document.forms.forma;
+    let elem = hm.elements.amount;
+    console.log(elem.value);
+
+    alert(hm);
+    console.log(hm);
     hm.value ++ ;
-    change()
+    change();
 }
 
 function del () {
     hm = document.form.amount;
-        if (hm.value > 1) {
-            hm.value--;                    
-            change()
-        
-}
-
+    console.log("상품갯수 : ", hm)
+    if (hm.value > 1) {
+      hm.value--;                    
+      change();     
+    }
 }
 
 function change () {

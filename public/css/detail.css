@@ -1553,8 +1553,9 @@ span.star-prototype > * {
   left: 0;
   width: 100%;
   height: 100%;
-  object-fit: cover;
-  border-radius: 50%;
+  /* object-fit: cover; */
+  object-fit: scale-down;
+
 }
 /************************* 공통 css *************************/
 
@@ -1846,6 +1847,9 @@ span.star-prototype > * {
   padding: 0;
 }
 
+.test_content_d {
+  position: relative;
+}
 
 
 }
@@ -2050,9 +2054,7 @@ span.star-prototype > * {
     font-size: 12px;
   }
 
-  .test_content_d {
-    position: relative;
-  }
+  
 
 
 }
