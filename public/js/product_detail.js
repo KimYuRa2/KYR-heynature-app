@@ -1,12 +1,10 @@
 // 자동 계산해주기
 //test
-var sell_price;
-var amount;
-var total_price1 = document.querySelector('#total1');
 
 window.onload = function init() {
   // price데이터 천단위 콤마 테스트 1018 
     console.log("10181018test");
+    
     // sell_price = document.forms[forma].sell_price.value;
     // alert("333")
   
@@ -20,39 +18,50 @@ window.onload = function init() {
     // change();
 }
 
-function add () {
-  console.log("add clicked!!!!");
-    let hm = document.forms.forma;
-    let elem = hm.elements.amount;
-    console.log(elem.value);
+/******************* 1020 상품수량 + 자동계산 test ********************/
 
-    alert(hm);
-    console.log(hm);
-    hm.value ++ ;
-    change();
+const amountform = document.getElementsByName("forma"),
+sell_price=document.forms['forma'].elements['sell_price'],
+amount=document.forma.amount,
+add=document.forma.add,
+minus=document.forma.minus,
+totalsum=document.forma.totalsum;
+
+if(amountform){
+  totalsum.value = sell_price.value;
+  let amountval = amount.value;
+  let totalsumval=totalsum.value;
+  let priceval=sell_price.value;
+  console.log(totalsum.value);
+
+  if(add){
+    add.addEventListener('click',function(){
+      // alert("수량추가버튼");
+      amountval++; //수량추가
+      totalsumval=amountval*priceval;
+      amount.value=amountval;
+      totalsum.value=totalsumval;
+      console.log(amountval,totalsumval,priceval);
+    })
+  }
+
+  if(minus){
+    minus.addEventListener('click',function(){
+      if(amountval>1){
+        amountval--; //수량삭제
+        totalsumval=amountval*priceval;
+        amount.value=amountval;
+        totalsum.value=totalsumval;
+        console.log(amountval,totalsumval,priceval);
+      }else{
+        amountval=1;
+      }
+    })
+  }else{
+    amountval=1;
+  }
 }
 
-function del () {
-    hm = document.form.amount;
-    console.log("상품갯수 : ", hm)
-    if (hm.value > 1) {
-      hm.value--;                    
-      change();     
-    }
-}
-
-function change () {
-    hm = document.form.amount;
-
-        if (hm.value < 0) {
-            hm.value = 0;
-        }
-    sumS = parseInt(hm.value) * sell_price;           
-    var sumF = Number(sumS);
-    total = sumF.toLocaleString('ko-KR');
-        
-    total_price1.innerHTML = total;
-}
 
 /////////////인스타 섹션 팝업창 가운데 정렬
 

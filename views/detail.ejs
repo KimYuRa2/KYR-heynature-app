@@ -4,10 +4,7 @@
 </ul>
         <section class="w1200" onload="init()">
             <div class="product_wrap">
-
-
-                <form class="product_detail">
-
+                <div class="product_detail">
                     <div class="product_detail_left">
                         <div class="product_main_pic">
                             <img class="test_content_d" src="<%=sql1_result.image%>" alt="(S3)업로드한 이미지 가져오기" />
@@ -18,7 +15,11 @@
                         <div class="product_sale">
                             <span>15%↓</span>
                         </div>
-                        <div class="product_title"><%=sql1_result.name%></div>
+
+                        <div class="product_title">
+                            <%=sql1_result.name%>
+                        </div>
+
                         <ul>
                             <li class="normal_font">
                                 <span class="weight700">추천피부</span><br>
@@ -36,52 +37,49 @@
                                 <span class="green"><%=sql1_result.price2%>원</span>
                             </li>
                         </ul>
+
                         <div class="product_totalprice">
                             <table>
                                 <tbody>
                                     <tr>
                                         <form name="forma">
                                             <td class="product_totalprice_left"></td>
-                                                <td class="product_totalprice_middle">
-                                                    <span> 
-                                                        <!-- 갯수당 가격 표시 -->                                            
-                                                        <input type="text" name="sell_price" value="<%=sql1_result.price2%>" style="background-color:red;position:absolute; top:25px;left:-200px;width:150px; ">
-                                                        <input type="text" name="amount" value="1" width="22px" onchange="change();">
-                                                        <input type="button" value="" onclick="add();">
-                                                        <input type="button" value="" onclick="del();">                                                
-                                                    </span>
-                                                </td>
+                                            <td class="product_totalprice_middle">
+                                                <span>
+                                                    <!-- 상품수 +/- -->                                         
+                                                    <input type="hidden" name="sell_price" value="<%=sql1_result.price2%>" style="background-color:red; font-size:50px;">
+                                                    <input type="text" name="amount" value="1" width="22px" readonly>
+                                                    <input type="button" value="" name="add">
+                                                    <input type="button" value="" name="minus"> 
+                                                </span>
+                                            </td>
+
                                             <td class="product_totalprice_right">                                              
                                                 <div>
-                                                    <div id="total1"></div><span class="sum1">원</span>
+                                                    <!-- 갯수당 가격 표시 -->
+                                                    <input type="text" name="totalsum" value="" style="border:none;text-align:right;" readonly>원
                                                 </div>
                                             </td>
+
                                         </form>
                                     </tr>
                                 </tbody>
                             </table>
                         </div>
-                        <form name="form2" method="get">
-                            <div class="product_totalprice_display">
-                                <input type=hidden name="sell_price2" value="22,950">
-                                <input type="hidden" value="" onclick="add();">
-                                <input type="hidden" value="" onclick="del();">     
-                                <!-- <div>
-                                    <div id="total2"></div><span class="sum2">원</span>
-                                </div> -->
-                                <!-- <input type="text" name="amount2" value="1" width="22px" onchange="change();">개 -->
-                            </div>
-                        </form>
+
                         <p class="font12">할인가가 적용된 최종 결제예정금액은 주문 시 확인할 수 있습니다.</p>
+
                         <div class="product_checkout_wrap">
                             <div class="product_checkout">
-                                <a class="product_checkout_left font20" href="">바로 구매하기</a>
+                                <a href="javascript:void(0);" class="product_checkout_left font20" onclick="javascript:location.href='' ">바로 구매하기</a>
                                 <a class="product_checkout_right font20" href="">장바구니 담기</a>
                             </div>
                         </div>
+
                     </div>
                 </div>
             </div>
+
             <div class="product_photoreviews_wrap">
                 <div class="product_photoreviews">
                     <h3>SNS Review</h3>
@@ -128,12 +126,14 @@
                     </div>
                 </div>
             </div>
-                <ul class="product_nav">
-                    <li id="first_li"><a href="#section1">상세정보</a></li>
-                    <li><a href="#section2">리뷰</a></li>
-                    <li><a href="#section3">배송정책</a></li>
-                </ul>
-          <section class="product_nav_wrap" id="section1">
+
+            <ul class="product_nav">
+                <li id="first_li"><a href="#section1">상세정보</a></li>
+                <li><a href="#section2">리뷰</a></li>
+                <li><a href="#section3">배송정책</a></li>
+            </ul>
+
+            <section class="product_nav_wrap" id="section1">
                 <div class="picture_wrap">
                     <div>
                         <img src="../img/lotion_banner2.jpg">
@@ -144,11 +144,13 @@
                         <img src="../img/lotion_pcr_review.jpg">
                     </div>
                 </div>
-          </section>
+            </section>
+
             <section class="product_nav_wrap" id="section2">
                 <div class="product_review">
                     <span>Photo Review</span>
                 </div>
+
                 <div class="product_review_widget_wrap">
                     <div class="product_review_widget">
                         <div class="product_review_total">+500</div>
@@ -159,6 +161,7 @@
                             <figcaption>+Review</figcaption>
                         </figure>
                     </div>
+
                     <div class="product_review_widget">
                         <figure class="event_on">
                             <a>
@@ -167,6 +170,7 @@
                             <figcaption>김주*</figcaption>
                         </figure>
                     </div>
+
                     <div class="product_review_widget">
                         <figure class="event_on">
                             <a>
@@ -175,6 +179,7 @@
                             <figcaption>박나*</figcaption>
                         </figure>
                     </div>
+
                     <div class="product_review_widget">
                         <figure>
                             <a href="">
@@ -183,6 +188,7 @@
                             <figcaption>이동*</figcaption>
                         </figure>
                     </div>
+
                     <div class="product_review_widget">
                         <figure>
                             <a href="">
@@ -191,6 +197,7 @@
                             <figcaption>최지*</figcaption>
                         </figure>
                     </div>
+
                     <div class="product_review_widget">
                         <figure>
                             <a href="">
@@ -199,6 +206,7 @@
                             <figcaption>신희*</figcaption>
                         </figure>
                     </div>
+
                     <div class="product_review_widget">
                         <figure>
                             <a href="">
@@ -207,6 +215,7 @@
                             <figcaption>김순*</figcaption>
                         </figure>
                     </div>
+
                     <div class="product_review_widget">
                         <figure>
                             <a href="">
@@ -215,6 +224,7 @@
                             <figcaption>이화*</figcaption>
                         </figure>
                     </div>
+
                     <div class="product_review_widget">
                         <figure>
                             <a href="">
@@ -223,6 +233,7 @@
                             <figcaption>용화*</figcaption>
                         </figure>
                     </div>
+
                     <div class="product_review_widget">
                         <figure>
                             <a href="">
@@ -231,6 +242,7 @@
                             <figcaption>우종*</figcaption>
                         </figure>
                     </div>
+
                     <div class="product_review_widget">
                         <figure>
                             <a href="">
@@ -239,353 +251,323 @@
                             <figcaption>이정*</figcaption>
                         </figure>
                     </div>
-                </div>
-            <div class="product_comment_wrap">
-                <div class="product_comment">
-                    <article class="product_comment_contents">
-                        <div class="product_comment_title">상품평수</div>
-                        <div class="product_comment_total">100개</div>
-                    </article>
-                    <article class="product_comment_classify_wrap">
-                        <select class="product_comment_classify">
-                            <option value="최신">최신순</option>
-                            <option value="평점">별점순</option>
-                        </select>
-                    </article>
+
                 </div>
 
-                <!-- 리뷰 1페이지 start -->
-
-                <section class="review_page_section" id="review_section1">
-                    <% sql2_result.forEach(( row, index )=>{%>
+                <div class="product_comment_wrap">
+                    <div class="product_comment">
+                        <article class="product_comment_contents">
+                            <div class="product_comment_title">상품평수</div>
+                            <div class="product_comment_total">100개</div>
+                        </article>
+                        <article class="product_comment_classify_wrap">
+                            <select class="product_comment_classify">
+                                <option value="최신">최신순</option>
+                                <option value="평점">별점순</option>
+                            </select>
+                        </article>
+                    </div>
+                    <!-- 리뷰 1페이지 start -->
+                    <section class="review_page_section" id="review_section1">
+                        <% sql2_result.forEach(( row, index )=>{%>
+                            <div class="product_review_comment_wrap">
+                                <div class="product_review_comment">
+                                    <div class="product_review_comment_left">
+                                        <span class="star-prototype"><%=row.star%></span>
+                                        <div class="product_review_comment_name"><%=row.username%></div>
+                                        <div class="product_review_comment_date"><%=row.update_time%></div>
+                                    </div>
+                                    <div class="product_review_comment_right">
+                                        <div class="product_review_comment_detail"><%=row.content%></div>
+                                        <div class="product_review_comment_where">알파리뷰에서 작성됨</div>
+                                    </div>
+                                    <div class="review_delete" onclick="javascript:location.href='/deletedetail?id=<%=row.id%>'">삭제</div>
+                                </div>
+                            </div>
+                        <%})%>
+                    </section>
+                    <!-- 리뷰 2페이지 start -->
+                    <section class="review_page_section" id="review_section2">
+                            <div class="product_review_comment_wrap">
+                                <div class="product_review_comment">
+                                    <div class="product_review_comment_left">
+                                        <div class="product_review_comment_star">★★★★</div>
+                                        <div class="product_review_comment_name">이일＊</div>
+                                        <div class="product_review_comment_date">2022-05-10</div>
+                                    </div>
+                                    <div class="product_review_comment_right">
+                                        <div class="product_review_comment_detail">사용하면 너무 촉촉해요. 지속감 완벽해!</div>
+                                        <div class="product_review_comment_where">알파리뷰에서 작성됨</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="product_review_comment_wrap">
+                                <div class="product_review_comment">
+                                    <div class="product_review_comment_left">
+                                        <div class="product_review_comment_star">★★★★</div>
+                                        <div class="product_review_comment_name">심형＊</div>
+                                        <div class="product_review_comment_date">2022-04-28</div>
+                                    </div>
+                                    <div class="product_review_comment_right">
+                                        <div class="product_review_comment_detail">시간없어서 아무거나 바를땐 헤이네이처가 최고입니다.</div>
+                                        <div class="product_review_comment_where">알파리뷰에서 작성됨</div>
+                                    </div>
+                                </div>
+                            </div>
+                                        <div class="product_review_comment_wrap">
+                                            <div class="product_review_comment">
+                                                <div class="product_review_comment_left">
+                                                    <div class="product_review_comment_star">★★★★★</div>
+                                                    <div class="product_review_comment_name">정의＊</div>
+                                                    <div class="product_review_comment_date">2022-04-22</div>
+                                                </div>
+                                                <div class="product_review_comment_right">
+                                                    <div class="product_review_comment_detail">부모님도 좋아하셔서 저도 나중에 써봐야 할 듯.</div>
+                                                    <div class="product_review_comment_where">알파리뷰에서 작성됨</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="product_review_comment_wrap">
+                                            <div class="product_review_comment">
+                                                <div class="product_review_comment_left">
+                                                    <div class="product_review_comment_star">★★★</div>
+                                                    <div class="product_review_comment_name">김지＊</div>
+                                                    <div class="product_review_comment_date">2022-04-03</div>
+                                                </div>
+                                                <div class="product_review_comment_right">
+                                                    <div class="product_review_comment_detail">세트로 살 걸 그랬어요. 다음엔 세트로 구입할게요.</div>
+                                                    <div class="product_review_comment_where">알파리뷰에서 작성됨</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="product_review_comment_wrap">
+                                            <div class="product_review_comment">
+                                                <div class="product_review_comment_left">
+                                                    <div class="product_review_comment_star">★★★★</div>
+                                                    <div class="product_review_comment_name">설희＊</div>
+                                                    <div class="product_review_comment_date">2022-03-29</div>
+                                                </div>
+                                                <div class="product_review_comment_right">
+                                                    <div class="product_review_comment_detail">수분감이 오래가요 :)</div>
+                                                    <div class="product_review_comment_where">알파리뷰에서 작성됨</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                    </section>
+                    <!-- 리뷰 3페이지 start -->
+                    <section class="review_page_section" id="review_section3">
                         <div class="product_review_comment_wrap">
                             <div class="product_review_comment">
                                 <div class="product_review_comment_left">
-                                    <span class="star-prototype"><%=row.star%></span>
-                                    <div class="product_review_comment_name"><%=row.username%></div>
-                                    <div class="product_review_comment_date"><%=row.update_time%></div>
+                                    <div class="product_review_comment_star">★★★★★</div>
+                                    <div class="product_review_comment_name">박의＊</div>
+                                    <div class="product_review_comment_date">2022-05-10</div>
                                 </div>
                                 <div class="product_review_comment_right">
-                                    <div class="product_review_comment_detail"><%=row.content%></div>
+                                    <div class="product_review_comment_detail">민감성 피부라 아무거나 사용하지 못했는데 너무 잘맞네요.</div>
                                     <div class="product_review_comment_where">알파리뷰에서 작성됨</div>
                                 </div>
-                                <div class="review_delete" onclick="javascript:location.href='/deletedetail?id=<%=row.id%>'">삭제</div>
                             </div>
                         </div>
-                    <%})%>
-                </section>
-                                <!-- 리뷰 2페이지 start -->
-                
-                                <section class="review_page_section" id="review_section2">
-                                    <div class="product_review_comment_wrap">
-                                        <div class="product_review_comment">
-                                            <div class="product_review_comment_left">
-                                                <div class="product_review_comment_star">★★★★</div>
-                                                <div class="product_review_comment_name">이일＊</div>
-                                                <div class="product_review_comment_date">2022-05-10</div>
-                                            </div>
-                                            <div class="product_review_comment_right">
-                                                <div class="product_review_comment_detail">사용하면 너무 촉촉해요. 지속감 완벽해!</div>
-                                                <div class="product_review_comment_where">알파리뷰에서 작성됨</div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="product_review_comment_wrap">
-                                        <div class="product_review_comment">
-                                            <div class="product_review_comment_left">
-                                                <div class="product_review_comment_star">★★★★</div>
-                                                <div class="product_review_comment_name">심형＊</div>
-                                                <div class="product_review_comment_date">2022-04-28</div>
-                                            </div>
-                                            <div class="product_review_comment_right">
-                                                <div class="product_review_comment_detail">시간없어서 아무거나 바를땐 헤이네이처가 최고입니다.</div>
-                                                <div class="product_review_comment_where">알파리뷰에서 작성됨</div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="product_review_comment_wrap">
-                                        <div class="product_review_comment">
-                                            <div class="product_review_comment_left">
-                                                <div class="product_review_comment_star">★★★★★</div>
-                                                <div class="product_review_comment_name">정의＊</div>
-                                                <div class="product_review_comment_date">2022-04-22</div>
-                                            </div>
-                                            <div class="product_review_comment_right">
-                                                <div class="product_review_comment_detail">부모님도 좋아하셔서 저도 나중에 써봐야 할 듯.</div>
-                                                <div class="product_review_comment_where">알파리뷰에서 작성됨</div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="product_review_comment_wrap">
-                                        <div class="product_review_comment">
-                                            <div class="product_review_comment_left">
-                                                <div class="product_review_comment_star">★★★</div>
-                                                <div class="product_review_comment_name">김지＊</div>
-                                                <div class="product_review_comment_date">2022-04-03</div>
-                                            </div>
-                                            <div class="product_review_comment_right">
-                                                <div class="product_review_comment_detail">세트로 살 걸 그랬어요. 다음엔 세트로 구입할게요.</div>
-                                                <div class="product_review_comment_where">알파리뷰에서 작성됨</div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="product_review_comment_wrap">
-                                        <div class="product_review_comment">
-                                            <div class="product_review_comment_left">
-                                                <div class="product_review_comment_star">★★★★</div>
-                                                <div class="product_review_comment_name">설희＊</div>
-                                                <div class="product_review_comment_date">2022-03-29</div>
-                                            </div>
-                                            <div class="product_review_comment_right">
-                                                <div class="product_review_comment_detail">수분감이 오래가요 :)</div>
-                                                <div class="product_review_comment_where">알파리뷰에서 작성됨</div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </section>
-
-                                                <!-- 리뷰 3페이지 start -->
-                
-                <section class="review_page_section" id="review_section3">
-                    <div class="product_review_comment_wrap">
-                        <div class="product_review_comment">
-                            <div class="product_review_comment_left">
-                                <div class="product_review_comment_star">★★★★★</div>
-                                <div class="product_review_comment_name">박의＊</div>
-                                <div class="product_review_comment_date">2022-05-10</div>
-                            </div>
-                            <div class="product_review_comment_right">
-                                <div class="product_review_comment_detail">민감성 피부라 아무거나 사용하지 못했는데 너무 잘맞네요.</div>
-                                <div class="product_review_comment_where">알파리뷰에서 작성됨</div>
+                        <div class="product_review_comment_wrap">
+                            <div class="product_review_comment">
+                                <div class="product_review_comment_left">
+                                    <div class="product_review_comment_star">★★★★★</div>
+                                    <div class="product_review_comment_name">조민＊</div>
+                                    <div class="product_review_comment_date">2022-04-28</div>
+                                </div>
+                                <div class="product_review_comment_right">
+                                    <div class="product_review_comment_detail">헤이네이처 조아요!!!</div>
+                                    <div class="product_review_comment_where">알파리뷰에서 작성됨</div>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="product_review_comment_wrap">
-                        <div class="product_review_comment">
-                            <div class="product_review_comment_left">
-                                <div class="product_review_comment_star">★★★★★</div>
-                                <div class="product_review_comment_name">조민＊</div>
-                                <div class="product_review_comment_date">2022-04-28</div>
-                            </div>
-                            <div class="product_review_comment_right">
-                                <div class="product_review_comment_detail">헤이네이처 조아요!!!</div>
-                                <div class="product_review_comment_where">알파리뷰에서 작성됨</div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="product_review_comment_wrap">
-                        <div class="product_review_comment">
-                            <div class="product_review_comment_left">
-                                <div class="product_review_comment_star">★★★★★</div>
-                                <div class="product_review_comment_name">사미＊</div>
-                                <div class="product_review_comment_date">2022-04-22</div>
-                            </div>
-                            <div class="product_review_comment_right">
-                                <div class="product_review_comment_detail">다른 곳에 비해 가성비 너무 좋아요~</div>
-                                <div class="product_review_comment_where">알파리뷰에서 작성됨</div>
+                        <div class="product_review_comment_wrap">
+                            <div class="product_review_comment">
+                                <div class="product_review_comment_left">
+                                    <div class="product_review_comment_star">★★★★★</div>
+                                    <div class="product_review_comment_name">사미＊</div>
+                                    <div class="product_review_comment_date">2022-04-22</div>
+                                </div>
+                                <div class="product_review_comment_right">
+                                    <div class="product_review_comment_detail">다른 곳에 비해 가성비 너무 좋아요~</div>
+                                    <div class="product_review_comment_where">알파리뷰에서 작성됨</div>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="product_review_comment_wrap">
-                        <div class="product_review_comment">
-                            <div class="product_review_comment_left">
-                                <div class="product_review_comment_star">★★★★★</div>
-                                <div class="product_review_comment_name">정지＊</div>
-                                <div class="product_review_comment_date">2022-04-03</div>
-                            </div>
-                            <div class="product_review_comment_right">
-                                <div class="product_review_comment_detail">동생선물로 아주 안성만춤입니다.</div>
-                                <div class="product_review_comment_where">알파리뷰에서 작성됨</div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="product_review_comment_wrap">
-                        <div class="product_review_comment">
-                            <div class="product_review_comment_left">
-                                <div class="product_review_comment_star">★★★★★</div>
-                                <div class="product_review_comment_name">서희＊</div>
-                                <div class="product_review_comment_date">2022-03-29</div>
-                            </div>
-                            <div class="product_review_comment_right">
-                                <div class="product_review_comment_detail">재구매해서 벌써 8번 구입했습니다.</div>
-                                <div class="product_review_comment_where">알파리뷰에서 작성됨</div>
+                        <div class="product_review_comment_wrap">
+                            <div class="product_review_comment">
+                                <div class="product_review_comment_left">
+                                    <div class="product_review_comment_star">★★★★★</div>
+                                    <div class="product_review_comment_name">정지＊</div>
+                                    <div class="product_review_comment_date">2022-04-03</div>
+                                </div>
+                                <div class="product_review_comment_right">
+                                    <div class="product_review_comment_detail">동생선물로 아주 안성만춤입니다.</div>
+                                    <div class="product_review_comment_where">알파리뷰에서 작성됨</div>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                </section>
-
-            </div>
-            <div class="product_review_bottom">
-                <ul class="product_review_paging">
-                    <li><a href="#review_section1">1</a></li>
-                    <li><a href="#review_section2">2</a></li>
-                    <li><a href="#review_section3">3</a></li>
-                    <li><a href="">4</a></li>
-                    <li><a href="">5</a></li>
-                    <li><a href="">6</a></li>
-                </ul>
-                <div class="product_review_btnbox" id="review_write_btn">
-                    <button id="myBtn"><a>리뷰 작성하기</a></button>
+                        <div class="product_review_comment_wrap">
+                            <div class="product_review_comment">
+                                <div class="product_review_comment_left">
+                                    <div class="product_review_comment_star">★★★★★</div>
+                                    <div class="product_review_comment_name">서희＊</div>
+                                    <div class="product_review_comment_date">2022-03-29</div>
+                                </div>
+                                <div class="product_review_comment_right">
+                                    <div class="product_review_comment_detail">재구매해서 벌써 8번 구입했습니다.</div>
+                                    <div class="product_review_comment_where">알파리뷰에서 작성됨</div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
                 </div>
-            </div>
 
-<!-- 이벤트 화면 팝업 start -->
-
-        <div  class="dis ev_box_wrap" id="photo1">
-            <div class="event_box">
-                <a class="close">X</a>
-                <div class="detail_title_box">
-                    <h4>Photo Review</h4>
-                    <p>김주*</p>
-                </div>
-                <div class="con_box2">
-                    <div class="event_notice">
-                        <div class="event_notice_img_wrap">
-                        </div>
-                        <div class="pr_option">
-                            <div><span>피부타입</span></div>
-                            <div><span>복합형, 민감성</span></div>
-                            <div><span>★★★★★</span></div>
-                        </div>
-                        <div class="pr_option_txt">
-                            <p>재주문의 재주문입니다-!^^
-                            역시 믿고 쓰는 헤이네이처!
-                            끈적임 없이 흡수되어서 너무 좋아요</p>
-                        </div>
-                    </div> 
-                  </div>
-              </div>
-          </div>
-
-          
-        <div  class="dis ev_box_wrap" id="photo2">
-            <div class="event_box">
-                <a class="close">X</a>
-                <div class="detail_title_box">
-                    <h4>Photo Review</h4>
-                    <p>박나*</p>
-                </div>
-                <div class="con_box2">
-                    <div class="event_notice">
-                        <div class="event_notice_img_wrap ev_img">
-                        </div>
-                        <div class="pr_option">
-                            <div><span>피부타입</span></div>
-                            <div><span>수분 부족 지성</span></div>
-                            <div><span>★★★★★</span></div>
-                        </div>
-                        <div class="pr_option_txt">
-                            <p>펌핀했을때 묽지도 않고 부드럽게 발려요
-                                밀림 현상도 없고 정말 빠르게 흡수되요
-                                번들 거림이 없어서 너무 좋은 것 같아요 ㅋㅋ
-                                향도 무난하고 이 위에 화장도 해봤는데 파운데이션도 안밀리고 떡지지도 않아서 너무 좋아요~</p>
-                        </div>
-                    </div> 
-                  </div>
-              </div>
-          </div>
-
-
-        <!-- 리뷰 작성하기 start -->
-
-        <% if(typeof errs !== 'undefined'){ %>
-            <% errs.forEach(()=>{ %>
-                <h3><%= err.param %> : <%= errs.msg %></h3>
-            <% }) %>
-        <% } %>
-
-        <form class="w1200" method="POST" action="/store2">
-        <div class="review_write_wrap disnone" id="myModal">
-            <div class="review_write_title_wrap">
-                <div class="review_write_title">
-                    <img src="../img/product_icon-xxhdpi.png">
-                    <span>상품 품질 리뷰</span>
-                </div>
-                <div class="review_write_title2">
-                    <p>이 상품의 품질에 대해서 얼마나 만족하시나요?</p>
-                </div>
-            </div>
-            <div class="naming">
-                <div>이름</div>
-                <input type="text" id="username" name="username">
-            </div>
-            <div class="review_rating">
-                <div class="review_rating_left">
-                    <img src="../img/2.png">
-                </div>
-                <div class="review_rating_right">
-                    <div class="review_rating_right_title">헤이네이처 어성초 로션 100ml</div>
-                    <!-- <div class="review_rating_right_stars">
-                        <button class="mystar" value="1" type="button"></button>
-                        <button class="mystar" value="2" type="button"></button>
-                        <button class="mystar" value="3" type="button"></button>
-                        <button class="mystar" value="4" type="button"></button>
-                        <button class="mystar" value="5" type="button"></button>
-                    </div> -->
-
-                    <div class="starRev">
-                        <span id="star11" class="starR" onclick="star1()">별1</span>
-                        <span id="star22" class="starR" onclick="star2()">별2</span>
-                        <span id="star33" class="starR" onclick="star3()">별3</span>
-                        <span id="star44" class="starR" onclick="star4()">별4</span>
-                        <span id="star55" class="starR" onclick="star5()">별5</span>
-                    </div>
-                    <input type="hidden" value="" name="starcount" id="starcount">
-
-                    
-                    <!-- <div class="star-container" id="star">
-
-                        <span class="star">★</span>
-                        <span class="star">★</span>
-                        <span class="star">★</span>
-                        <span class="star">★</span>
-                        <span class="star">★</span>
-                      
-                      </div> -->
-
-
-
-                </div>
-            </div>
-            <div class="review_writing">
-                <div class="review_writing_left">상세리뷰</div>
-                <div class="review_writing_right">
-                    <div class="review_writing_content">
-                        <textarea id="content" name="content" placeholder="상품 품질에 대한 고객님의 솔직한 리뷰를 남겨주세요."></textarea>
+                <div class="product_review_bottom">
+                    <ul class="product_review_paging">
+                        <li><a href="#review_section1">1</a></li>
+                        <li><a href="#review_section2">2</a></li>
+                        <li><a href="#review_section3">3</a></li>
+                        <li><a href="">4</a></li>
+                        <li><a href="">5</a></li>
+                        <li><a href="">6</a></li>
+                    </ul>
+                    <div class="product_review_btnbox" id="review_write_btn">
+                        <button id="myBtn"><a>리뷰 작성하기</a></button>
                     </div>
                 </div>
-            </div>
-            <div class="review_attach">
-                <div class="review_attach_left">사진첨부</div>
-                <div class="ask_attach_file">
-                    <div class="insert">
-                        <!-- <form id="btn_total" name="insertf" action="insertf" method="post" enctype="multipart/form-data"> -->
-                            <label for="myFile">+ 추가</label>
-                            <input type='file' id="myFile" name='' multiple/>
-                            <div id="showFiles"></div>
-                        <!-- </form> -->
 
+                <!-- 이벤트 화면 팝업 start -->
+                <div  class="dis ev_box_wrap" id="photo1">
+                    <div class="event_box">
+                        <a class="close">X</a>
+                        <div class="detail_title_box">
+                            <h4>Photo Review</h4>
+                            <p>김주*</p>
+                        </div>
+                        <div class="con_box2">
+                            <div class="event_notice">
+                                <div class="event_notice_img_wrap">
+                                </div>
+                                <div class="pr_option">
+                                    <div><span>피부타입</span></div>
+                                    <div><span>복합형, 민감성</span></div>
+                                    <div><span>★★★★★</span></div>
+                                </div>
+                                <div class="pr_option_txt">
+                                    <p>재주문의 재주문입니다-!^^
+                                    역시 믿고 쓰는 헤이네이처!
+                                    끈적임 없이 흡수되어서 너무 좋아요</p>
+                                </div>
+                            </div> 
+                        </div>
                     </div>
                 </div>
-            </div>
+
+                <div  class="dis ev_box_wrap" id="photo2">
+                    <div class="event_box">
+                        <a class="close">X</a>
+                        <div class="detail_title_box">
+                            <h4>Photo Review</h4>
+                            <p>박나*</p>
+                        </div>
+                        <div class="con_box2">
+                            <div class="event_notice">
+                                <div class="event_notice_img_wrap ev_img">
+                                </div>
+                                <div class="pr_option">
+                                    <div><span>피부타입</span></div>
+                                    <div><span>수분 부족 지성</span></div>
+                                    <div><span>★★★★★</span></div>
+                                </div>
+                                <div class="pr_option_txt">
+                                    <p>펌핀했을때 묽지도 않고 부드럽게 발려요
+                                        밀림 현상도 없고 정말 빠르게 흡수되요
+                                        번들 거림이 없어서 너무 좋은 것 같아요 ㅋㅋ
+                                        향도 무난하고 이 위에 화장도 해봤는데 파운데이션도 안밀리고 떡지지도 않아서 너무 좋아요~</p>
+                                </div>
+                            </div> 
+                        </div>
+                    </div>
+                </div>
 
 
-            <div class="review_btn">
-                <button type="submit" class="submit_btn">등록하기</button>
-                <button type="button" class="cancel_btn">취소하기</button>
-            </div>
+                <!-- 리뷰 작성하기 start -->
+                <% if(typeof errs !== 'undefined'){ %>
+                    <% errs.forEach(()=>{ %>
+                        <h3><%= err.param %> : <%= errs.msg %></h3>
+                    <% }) %>
+                <% } %>
+                <form class="w1200" method="POST" action="/store2">
+                    <div class="review_write_wrap disnone" id="myModal">
+                        <div class="review_write_title_wrap">
+                            <div class="review_write_title">
+                                <img src="../img/product_icon-xxhdpi.png">
+                                <span>상품 품질 리뷰</span>
+                            </div>
+                            <div class="review_write_title2">
+                                <p>이 상품의 품질에 대해서 얼마나 만족하시나요?</p>
+                            </div>
+                        </div>
+                        <div class="naming">
+                            <div>이름</div>
+                            <input type="text" id="username" name="username">
+                        </div>
+                        <div class="review_rating">
+                            <div class="review_rating_left">
+                                <img src="../img/2.png">
+                            </div>
+                            <div class="review_rating_right">
+                                <div class="review_rating_right_title">헤이네이처 어성초 로션 100ml</div>
 
-            </div>
-        </div>
-    </form>
+                                <div class="starRev">
+                                    <span id="star11" class="starR" onclick="star1()">별1</span>
+                                    <span id="star22" class="starR" onclick="star2()">별2</span>
+                                    <span id="star33" class="starR" onclick="star3()">별3</span>
+                                    <span id="star44" class="starR" onclick="star4()">별4</span>
+                                    <span id="star55" class="starR" onclick="star5()">별5</span>
+                                </div>
+
+                                <input type="hidden" value="" name="starcount" id="starcount">
+                            </div>
+                        </div>
+                        <div class="review_writing">
+                            <div class="review_writing_left">상세리뷰</div>
+                            <div class="review_writing_right">
+                                <div class="review_writing_content">
+                                    <textarea id="content" name="content" placeholder="상품 품질에 대한 고객님의 솔직한 리뷰를 남겨주세요."></textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="review_attach">
+                            <div class="review_attach_left">사진첨부</div>
+                            <div class="ask_attach_file">
+                                <div class="insert">
+                                    <!-- <form id="btn_total" name="insertf" action="insertf" method="post" enctype="multipart/form-data"> -->
+                                        <label for="myFile">+ 추가</label>
+                                        <input type='file' id="myFile" name='' multiple/>
+                                        <div id="showFiles"></div>
+                                    <!-- </form> -->
+                                </div>
+                            </div>
+                        </div>
+                        <div class="review_btn">
+                            <button type="submit" class="submit_btn">등록하기</button>
+                            <button type="button" class="cancel_btn">취소하기</button>
+                        </div>
+                    </div>
+                </form>
 
             </section>
+
             <section class="product_nav_wrap" id="section3">
                 <div class="product_delivery_wrap">
                     <div class="product_delivery_title">배송 교환 정책</div>
                     <div class="product_delivery">
                         <div class="product_delivery_left">
-                            <p><span class="h5 bold black">*배송</span>
+                            <p>
+                                <span class="h5 bold black">*배송</span>
                                 <br><br>
                                 평일 오후 5시까지 결제된 건은 당일 출고됩니다. 
                                 결제 후 취소를 원하시면 고객센터(070-4352-5176)로 문의바랍니다.
@@ -686,5 +668,3 @@
                 </div>
             </section>
         </section>
-        <!-- <script type="text/javascript" src="http://code.jquery.com/jquery-1.12.4.min.js"></script>
-        <script src="js/PRODUCT_DETAIL.JS"></script> -->

@@ -1,0 +1,173 @@
+<div style="max-width: 700px; padding: 200px 50px 50px; margin: 0 auto; ">
+    <h1>주문페이지</h1>
+
+    <div style="width: 100%; border-collapse: collapse; font-size: 1.5rem; padding-top: 70px;">
+        
+
+        <form method="post">
+            <!-- 주문자정보 -->
+            <div>
+                <h4 style="font-size: 1.5em; font-weight: normal;">
+                    Order
+                </h4>
+
+                <ul class="or-form-component">
+                    <li class="row">
+                        <label class="">
+                            <input type="text" class="text" name="userName" value="" data-pattern="gdEngKor" maxlength="20">
+                            <span class="label-text">주문하시는 분</span>
+                        </label>
+                    </li>
+                    <li class="row">
+                        <label class="">
+                            <input type="text" class="text" id="phoneNum" name="userPhoneNum" value="" maxlength="20">
+                            <span class="label-text">연락처</span>
+                        </label>
+                    </li>
+                    <li class="row">
+                        <label class="">
+                            <input type="text" class="text" name="userEmail" value="">
+                            <span class="label-text">이메일(ex@example.com)</span>
+                        </label>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- 배송정보 -->
+            <div style="margin-top:100px;">
+                <h4 style="font-size: 1.5em; font-weight: normal;">
+                    Shipping
+                </h4>
+                <ul class="or-form-component">
+                    <li class="row">
+                        <label class="has-value">
+                            <select class="text" name="shipping">
+                                <option value="">직접 입력</option>
+                                <option value="">주문자정보와 동일</option>
+                            </select>
+                            <span class="label-text">배송지 확인</span>
+                        </label>
+                    </li>
+                    <li class="row">
+                        <label class="">
+                            <input type="text" class="text" name="receiverName" maxlength="20">
+                            <span class="label-text">받으시는 분</span>
+                        </label>
+                    </li>
+                    <li class="row rtest">
+                        <label class="">
+                            <input id="member_post" type="text" class="text" name="receiverZonecode" readonly onclick="findAddr()">
+                            <span class="label-text">우편번호(클릭시 주소 검색창 활성화)</span>
+                        </label>
+                    </li>
+                    <li class="row">
+                        <label class="">
+                            <input id="member_addr" type="text" class="text" name="receiverAddress" readonly onclick="findAddr()">
+                            <span class="label-text">주소(클릭시 주소 검색창 활성화)</span>
+                        </label>
+                    </li>
+                    <li class="row">
+                        <label class="">
+                            <input type="text" class="text" name="receiverAddressSub">
+                            <span class="label-text">주소상세</span>
+                        </label>
+                    </li>
+                    <li class="row">
+                        <label class="">
+                            <input type="text" class="text auto-phone-number" id="receiverCellPhone" name="receiverCellPhone">
+                            <span class="label-text">휴대번호(010-0000-0000)</span>
+                        </label>
+                    </li>
+                    <li class="row">
+                        <label class="">
+                            <input type="text" class="text" name="orderMemo">
+                            <span class="label-text">배송 메시지</span>
+                        </label>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- 금액계산 -->
+            <div style="margin-top:100px;">
+                <h4 style="font-size: 1.5em; font-weight: normal;">
+                    Amount
+                </h4>
+
+                <ul class="or-form-component">
+                    <li class="row">
+                        <label class="has-value fixed">
+                            <div class="text text-right">
+                                <div class="">
+                                    <span class="currency">KRW</span>
+                                    <strong id="totalDeliveryCharge" class="font-garamond">2,500</strong>
+                                </div>
+                                <span class="multi_shipping_text dn"></span>
+                            </div>
+                            <span class="label-text">배송비</span>
+                        </label>
+                    </li>
+                    <li class="row">
+                        <label class="has-value fixed">
+                            <div class="text text-right">
+                                <span class="currency">KRW</span>
+                                <strong id="totalGoodsPrice" class="order_payment_sum font-garamond"><!--총금액--></strong>
+                            </div>
+                            <span class="label-text">상품합계</span>
+                        </label>
+                    </li>
+                    <li class="row">
+                        <label class="has-value fixed">
+                            <div class="text text-right">
+                                <!-- <input type="hidden" name="settlePrice" value="42500">
+                                <input type="hidden" name="overseasSettlePrice" value="0">
+                                <input type="hidden" name="overseasSettleCurrency" value="KRW"> -->
+                                <span class="currency">KRW</span>
+                                <strong id="totalSettlePrice" class="order_payment_sum price font-garamond"><!-- 총금액+2500 --></strong>
+                            </div>
+                            <span class="label-text">결제금액</span>
+                        </label>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- 결제방법 -->
+            <div style="margin-top:100px;">
+                <h4 style="font-size: 1.5em; font-weight: normal;">
+                    Payment
+                </h4>
+
+                <ul class="or-form-component">
+                    <li class="row">
+                        <label class="has-value">
+                            <select class="text" name="settleKind">
+                                <option value="pc">신용카드</option>
+                                <option value="pb">계좌이체</option>
+                                <option value="pv">가상계좌</option>
+                            </select>
+                            <span class="label-text">결제수단</span>
+                        </label>
+                    </li>
+                    
+                    <li class="row" style="margin-top: 30px; display: flex;">
+                        <div class="checkbox">
+                            <input type="checkbox" id="termAgree_orderCheck" value="y" class="require">
+                            <label for="termAgree_orderCheck"></label>
+                            <span class="label-text">구매진행</span>
+                        </div>
+                        <div>
+                            <span class="agreetext">(필수)구매하실 상품의 결제정보를 확인하였으며, 구매진행에 동의합니다.</span>
+                        </div>
+                    </li>
+                </ul>
+
+                <!-- 결제 버튼 -->
+                <div class="btn_center_box">
+                    <button class="btn_order_buy order-buy font-myeongjo"><em>결제하기</em></button>
+                </div>
+            </div>
+
+        </form>
+        
+    </div>
+</div>
+

@@ -64,10 +64,6 @@ router.use(expressLayouts);
 
 // upload : 상품 이미지 업로드하는 페이지
 router.post('/upload', upload.single("imgFile"), function(req, res, next){
-    // let imgFile = req.file;
-    // console.log("s3 이미지 경로 : " , imgFile.location);
-    // res.json(imgFile);
-    // let test = upload.single()
     console.log("s3 이미지 경로 : " , req.file.location);
     const name = req.body.name;
     const engname = req.body.engname;
@@ -131,12 +127,6 @@ router.post('/store',
     // }
 });
 
-// router.get('/layout', (req,res,next) => {
-//     db.getAllNotice((rows) => {
-//         res.render('layout',{ rows : rows }); 
-//     })
-// })
-
 router.get('/updatenotice',(req,res)=>{
     let id = req.query.id;
 
@@ -180,16 +170,6 @@ router.get('/deleteNotice',(req,res)=>{
 
 /* review_write */
 router.get('/detail',(req, res,next) =>{
-    //1)
-    // db.getAlldetail((rows) => {
-    //     res.render('detail',{ rows : rows }); 
-    // })
-
-    //2) === 1)
-    // db.connection.query( 'select * from review_detail ORDER BY id DESC',  (err, rows, fields) => {
-    //     if(err) throw err;
-    //      res.render('detail',{ rows : rows }); 
-    // });
 
     let prodnum = req.query.prodnum; //상품 index번호
     console.log("prodnum : ", prodnum);
@@ -214,9 +194,6 @@ router.get('/detail',(req, res,next) =>{
     })
 });
 
-// router.get('/detail', (req,res,next) => {
-//     res.render('detail');
-// })
 
 router.get('/review_write', (req,res,next) => {
     res.render('review_write');
@@ -237,7 +214,10 @@ router.post('/store2',
         
         db.insertdetail(username,content, starcount, () => { //
             console.log("submit");
-            res.redirect('/detail');
+            res.write("<script>alert('success')</script>");
+            // res.write("<script>window.location=\"/detail?prodnum=<%=row.prodnum%>\"</script>");
+            // res.redirect('/detail');
+            res.write("<script>window.location=\"/product\"</script>");
         })
     // }
 });
@@ -245,7 +225,9 @@ router.post('/store2',
 router.get('/deletedetail',(req,res)=>{
     let id = req.query.id;
     db.deletedetailById(id, ()=>{
-        res.redirect('/detail');
+        // res.redirect('/detail');
+        res.write("<script>alert('delete success')</script>");
+        res.write("<script>window.location=\"/product\"</script>");
     });
 });
 
@@ -318,13 +300,17 @@ router.post('/join', (req,res,next)=> { //회원가입 form 에서 제출을 누
     const userPassword = req.body.userPassword;
     const userName = req.body.userName;
     const userPhoneNum = req.body.userPhoneNum;
+    const userZonecode = req.body.userZonecode;
+    const userAddress = req.body.userAddress;
+    const userAddressSub = req.body.userAddressSub;
+
 
     db.connection.query('select * from users where userId=?',[userId],(err,data)=>{
         if( data.length == 0 ){ // 중복되는 userId가 없으면
             console.log("회원가입 성공");
             bcrypt.hash(userPassword, null, null, function(err, hash){     //bcrypt hash 명령문.
-                var params = [userId, hash, userName,userPhoneNum]; // userPassword에 암호화된 값(hash)을 넣기 위함
-                db.connection.query('insert into users(userId, userPassword, userName, userPhoneNum) values(?, ?, ?, ?)', params, function(err, rows){
+                var params = [userId, hash, userName,userPhoneNum,userZonecode,userAddress,userAddressSub]; // userPassword에 암호화된 값(hash)을 넣기 위함
+                db.connection.query('insert into users(userId, userPassword, userName, userPhoneNum,userZonecode,userAddress,userAddressSub) values(?, ?, ?, ?, ?, ?, ?)', params, function(err, rows){
                     if(err){
                         console.log(err);
                         res.status(500).send("ERROR!");
@@ -335,8 +321,11 @@ router.post('/join', (req,res,next)=> { //회원가입 form 에서 제출을 누
                 });
             });
         }else{ // 중복되는 userId가 있으면
-            console.log("회원가입 실패");
-            res.redirect('/join'); // 회원가입 실패 시 회원가입 페이지로 다시 이동.
+            // console.log("회원가입 실패");
+            // res.redirect('/join'); // 회원가입 실패 시 회원가입 페이지로 다시 이동.
+            res.writeHead(200, {'Content-Type': 'text/html; charset=utf-8'}); //한글 설정
+            res.write("<script language=\"javascript\">alert('회원가입 실패 : 이미 존재하는 ID입니다.')</script>");
+            res.write("<script language=\"javascript\" charset=\'UTF-8\'>window.location=\"/join\"</script>"); // main 페이지로 이동
         }
     })
 })
@@ -354,12 +343,21 @@ router.get('/logout',(req,res)=>{
 
 });
 
+/* 장바구니 - 1019 */
+router.get('/cart',(req, res) =>{
+    console.log("장바구니");
+    res.render('cart');
+});
+
+/* 주문페이지 - 1020 */
+router.get('/order', (req, res) => {
+    console.log("주문페이지");
+    res.render("order", { userId : req.session.userId });
+})
 
 
 /*******************************/
-router.get('/detail',(req, res) =>{
-    res.render('detail')
-});
+
 router.get('/event',(req, res) =>{
     res.render('event')
 });

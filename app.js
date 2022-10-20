@@ -42,7 +42,7 @@ app.use(session({
     // secret: 'login1006', // 데이터를 암호화 하기 위해 필요한 옵션
     secret: process.env.SESSION_SECRET,
     resave: false, // 요청이 왔을때 세션을 수정하지 않더라도 다시 저장소에 저장되도록
-    saveUninitialized: false, // 세션이 필요하면 세션을 실행시칸다(서버에 부담을 줄이기 위해)
+    saveUninitialized: true, // 세션이 필요하면 세션을 실행시칸다(서버에 부담을 줄이기 위해)
     store : new FileStore(), // 세션이 데이터를 저장하는 곳
     proxy: true,
     // 이거 지워야 세션 잘 작동..
@@ -67,8 +67,7 @@ app.use('/', routers);//use : 미들웨어 등록
 
 //app.use(cors()) // test를 하기위해서 세팅 "실제 서버에 배포할 땐 아이피를 설정해야 함"
 
-//view(html파일들) 경로 설정
-app.set('views', __dirname + "/views");
+//view(html파일들) 경로 설정"/views");
 
 //화면 엔진을 ejs로 설정한다.
 app.set('view engine', 'ejs');

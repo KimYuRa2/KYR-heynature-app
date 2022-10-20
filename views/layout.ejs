@@ -18,6 +18,7 @@
     <link rel="stylesheet" href="../css/login.css">
     <link rel="stylesheet" href="../css/find.css">
     <link rel="stylesheet" href="../css/product.css">
+    <link rel="stylesheet" href="../css/order.css">
 
     <!--폰트-->
     <link href="http://fonts.cdnfonts.com/css/circular-std" rel="stylesheet">
@@ -27,7 +28,9 @@
 
   <!-- <script type="text/javascript" src="http://code.jquery.com/jquery-1.12.4.min.js"></script> -->
   <!-- <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script> -->
-  
+
+    <!-- 주소찾기 API -->
+    <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 
 </head>
 
@@ -50,7 +53,7 @@
           <a href="cscenter">CS CENTER</a>
           <ul class="menu_im">
             <li><a class="myinfo" href="login"></a></li>
-            <li><a class="mycart" href=""><span>0</span></a></li>
+            <li><a class="mycart" href="cart"><span>0</span></a></li>
           </ui>
         </div>
 
@@ -111,125 +114,125 @@
 
         </div>
         
-    <!-- 채널톡 -->
-    <div class="ch" id="ch">
-        <!--헤더-->
-        <div class="ch_header">
-            <div class="ch_title_wrap">
-                <div class="ch_t_logo">
-                </div>
-                <h4>Heynature</h4>
-            </div>
-            
-            <!--상단버튼-->
-            <div class="ch_setting_btn">
-                <div class="setting_btn_img"><a href="javascript:void(0);"></a></div>
-            </div>
-            <div class="ch_close_btn" onclick="getHideCT()">
-                <div class="close_btn_img"><a href="javascript:void(0);"></a></div>
-            </div>
-        </div>
-
-        <!--상담목록-->
-        <div class="ch_list">
-            <div class="list_top_bar"></div>
-
-            <div class="list_title_wrap">
-                <div class="list_title">상담목록</div>
-                <div class="list_read_all">
-                    <a href="">
-                        <div class="read_all_icon"></div>
-                        <div class="read_all">전체읽기</div>
-                    </a>
-                </div>
-            </div>
-
-            <div class="ch_list_content">
-                <div class="list_content1">
-                    <a href="">
-                        <div class="list_logo"></div>
-                        <div class="content1">
-                            <h6>Heynature</h6>
-                            <div class="content_txt">
-                                <img src="img/cong.jpg" width="18px" height="18px">
-                                <span>단 3일간 5,000원 추가 할인</span>
-                                <img src="img/cong.jpg" width="18px" height="18px">
-                            </div>
-                        </div>
-                        <div class="list_enter_wrap">
-                            <div class="list_message_icon">1</div>
-                            <div class="list_enter_btn"></div>
-                        </div>
-                    </a>
-                </div>
-
-                <div class="list_content1">
-                    <a href="">
-                        <div class="list_logo"></div>
-                        <div class="content1">
-                            <h6>Heynature</h6>
-                            <div class="content_txt">
-                                <span>5/17(화) 오늘 단 하루! </span>
-                                <img src="img/istockphoto-1125716911-170667a.jpg" width="18px" height="18px">
-                            </div>
-                        </div>
-                        <div class="list_enter_wrap">
-                            <div class="list_message_icon">1</div>
-                            <div class="list_enter_btn"></div>
-                        </div>
-                    </a>
-                </div>
-            </div>
-        </div>
-
-        <!--새 문의하기-->
-        <div class="ch_list ch_list2">
-            <div class="ch_list_content">
-                <div class="list_content1 new_chat">
-                    <div class="list_logo new_chat_logo"></div>
-                    <div class="h6_box">
-                        <h6>Heynature</h6>
+        <!-- 채널톡 -->
+        <div class="ch" id="ch">
+            <!--헤더-->
+            <div class="ch_header">
+                <div class="ch_title_wrap">
+                    <div class="ch_t_logo">
                     </div>
-                    
-                    <div class="content1">
+                    <h4>Heynature</h4>
+                </div>
+                
+                <!--상단버튼-->
+                <div class="ch_setting_btn">
+                    <div class="setting_btn_img"><a href="javascript:void(0);"></a></div>
+                </div>
+                <div class="ch_close_btn" onclick="getHideCT()">
+                    <div class="close_btn_img"><a href="javascript:void(0);"></a></div>
+                </div>
+            </div>
+
+            <!--상담목록-->
+            <div class="ch_list">
+                <div class="list_top_bar"></div>
+
+                <div class="list_title_wrap">
+                    <div class="list_title">상담목록</div>
+                    <div class="list_read_all">
+                        <a href="">
+                            <div class="read_all_icon"></div>
+                            <div class="read_all">전체읽기</div>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="ch_list_content">
+                    <div class="list_content1">
+                        <a href="">
+                            <div class="list_logo"></div>
+                            <div class="content1">
+                                <h6>Heynature</h6>
+                                <div class="content_txt">
+                                    <img src="img/cong.jpg" width="18px" height="18px">
+                                    <span>단 3일간 5,000원 추가 할인</span>
+                                    <img src="img/cong.jpg" width="18px" height="18px">
+                                </div>
+                            </div>
+                            <div class="list_enter_wrap">
+                                <div class="list_message_icon">1</div>
+                                <div class="list_enter_btn"></div>
+                            </div>
+                        </a>
+                    </div>
+
+                    <div class="list_content1">
+                        <a href="">
+                            <div class="list_logo"></div>
+                            <div class="content1">
+                                <h6>Heynature</h6>
+                                <div class="content_txt">
+                                    <span>5/17(화) 오늘 단 하루! </span>
+                                    <img src="img/istockphoto-1125716911-170667a.jpg" width="18px" height="18px">
+                                </div>
+                            </div>
+                            <div class="list_enter_wrap">
+                                <div class="list_message_icon">1</div>
+                                <div class="list_enter_btn"></div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!--새 문의하기-->
+            <div class="ch_list ch_list2">
+                <div class="ch_list_content">
+                    <div class="list_content1 new_chat">
+                        <div class="list_logo new_chat_logo"></div>
+                        <div class="h6_box">
+                            <h6>Heynature</h6>
+                        </div>
                         
-                        <div class="content_txt">
-                            <p>고객님 안녕하세요.</p>
-                            <p>Heynature입니다.</p>
+                        <div class="content1">
+                            
+                            <div class="content_txt">
+                                <p>고객님 안녕하세요.</p>
+                                <p>Heynature입니다.</p>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            
-            <div class="new_chat_btn">
-                <a href="">
-                    <div class="send_img">
-                        <img src="/img/send-button-371579.png" width="15px" height="20px">
-                    </div>
-                    <span>새 문의하기</span>
-                </a>
+                
+                <div class="new_chat_btn">
+                    <a href="">
+                        <div class="send_img">
+                            <img src="/img/send-button-371579.png" width="15px" height="20px">
+                        </div>
+                        <span>새 문의하기</span>
+                    </a>
+                </div>
+
+                <div class="operating_hour">
+                    <div class="info_icon"></div>
+                    <h6>운영시간 아님</h6>
+                </div>
             </div>
 
-            <div class="operating_hour">
-                <div class="info_icon"></div>
-                <h6>운영시간 아님</h6>
+            <!--다른방법으로 상담-->
+            <div class="ch_list ch_list3">
+                <h6>다른 방법으로 상담</h6>
+                <div class="call_icon">
+                    <a href=""></a>
+                </div>
+            </div>
+
+            <!--채널톡 이용중-->
+            <div class="ch_list4">
+                <div class="list4_icon"></div>
+                <h6>채널톡 이용중</h6>
             </div>
         </div>
-
-        <!--다른방법으로 상담-->
-        <div class="ch_list ch_list3">
-            <h6>다른 방법으로 상담</h6>
-            <div class="call_icon">
-                <a href=""></a>
-            </div>
-        </div>
-
-        <!--채널톡 이용중-->
-        <div class="ch_list4">
-            <div class="list4_icon"></div>
-            <h6>채널톡 이용중</h6>
-        </div>
-    </div>
 
     </footer>
 
@@ -240,19 +243,18 @@
     <!-- 한페이지씩 내려가는거 -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/scrollify/1.0.19/jquery.scrollify.min.js"></script>
     <!-- 한페이지씩 천천히 내려가는거 -->
-    <script src="js/main.js"></script>
-<!---->
+    <script defer src="js/main.js"></script>
 
-
-<script src="js/common.js"></script>
-<script src="js/cscenter.js"></script>
-<script src="js/event.js"></script>
-<script src="js/product_detail.js"></script>
-<script src="js/find.js"></script>
-<script src="js/intro.js"></script>
-<script src="js/join.js"></script>
-<script src="js/product.js"></script>
-<script src="js/channeltalk.js"></script>
+    <script defer src="js/common.js"></script>
+    <script defer src="js/cscenter.js"></script>
+    <script defer src="js/event.js"></script>
+    <script defer src="js/product_detail.js"></script>
+    <script defer src="js/find.js"></script>
+    <script defer src="js/intro.js"></script>
+    <script defer src="js/join.js"></script>
+    <script defer src="js/product.js"></script>
+    <script defer src="js/channeltalk.js"></script>
+    <script defer src="js/order.js"></script>
 
 </body>
 </html>
