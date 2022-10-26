@@ -1,23 +1,82 @@
-<nav>
-    <div class="container">
-        <div class="title">
-            <i class="fab fa-pied-piper-square"></i>
-            <a href="/">PRO</a>
-        </div>
-        <div class="menu_bar" style="margin:auto; color:blue; padding: 300px; box-sizing: border-box; ">
-            <ul>
-            <% if(is_logined == false){ %>
+<section class="product_sec w1200">
+    <ul id="kaTop">
+        <li onclick="getShowCT()"><a class="ka" id="ka" href="javascript:void(0);"></a></li>
+        <li><a class="top" id="top" href="javascript:void(0);"></a></li>
+    </ul>
+    
+    <h3>My Page</h3>
+
+    <div class="product_tabs">
+        <div class="user_info_box">
+            <ul style="display: flex; justify-content: space-between;">
+                <% if(is_logined == false){ %>
                 <li>로그인 안됨!!</li>
                 <li><a href="/login">login</a></li>
-                <li><a href="/join">register</a></li>  
-            <% }else{ %>
-                <li>로그인 됨!</li>
-                <li><%=userName%> 님 환영합니다!</li>
-                <li><a href="/logout">logout</a></li>  
-            <% } %>
+                <li><a href="/join">register</a></li>  
+                <% }else{ %>
+                <li style="line-height:40px;"><%=userName%> 님 환영합니다!</li>
+                <li class="logout_btn"><a href="/logout">logout</a></li> 
+                <% } %>
             </ul>
         </div>
-    </div>
-</nav>
 
+
+        <!-- (일반-로그인 회원 전용) Order list -->
+        <% if(userId !== 'admin1'){ %>
+        <div>
+                <!-- (일반회원용) 구매(order)리스트 확인 -->
+                <div class="shopping-cart">
+                    <!-- Title -->
+                    <div class="title">
+                        주문 상품 정보
+                    </div>
+                    
+              
+                    <%results.forEach(( row, index )=>{%>
+                        <!-- Product #1 -->
+                        <div class="item">
+                            
+                
+                            <!-- 상품 이미지 -->
+                            <div class="or_image">
+                                <!-- <img src="https://designmodo.com/demo/shopping-cart/item-1.png" alt="" /> -->
+                                <img src="<%=row.image%>" alt="" style="width:120px; height:80px;" />
+                            </div>
+                
+                            <!-- 상품명 : user idx로 order 조회 : prodnum(product테이블 primary key)으로 상품명(name) 출력하기 -->
+                            <div class="description">
+                                <span><%=row.name%></span>
+                            </div>
+
+                            <!-- 수량 -->
+                            <div class="quantity">
+                                <input type="text" name="name" value="<%=row.quantity%>">개
+                            </div>
+
+                            <!-- 상품 가격 -->
+                            <div class="total-price">
+                                <%=row.totalprice%>원
+                            </div>
+                        </div>
+                    <%})%>
+                </div>
+        </div>
+        <%}%>
+
+
+        <!-- (관리자) 전용 상품관리 버튼 -->
+        <% if(userId === 'admin1'){ %>
+            <div style="padding:100px; box-sizing: border-box;">
+                <article class="write_btn_box">
+                    <div onclick="javascript:location.href='/admin_prod'">상품관리</div>
+                    <div onclick="javascript:location.href='/admin_order'">주문리스트</div>
+                </article>
+            </div>
+        <%}%>
+        
+        
+
+        
+    </div>
+</section>
 

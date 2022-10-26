@@ -1,3 +1,94 @@
-<div style="margin:auto; padding: 100px 300px; box-sizing: border-box; ">
-    <h1>카트 목록</h1>
-</div>
+<section class="product_sec w1200">
+    <ul id="kaTop">
+        <li onclick="getShowCT()"><a class="ka" id="ka" href="javascript:void(0);"></a></li>
+        <li><a class="top" id="top" href="javascript:void(0);"></a></li>
+    </ul>
+    
+    <h3>Shopping Cart</h3>
+
+    <div class="product_tabs">
+        <div class="user_info_box">
+            <ul style="display: flex; justify-content: space-between;">
+                <% if(is_logined == false){ %>
+                <li>로그인 안됨!!</li>
+                <li><a href="/login">login</a></li>
+                <li><a href="/join">register</a></li>  
+                <% }else{ %>
+                <li style="line-height:40px;"><%=userName%> 님 환영합니다!</li>
+                <li class="logout_btn"><a href="/logout">logout</a></li> 
+                <% } %>
+            </ul>
+        </div>
+
+    <div class="product_tabs">
+
+        <!-- Order list-->
+        <div>
+                <!-- (일반회원용) 구매(order)리스트 확인 -->
+                <div class="shopping-cart">
+                    <!-- Title -->
+                    <div class="title">
+                        장바구니
+                    </div>
+              
+                    <%results.forEach(( row, index )=>{%>
+                        <!-- Product #1 -->
+                        <div class="item">
+                            <div class="buttons">
+                                <input type="hidden" name="cartnum" value="<%=row.cartnum%>">
+                                <button type="button" onclick="location.href='/delete_cart?cartnum=<%=row.cartnum%>' " style="border:none;display: inline-block;
+                                    cursor: pointer;
+                                    width: 18px;
+                                    height: 17px;
+                                    background: url('https://designmodo.com/demo/shopping-cart/delete-icn.svg') no-repeat center;
+                                    margin-right: 20px;">
+                                </button>
+                            </div>
+                
+                            <!-- 상품 이미지 -->
+                            <div class="or_image">
+                                <img src="<%=row.image%>" alt="" style="width:120px; height:80px;" />
+                            </div>
+                
+                            <!-- 상품명 : user idx로 order 조회 : prodnum(product테이블 primary key)으로 상품명(name) 출력하기 -->
+                            <div class="description">
+                                <span><%=row.name%></span>
+                            </div>
+                            
+                            <!-- 수량+/- -->
+                            <div class="quantity">
+                                <button class="qt_btn plus-btn" type="button" name="button">
+                                <img src="https://designmodo.com/demo/shopping-cart/plus.svg" alt="" />
+                                </button>
+
+                                <input type="text" name="name" value="<%=row.quantity%>">
+                                
+                                <button class="qt_btn minus-btn" type="button" name="button">
+                                <img src="https://designmodo.com/demo/shopping-cart/minus.svg" alt="" />
+                                </button>
+                            </div>
+
+                            
+                            <div class="total-price" >
+                                ---상품가격---
+                                <input type="text" name="totalsum2d" value="<%=row.totalprice%>" style="border:none;text-align:right;" readonly>원
+                            </div>
+
+                        </div>
+                    <%})%>
+                </div>
+                <div class="product_checkout_wrap">
+                    <div class="product_checkout">
+                        <a href="javascript:orderProduct();" class="product_checkout_left font20">바로 구매하기</a>
+                    </div>
+                </div>
+        </div>
+
+        
+
+        
+
+        
+    </div>
+</section>
+

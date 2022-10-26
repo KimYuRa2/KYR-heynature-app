@@ -1,0 +1,47 @@
+<div style="padding:200px 80px;">
+
+
+    <table style="border:5px solid #444444"
+    
+    
+    width="100%"
+    height="200"
+    cellspacing="5">
+    <caption style="font-size:20px">전체 주문목록</caption>
+    <thead>
+        <tr align="center" bgcolor="white">
+            <th style="border: 1px solid #444444;">주문번호(ordernum)</th>
+            <th  style="border: 1px solid #444444;">주문날짜</th>
+            <th  style="border: 1px solid #444444;">상품번호</th>
+            <th  style="border: 1px solid #444444;">수량</th>
+
+            <th  style="border: 1px solid #444444;">고객ID</th>
+            <th  style="border: 1px solid #444444;">이름</th>
+            <th  style="border: 1px solid #444444;">연락처</th>
+            <th  style="border: 1px solid #444444;">주소지</th>
+            <th  style="border: 1px solid #444444;">상세주소</th>
+            <th  style="border: 1px solid #444444;">주문메모</th>
+            
+        </tr>
+    </thead>
+    
+    <tbody>
+        <%rows.forEach(( row, index )=>{%>
+        <tr align="center" bgcolor="white">
+            <th  style="border: 1px solid #444444;"><%=row.ordernum%></th>
+            <th  style="border: 1px solid #444444;"><%=row.indate%></th>
+            <th  style="border: 1px solid #444444;"><%=row.prodnum%></th>
+            <th  style="border: 1px solid #444444;"><%=row.quantity%></th>
+            
+            <th  style="border: 1px solid #444444;"><%=row.userId%></th>
+            <th  style="border: 1px solid #444444;"><%=row.receiverName%></th>
+            <th  style="border: 1px solid #444444;"><%=row.receiverPhoneNum%></th>
+            <th  style="border: 1px solid #444444;"><%=row.receiverAddress%></th>
+            <th  style="border: 1px solid #444444;"><%=row.receiverAddressSub%></th>
+            <th  style="border: 1px solid #444444;"><%=row.orderMemo%></th>
+        </tr>
+        <%})%>
+    </tbody>
+    </table>
+    
+    </div>

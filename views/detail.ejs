@@ -4,6 +4,13 @@
 </ul>
         <section class="w1200" onload="init()">
             <div class="product_wrap">
+                <!-- (관리자용) 상품 삭제 버튼 (/upload) -->
+                <% if(userId === 'admin1'){ %>
+                    <article class="write_btn_box">
+                        <div onclick="javascript:location.href='/deleteProduct?prodnum=<%=sql1_result.prodnum%>'">상품 삭제</div>
+                    </article>
+                <%}%>
+
                 <div class="product_detail">
                     <div class="product_detail_left">
                         <div class="product_main_pic">
@@ -42,13 +49,14 @@
                             <table>
                                 <tbody>
                                     <tr>
-                                        <form name="forma">
+                                        <form class="forma" name="forma" action="/order" method="POST">
+                                            <input type="hidden" name="prodnum" id="prodnum" value="<%=sql1_result.prodnum%>" />
                                             <td class="product_totalprice_left"></td>
                                             <td class="product_totalprice_middle">
                                                 <span>
                                                     <!-- 상품수 +/- -->                                         
                                                     <input type="hidden" name="sell_price" value="<%=sql1_result.price2%>" style="background-color:red; font-size:50px;">
-                                                    <input type="text" name="amount" value="1" width="22px" readonly>
+                                                    <input type="text" name="amount" id="amount" value="1" width="22px" readonly>
                                                     <input type="button" value="" name="add">
                                                     <input type="button" value="" name="minus"> 
                                                 </span>
@@ -71,8 +79,8 @@
 
                         <div class="product_checkout_wrap">
                             <div class="product_checkout">
-                                <a href="javascript:void(0);" class="product_checkout_left font20" onclick="javascript:location.href='' ">바로 구매하기</a>
-                                <a class="product_checkout_right font20" href="">장바구니 담기</a>
+                                <a href="javascript:orderProduct();" class="product_checkout_left font20">바로 구매하기</a>
+                                <a href="javascript:insertCart();" class="insert_cart product_checkout_right font20">장바구니 담기</a>
                             </div>
                         </div>
 

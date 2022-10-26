@@ -72,3 +72,59 @@ function findAddr(){
         }
     }).open();
 }
+
+
+// 1024 order > 결제하기 버튼 클릭 시
+function orderBuy() {
+    var userName = $("input[name='userName']").val();
+    var userPhoneNum = $("input[name='userPhoneNum']").val();
+    var userEmail = $("input[name='userEmail']").val();
+
+    var receiverName = $("input[name='receiverName']").val();
+    var receiverZonecode = $("input[name='receiverZonecode']").val();
+    var receiverAddress = $("input[name='receiverAddress']").val();
+    var receiverAddressSub = $("input[name='receiverAddressSub']").val();
+    var receiverCellPhone = $("input[name='receiverCellPhone']").val();
+    var orderMemo = $("input[name='orderMemo']").val();
+
+    var prodnum = $("input[name='prodnum']").val();
+    var quantity = $("input[name='quantity']").val();
+    var totalSettlePrice = $("input[name='totalSettlePrice']").val();
+
+    var data = {
+        'userName': userName,
+        'userPhoneNum': userPhoneNum,
+        'userEmail': userEmail,
+        'receiverName': receiverName,
+        'receiverZonecode': receiverZonecode,
+        'receiverAddress': receiverAddress,
+        'receiverAddressSub': receiverAddressSub,
+        'receiverCellPhone': receiverCellPhone,
+        'orderMemo': orderMemo,
+        'prodnum': prodnum, 
+        'quantity': quantity,
+        'totalSettlePrice': totalSettlePrice
+    };
+    
+    $.ajax({
+      type: 'POST',
+      url: '/order/complete',
+      data: data, // {'userName': userName}처럼 json형태의 데이터를 서버로 전달.
+      success: function(response){ // 데이터 통신이 정상적으로 이루어졌을 때 호출하기.
+        if(response) {
+          if(confirm('결제가 완료되었습니다.')) {
+            // location.href="/";
+            // $('#post_output').html(response.result);
+            // console.log("response!!!!!: ",response);
+            // alert(response.ornum);
+            alert(response.ordernum);
+            $('#post_output').text("asmdfasdofmasopfm");
+            location.href="/ordernum";
+          }
+        }
+      },
+      error: function(error){
+        alert('오류가 발생하였습니다. 잠시 후 다시 시도해주세요.');
+      }
+    });
+}

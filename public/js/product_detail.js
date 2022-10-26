@@ -1,21 +1,8 @@
 // 자동 계산해주기
 //test
 
-window.onload = function init() {
-  // price데이터 천단위 콤마 테스트 1018 
+window.onload = function init() { 
     console.log("10181018test");
-    
-    // sell_price = document.forms[forma].sell_price.value;
-    // alert("333")
-  
-    // var init_price = Number(sell_price);
-    // var init_price_comma = init_price.toLocaleString('ko-KR');
-
-
-    // amount = document.form.amount.value;
-
-    // total_price1.innerHTML = init_price_comma;
-    // change();
 }
 
 /******************* 1020 상품수량 + 자동계산 test ********************/
@@ -397,3 +384,51 @@ $(function() {
     }
   });
 });
+
+
+/********************* 장바구니담기 ******************** */
+
+// 장바구니 담기 클릭 시
+function insertCart() {
+
+  var prodnum = $('#prodnum').val();
+  var quantity = $('#amount').val();
+  var data = {
+    'prodnum': prodnum, 
+    'quantity': quantity
+  };
+  
+  $.ajax({
+    type: 'POST',
+    url: '/cart',
+    data: data,
+    success: function(response){
+      if(response) {
+        if(confirm('장바구니에 상품이 담겼습니다. 장바구니를 확인하시겠습니까?')) {
+          location.href="/cart";
+        }
+      }
+    },
+    error: function(error){
+      alert('오류가 발생하였습니다. 잠시 후 다시 시도해주세요.');
+    }
+  });
+}
+
+// 바로 구매하기 버튼 클릭 시
+function orderProduct() {
+  $('.forma').submit(); // "바로 구매하기" 버튼을 클릭함으로써  post('/order')로 상품번호, 상품 수를 보냄
+}
+
+//1026
+// 바로 구매하기 버튼 클릭 시
+function guestLogin() {
+  $('.guest_login').submit(); // "바로 구매하기" 버튼을 클릭함으로써  post('/order')로 상품번호, 상품 수를 보냄
+}
+
+
+
+//1026테스트
+function orderProduct() {
+  $('.forma').submit(); // "바로 구매하기" 버튼을 클릭함으로써  post('/order')로 상품번호, 상품 수를 보냄
+}

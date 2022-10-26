@@ -1,0 +1,44 @@
+<div style="padding:200px 80px;">
+
+    <article class="write_btn_box">
+        <div onclick="javascript:location.href='/upload'">상품 업로드</div>
+    </article>
+
+<table style="border:5px solid #444444" width="100%" height="200" cellspacing="5">
+<caption style="font-size:20px">상품목록</caption>
+<thead>
+    <tr align="center" bgcolor="white">
+        <th style="border: 1px solid #444444;">상품번호(prodnum)</th>
+        <th  style="border: 1px solid #444444;">상품명</th>
+        <th  style="border: 1px solid #444444;">(ENG)상품명</th>
+        <th  style="border: 1px solid #444444;">상품종류</th>
+        <th  style="border: 1px solid #444444;">원가</th>
+        <th  style="border: 1px solid #444444;">판매가</th>
+        <th  style="border: 1px solid #444444;">상세설명</th>
+        <th  style="border: 1px solid #444444;">수량</th>
+        <th  style="border: 1px solid #444444;">판매유무(y/n)</th>
+    </tr>
+</thead>
+
+<tbody>
+    <%rows.forEach(( row, index )=>{%>
+    <tr align="center" bgcolor="white">
+        <th  style="border: 1px solid #444444;"><%=row.prodnum%></th>
+        <th  style="border: 1px solid #444444;"><%=row.name%></th>
+        <th  style="border: 1px solid #444444;"><%=row.engname%></th>
+        <th  style="border: 1px solid #444444;"><%=row.kind%></th>
+        <th  style="border: 1px solid #444444;"><%=row.price1%></th>
+        <th  style="border: 1px solid #444444;"><%=row.price2%></th>
+        <th  style="border: 1px solid #444444;"><%=row.content%></th>
+        <th  style="border: 1px solid #444444;"><%=row.stock%></th>
+        <th  style="border: 1px solid #444444;"><%=row.useyn%></th>
+        <th  style="border: 1px solid #444444;">
+            <button type="button" onclick="location.href='/prod_update?prodnum=<%=row.prodnum%>' ">수정</button>
+            <button type="button" onclick="location.href='/deleteProduct?prodnum=<%=row.prodnum%>' ">삭제</button>
+        </th>
+    </tr>
+    <%})%>
+</tbody>
+</table>
+
+</div>

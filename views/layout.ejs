@@ -20,6 +20,10 @@
     <link rel="stylesheet" href="../css/product.css">
     <link rel="stylesheet" href="../css/order.css">
 
+    <link rel="stylesheet" href="../css/cart.css">
+    <link rel="stylesheet" href="../css/index.css">
+
+
     <!--폰트-->
     <link href="http://fonts.cdnfonts.com/css/circular-std" rel="stylesheet">
     <link href="https://hangeul.pstatic.net/hangeul_static/css/nanum-barun-gothic.css" rel="stylesheet">
@@ -60,21 +64,24 @@
         <div id="main">
             <div class="logo"><a href="/"></a></div>
 
-           <!-- 검색창 -->
-            <div class="searchbar">
-                <input id="input" type="text" placeholder="Type here to search">
-            </div>
-            <!-- 검색/메뉴 아이콘 -->
-            <div class="right_btn_wrap">
-                <div class="search_show" id="search_icon" onclick="getShowSearchbar()">
-                    <!-- href="javascript:void(0);" => <a>태그에서 웹페이지 이동 이벤트 막기 -->
-                    <a id="search_i" href="javascript:void(0);"></a>
+            
+                <!-- 검색창 -->
+                <form action="search" method="get" class="searchbar">
+                    <input id="input" type="text" name="result" class="search-bar" placeholder="Type here to search">
+                </form>
+                <!-- 검색/메뉴 아이콘 -->
+                <div class="right_btn_wrap">
+                    <div class="search_show" id="search_icon" onclick="getShowSearchbar()">
+                        <!-- href="javascript:void(0);" => <a>태그에서 웹페이지 이동 이벤트 막기 -->
+                        <a id="search_i" href="javascript:void(0);"></a>
+                    </div>
+                    <div class="search_hide" id="X_icon" onclick="getHideSearchbar()">
+                        <a id="X_i" href="javascript:void(0);"></a>
+                    </div>
+                    <span class="nav_menu" id="nav_menu" onclick="openNav()"></span>
                 </div>
-                <div class="search_hide" id="X_icon" onclick="getHideSearchbar()">
-                    <a id="X_i" href="javascript:void(0);"></a>
-                </div>
-                <span class="nav_menu" id="nav_menu" onclick="openNav()"></span>
-            </div>
+            
+           
         </div>
     </header>
 
@@ -255,6 +262,8 @@
     <script defer src="js/product.js"></script>
     <script defer src="js/channeltalk.js"></script>
     <script defer src="js/order.js"></script>
+    <script defer src="js/cart.js"></script>
+    <script defer src="js/index.js"></script>
 
 </body>
 </html>

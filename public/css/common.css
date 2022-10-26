@@ -211,6 +211,7 @@ header{
     /* display:none; */
 }
 
+
 .searchbar{
     /* background-color: #fff; */
     border-radius: 2px;
@@ -241,6 +242,8 @@ header{
 input:focus{
     outline: none;
 }
+
+
 
 
 /*******HEADER END********/

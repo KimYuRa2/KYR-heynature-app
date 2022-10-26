@@ -1,8 +1,46 @@
-<div style="max-width: 700px; padding: 200px 50px 50px; margin: 0 auto; ">
+<div style="max-width: 800px; padding: 200px 50px 50px; margin: 0 auto; ">
     <h1>주문페이지</h1>
 
+    <!-- 바로 구매할 상품 (Order list)-->
+    <div>
+        <div class="shopping-cart">
+            <!-- Title -->
+            <div class="title">
+                Order List
+            </div>
+            
+            <!-- Product #1 -->
+            <div class="item">
+                <!-- <div class="buttons">
+                    <span class="delete-btn"></span>
+                    <span class="like-btn"></span>
+                </div> -->
+      
+                <!-- 상품 이미지 -->
+                <div class="or_image">
+                    <img src="<%=result.image%>" alt="-----" style="width:120px; height:80px;"/>
+                </div>
+      
+                <!-- 상품명 : user idx로 order 조회 : prodnum(product테이블 primary key)으로 상품명(name) 출력하기 -->
+                <div class="description">
+                    <span><%=result.name%></span>
+                </div>
+      
+                <!-- 수량 -->
+                <div class="quantity">
+                    <input type="text" name="name" value="<%=quantity%>">개
+                </div>
+
+                <!-- 상품 가격 -->
+                <div class="total-price">
+                    <%=totalPrice%>원
+                </div>
+            </div>
+        </div>
+</div>
+
+
     <div style="width: 100%; border-collapse: collapse; font-size: 1.5rem; padding-top: 70px;">
-        
 
         <form method="post">
             <!-- 주문자정보 -->
@@ -14,19 +52,19 @@
                 <ul class="or-form-component">
                     <li class="row">
                         <label class="">
-                            <input type="text" class="text" name="userName" value="" data-pattern="gdEngKor" maxlength="20">
+                            <input type="text" class="text" name="userName" value="<%=userName%>" data-pattern="gdEngKor" maxlength="20">
                             <span class="label-text">주문하시는 분</span>
                         </label>
                     </li>
                     <li class="row">
                         <label class="">
-                            <input type="text" class="text" id="phoneNum" name="userPhoneNum" value="" maxlength="20">
+                            <input type="text" class="text" id="phoneNum" name="userPhoneNum" value="<%=userPhoneNum%>" maxlength="20">
                             <span class="label-text">연락처</span>
                         </label>
                     </li>
                     <li class="row">
                         <label class="">
-                            <input type="text" class="text" name="userEmail" value="">
+                            <input type="text" class="text" name="userEmail" value="<%=userEmail%>">
                             <span class="label-text">이메일(ex@example.com)</span>
                         </label>
                     </li>
@@ -99,7 +137,7 @@
                             <div class="text text-right">
                                 <div class="">
                                     <span class="currency">KRW</span>
-                                    <strong id="totalDeliveryCharge" class="font-garamond">2,500</strong>
+                                    <strong id="totalDeliveryCharge" class="font-garamond">2500</strong>
                                 </div>
                                 <span class="multi_shipping_text dn"></span>
                             </div>
@@ -110,7 +148,7 @@
                         <label class="has-value fixed">
                             <div class="text text-right">
                                 <span class="currency">KRW</span>
-                                <strong id="totalGoodsPrice" class="order_payment_sum font-garamond"><!--총금액--></strong>
+                                <strong id="totalGoodsPrice" class="order_payment_sum font-garamond"><%=totalPrice%></strong>
                             </div>
                             <span class="label-text">상품합계</span>
                         </label>
@@ -118,11 +156,11 @@
                     <li class="row">
                         <label class="has-value fixed">
                             <div class="text text-right">
-                                <!-- <input type="hidden" name="settlePrice" value="42500">
-                                <input type="hidden" name="overseasSettlePrice" value="0">
+                                <!-- <input type="hidden" name="settlePrice" value="<%=totalPrice%>">
+                                <input type="hidden" name="overseasSettlePrice" value="2500">
                                 <input type="hidden" name="overseasSettleCurrency" value="KRW"> -->
                                 <span class="currency">KRW</span>
-                                <strong id="totalSettlePrice" class="order_payment_sum price font-garamond"><!-- 총금액+2500 --></strong>
+                                <strong id="totalSettlePrice" class="order_payment_sum font-garamond"><%=totalPrice2%></strong>
                             </div>
                             <span class="label-text">결제금액</span>
                         </label>
@@ -162,11 +200,19 @@
 
                 <!-- 결제 버튼 -->
                 <div class="btn_center_box">
-                    <button class="btn_order_buy order-buy font-myeongjo"><em>결제하기</em></button>
+                    <button  onclick="javascript:orderBuy()" type="button" class="btn_order_buy order-buy"><em>결제하기</em></button>
                 </div>
             </div>
 
+            <!---->
+            <input type="hidden" name="prodnum" value="<%=result.prodnum%>" />
+            <input type="hidden" name="quantity" value="<%=quantity%>" />
+            <input type="hidden" name="totalGoodsPrice" value="<%=totalPrice%>" />
+            <input type="hidden" name="totalSettlePrice" value="<%=totalPrice2%>" />
+
+
         </form>
+
         
     </div>
 </div>

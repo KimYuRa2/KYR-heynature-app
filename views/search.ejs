@@ -1,0 +1,41 @@
+<section class="product_sec w1200">
+    <ul id="kaTop">
+        <li onclick="getShowCT()"><a class="ka" id="ka" href="javascript:void(0);"></a></li>
+        <li><a class="top" id="top" href="javascript:void(0);"></a></li>
+    </ul>
+
+    <h3>SHOP</h3>
+    <div class="product_tabs">
+        <ul class="pro_tab1">
+            <li> <span style="background-color: #9CCB44;">"<%= searchtitle %>"</span> 으로 검색한 결과입니다. </li>
+        </ul>
+
+        <div class="tabContent pro_active">
+            <div class="tabContentInner">
+                <div class="product_box1">
+                    <!-- 검색결과 상품 나열 -->
+                    <%result_value.forEach(( row, index )=>{%>%>
+                        <figure>
+                            <a href="javascript:void(0);" onclick="javascript:location.href='/detail?prodnum=<%=row.prodnum%>'">
+                                <div class="product_img_test">
+                                    <img class="test_content" src="<%= row.image%>" alt="(S3)업로드한 이미지 가져오기" />
+                                </div>
+                                <figcaption>
+                                    <h3><%= row.name%></h3>
+                                    <h4><%= row.engname%></h4>
+                                </figcaption>
+                            </a>
+                            <div>
+                                <span class="price">₩<%= row.price1%></span>
+                                <span class="dc_price">₩<%= row.price2%></span>
+                            </div>
+                        </figure>
+                    <%})%>
+                    
+                </div>
+            </div>
+        </div>
+
+        
+    </div>
+</section>

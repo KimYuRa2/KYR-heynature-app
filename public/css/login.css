@@ -18,9 +18,8 @@ main {
 /***log_main_wrap***/
 .log_main_wrap {
     max-width: 400px;
-    padding: 200px 0 170px;
+    padding: 200px 0 120px;
     margin: 0 auto;
-
 }
 .log_main_wrap>h2 {
     margin-bottom: 20px;
