@@ -105,22 +105,23 @@ function orderBuy() {
         'quantity': quantity,
         'totalSettlePrice': totalSettlePrice
     };
+
     
     $.ajax({
-      type: 'POST',
-      url: '/order/complete',
-      data: data, // {'userName': userName}처럼 json형태의 데이터를 서버로 전달.
+      type: 'POST', 
+      url: '/order/complete', //서버측에서 가져올 페이지
+      data: data, // {'userName': userName}처럼 json형태의 데이터를 서버로 전달. 
       success: function(response){ // 데이터 통신이 정상적으로 이루어졌을 때 호출하기.
         if(response) {
           if(confirm('결제가 완료되었습니다.')) {
-            // location.href="/";
-            // $('#post_output').html(response.result);
-            // console.log("response!!!!!: ",response);
-            // alert(response.ornum);
-            alert(response.ordernum);
-            $('#post_output').text("asmdfasdofmasopfm");
-            location.href="/ordernum";
+            console.log("EEERere");
+            console.log(response.message);
+            alert(response.testorder);
+            $('#post_output').html(response.testorder);
+
+            // location.href="/ordernum";
           }
+        
         }
       },
       error: function(error){

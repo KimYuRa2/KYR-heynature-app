@@ -88,31 +88,31 @@
                     </li>
                     <li class="row">
                         <label class="">
-                            <input type="text" class="text" name="receiverName" maxlength="20">
+                            <input type="text" class="text" name="receiverName" maxlength="20" required>
                             <span class="label-text">받으시는 분</span>
                         </label>
                     </li>
                     <li class="row rtest">
                         <label class="">
-                            <input id="member_post" type="text" class="text" name="receiverZonecode" readonly onclick="findAddr()">
+                            <input id="member_post" type="text" class="text" name="receiverZonecode" readonly onclick="findAddr()" required>
                             <span class="label-text">우편번호(클릭시 주소 검색창 활성화)</span>
                         </label>
                     </li>
                     <li class="row">
                         <label class="">
-                            <input id="member_addr" type="text" class="text" name="receiverAddress" readonly onclick="findAddr()">
+                            <input id="member_addr" type="text" class="text" name="receiverAddress" readonly onclick="findAddr()" required>
                             <span class="label-text">주소(클릭시 주소 검색창 활성화)</span>
                         </label>
                     </li>
                     <li class="row">
                         <label class="">
-                            <input type="text" class="text" name="receiverAddressSub">
+                            <input type="text" class="text" name="receiverAddressSub" required>
                             <span class="label-text">주소상세</span>
                         </label>
                     </li>
                     <li class="row">
                         <label class="">
-                            <input type="text" class="text auto-phone-number" id="receiverCellPhone" name="receiverCellPhone">
+                            <input type="text" class="text auto-phone-number" id="receiverCellPhone" name="receiverCellPhone" required>
                             <span class="label-text">휴대번호(010-0000-0000)</span>
                         </label>
                     </li>
@@ -202,6 +202,19 @@
                 <div class="btn_center_box">
                     <button  onclick="javascript:orderBuy()" type="button" class="btn_order_buy order-buy"><em>결제하기</em></button>
                 </div>
+
+                
+
+                <div style="padding:200px;">
+                    <div class="user_info_box">
+                    <ul>
+                        <li>주문번호</li>
+                        <li id="post_output"></li>
+                        <!-- <li style="line-height:40px;">주문이 완료되었습니다</li> -->
+                    </ul>
+                </div>
+                </div>
+                
             </div>
 
             <!---->

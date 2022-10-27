@@ -2,13 +2,14 @@
 //test
 
 window.onload = function init() { 
-    console.log("10181018test");
+    // console.log("10181018test");
 }
 
 /******************* 1020 상품수량 + 자동계산 test ********************/
 
 const amountform = document.getElementsByName("forma"),
-sell_price=document.forms['forma'].elements['sell_price'],
+// sell_price=document.forms['forma'].elements['sell_price'],
+sell_price=document.forma.sell_price,
 amount=document.forma.amount,
 add=document.forma.add,
 minus=document.forma.minus,
@@ -427,8 +428,3 @@ function guestLogin() {
 }
 
 
-
-//1026테스트
-function orderProduct() {
-  $('.forma').submit(); // "바로 구매하기" 버튼을 클릭함으로써  post('/order')로 상품번호, 상품 수를 보냄
-}
