@@ -597,11 +597,12 @@ router.get('/cart',(req, res) =>{
                             for (var i = 0; i < results.length; i++) {
                                 // console.log(results[i].price2 * results[i].quantity);
                                 totale[i] = results[i].price2 * results[i].quantity;
-                                // results[i].totalPrice =totale[i];
+                                results[i].totalPrice =totale[i];
+                                // console.log("sdfasdf : ",results[i]);
                             }
-                            
+                            console.log("resulteeeee: ",results);
 
-                            console.log(totale);
+                            // console.log(totale);
 
                             return res.render("cart",{
                                 // prodnum에 해당하는 상품명(name), 가격(price2), 이미지(image)

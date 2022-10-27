@@ -57,19 +57,19 @@
                             
                             <!-- 수량+/- -->
                             <div class="quantity">
-                                <button class="qt_btn plus-btn" type="button" name="button">
+                                <!-- <button class="qt_btn plus-btn" type="button" name="button">
                                 <img src="https://designmodo.com/demo/shopping-cart/plus.svg" alt="" />
-                                </button>
+                                </button> -->
 
-                                <input type="text" name="name" value="<%=row.quantity%>">
+                                <input type="text" name="name" value="<%=row.quantity%>">개
                                 
-                                <button class="qt_btn minus-btn" type="button" name="button">
+                                <!-- <button class="qt_btn minus-btn" type="button" name="button">
                                 <img src="https://designmodo.com/demo/shopping-cart/minus.svg" alt="" />
-                                </button>
+                                </button> -->
                             </div>
 
                             <div class="total-price" >
-                                <!-- <input type="text" name="totalsum2d" value="<%=row.totalprice%>" style="border:none;text-align:right;" readonly>원 -->
+                                <%=row.totalPrice%>원
                             </div>
 
                         </div>
@@ -77,6 +77,7 @@
                 </div>
                 <div class="product_checkout_wrap">
                     <div class="product_checkout">
+                       
                         <a href="javascript:orderTotalProduct();" class="product_checkout_left font20">바로 구매하기</a>
                     </div>
                 </div>
