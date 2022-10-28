@@ -10,9 +10,7 @@
         <div class="user_info_box">
             <ul style="display: flex; justify-content: space-between;">
                 <% if(is_logined == false){ %>
-                <li>로그인 안됨!!</li>
-                <li><a href="/login">login</a></li>
-                <li><a href="/join">register</a></li>  
+                <li>로그인 안됨!! Guest용 장바구니입니다.</li>
                 <% }else{ %>
                 <li style="line-height:40px;"><%=userName%> 님 환영합니다!</li>
                 <li class="logout_btn"><a href="/logout">logout</a></li> 
@@ -20,8 +18,9 @@
             </ul>
         </div>
 
+    <!-- 회원 장바구니 -->
+    <% if(is_logined == true){ %>
     <div class="product_tabs">
-
         <!-- Order list-->
         <div>
                 <!-- (일반회원용) 구매(order)리스트 확인 -->
@@ -82,6 +81,68 @@
                     </div>
                 </div>
         </div>
+        <% }else{ %>
+
+            <!-- 비회원 장바구니 시작-->
+
+            <div>ddddd비회원</div>
+            <div class="product_tabs">
+                <!-- Order list-->
+                <div>
+                        <!-- (일반회원용) 구매(order)리스트 확인 -->
+                        <div class="shopping-cart">
+                            <!-- Title -->
+                            <div class="title">
+                                비회원 장바구니
+                            </div>
+                      
+                                <!-- Product #1 -->
+                                <div class="item">
+                                    <div class="buttons">
+                                        <input type="hidden" name="cartnum" value="">
+                                        <button type="button" onclick="location.href='/delete_cart' " style="border:none;display: inline-block;
+                                            cursor: pointer;
+                                            width: 18px;
+                                            height: 17px;
+                                            background: url('https://designmodo.com/demo/shopping-cart/delete-icn.svg') no-repeat center;
+                                            margin-right: 20px;">
+                                        </button>
+                                    </div>
+                        
+                                    <!-- 상품 이미지 -->
+                                    <div class="or_image">
+                                        <img src="" alt="" style="width:120px; height:80px;" />
+                                    </div>
+                        
+                                    <!-- 상품명 : user idx로 order 조회 : prodnum(product테이블 primary key)으로 상품명(name) 출력하기 -->
+                                    <div class="description">
+                                        <span></span>
+                                    </div>
+                                    
+                                    <!-- 상품 수량 -->
+                                    <div class="quantity">
+                                        <input type="text" name="name" value="">개
+                                    </div>
+                                    
+                                    <!-- 가격 -->
+                                    <div class="total-price" >
+                                        <!-- -->원
+                                    </div>
+        
+                                </div>
+                        </div>
+                        <div class="product_checkout_wrap">
+                            <div class="product_checkout">
+                               
+                                <a href="javascript:orderTotalProduct();" class="product_checkout_left font20">바로 구매하기</a>
+                            </div>
+                        </div>
+                </div>
+
+
+            
+        <% } %>
+
 
         
 

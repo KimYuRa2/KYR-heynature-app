@@ -4,6 +4,7 @@
     <!-- 바로 구매할 상품 (Order list)-->
     <div>
         <div class="shopping-cart">
+
             <!-- Title -->
             <div class="title">
                 Order List
@@ -11,10 +12,6 @@
             
             <!-- Product #1 -->
             <div class="item">
-                <!-- <div class="buttons">
-                    <span class="delete-btn"></span>
-                    <span class="like-btn"></span>
-                </div> -->
       
                 <!-- 상품 이미지 -->
                 <div class="or_image">
@@ -37,12 +34,12 @@
                 </div>
             </div>
         </div>
-</div>
+    </div>
 
 
     <div style="width: 100%; border-collapse: collapse; font-size: 1.5rem; padding-top: 70px;">
 
-        <form method="post">
+        <form method="post" name="orderform" id="orderform">
             <!-- 주문자정보 -->
             <div>
                 <h4 style="font-size: 1.5em; font-weight: normal;">
@@ -52,7 +49,7 @@
                 <ul class="or-form-component">
                     <li class="row">
                         <label class="">
-                            <input type="text" class="text" name="userName" value="<%=userName%>" data-pattern="gdEngKor" maxlength="20">
+                            <input type="text" class="text" name="userName" value="<%=userName%>" maxlength="20">
                             <span class="label-text">주문하시는 분</span>
                         </label>
                     </li>
@@ -88,32 +85,32 @@
                     </li>
                     <li class="row">
                         <label class="">
-                            <input type="text" class="text" name="receiverName" maxlength="20" required>
-                            <span class="label-text">받으시는 분</span>
+                            <input type="text" class="text" name="receiverName" id="receiverName" maxlength="20" required>
+                            <span class="label-text">주문자명* <span style="font-size:12px; color:steelblue;">( 비회원 주문조회에 사용됩니다.)</span></span>
                         </label>
                     </li>
                     <li class="row rtest">
                         <label class="">
                             <input id="member_post" type="text" class="text" name="receiverZonecode" readonly onclick="findAddr()" required>
-                            <span class="label-text">우편번호(클릭시 주소 검색창 활성화)</span>
+                            <span class="label-text">우편번호* <span style="font-size:12px;">(클릭시 주소 검색창 활성화)</span></span>
                         </label>
                     </li>
                     <li class="row">
                         <label class="">
                             <input id="member_addr" type="text" class="text" name="receiverAddress" readonly onclick="findAddr()" required>
-                            <span class="label-text">주소(클릭시 주소 검색창 활성화)</span>
+                            <span class="label-text">주소* <span style="font-size:12px;">(클릭시 주소 검색창 활성화)</span></span>
                         </label>
                     </li>
                     <li class="row">
                         <label class="">
                             <input type="text" class="text" name="receiverAddressSub" required>
-                            <span class="label-text">주소상세</span>
+                            <span class="label-text">주소상세*</span>
                         </label>
                     </li>
                     <li class="row">
                         <label class="">
-                            <input type="text" class="text auto-phone-number" id="receiverCellPhone" name="receiverCellPhone" required>
-                            <span class="label-text">휴대번호(010-0000-0000)</span>
+                            <input type="text" class="text" id="receiverCellPhone" name='receiverCellPhone' maxlength="13" required>
+                            <span class="label-text">휴대번호* <span style="font-size:12px;">(010-0000-0000)</span></span>
                         </label>
                     </li>
                     <li class="row">
@@ -188,7 +185,7 @@
                     
                     <li class="row" style="margin-top: 30px; display: flex;">
                         <div class="checkbox">
-                            <input type="checkbox" id="termAgree_orderCheck" value="y" class="require">
+                            <input type="checkbox" name="orderCheck" id="termAgree_orderCheck">
                             <label for="termAgree_orderCheck"></label>
                             <span class="label-text">구매진행</span>
                         </div>
@@ -200,14 +197,14 @@
 
                 <!-- 결제 버튼 -->
                 <div class="btn_center_box">
-                    <button  onclick="javascript:orderBuy()" type="button" class="btn_order_buy order-buy"><em>결제하기</em></button>
+                    <button onclick="javascript:orderBuy()" type="button" class="btn_order_buy order-buy"><em>결제하기</em></button>
                 </div>
 
                 
 
                 <div style="padding:200px;">
                     <div class="user_info_box">
-                    <ul>
+                    <ul style="text-align:center;">
                         <li>주문번호</li>
                         <li id="post_output"></li>
                         <!-- <li style="line-height:40px;">주문이 완료되었습니다</li> -->

@@ -25,10 +25,10 @@
           
                     <!-- Product #1 -->
                     <div class="item">
-                        <div class="buttons">
+                        <!-- <div class="buttons">
                             <span class="delete-btn"></span>
                             <span class="like-btn"></span>
-                        </div>
+                        </div> -->
             
                         <!-- 상품 이미지 -->
                         <div class="or_image">
@@ -49,6 +49,20 @@
                         <!-- 상품 가격 -->
                         <div class="total-price">
                             <%=data.totalprice%>원
+                        </div>
+
+                        <!-- 주문 일시 -->
+                        <div class="orderdate">
+                            <%=data.indate%>
+                        </div>
+
+                        <!-- 배송상태 -->
+                        <div class="orderdate">
+                            <%if (data.result==1){%>
+                                <%="배송 전"%>
+                            <%}else{%>
+                                <%="배송 완료"%>
+                            <%}%>
                         </div>
                     </div>
             </div>

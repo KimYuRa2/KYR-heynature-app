@@ -1,3 +1,7 @@
+// const { $ } = require("static");
+
+// const { $ } = require("static");
+
 $(document).ready(function() {
     $('.or-form-component input.text, .or-form-component textarea.text').on('focusout', function(e) {
         if( this.value != '' ) $(this).parent().addClass('has-value');
@@ -27,6 +31,7 @@ $(document).ready(function() {
             transition : 'all 0.4s'
         })
     })
+    
     $('#member_addr').focusin(function(){
         $(this).parent().parent().prev().children().children().css({
             fontSize : '0.6em',
@@ -39,14 +44,13 @@ $(document).ready(function() {
 
 });
 
+
 setTimeout(function() {
     $('.or-form-component input.text').each(function(e) {
         if( this.value != '' ) $(this).parent().addClass('has-value');
         else $(this).parent().removeClass('has-value');
     });
 }, 150);
-
-
 
 
 
@@ -74,8 +78,9 @@ function findAddr(){
 }
 
 
-// 1024 order > 결제하기 버튼 클릭 시
 function orderBuy() {
+
+    //회원가입처리
     var userName = $("input[name='userName']").val();
     var userPhoneNum = $("input[name='userPhoneNum']").val();
     var userEmail = $("input[name='userEmail']").val();
@@ -90,6 +95,8 @@ function orderBuy() {
     var prodnum = $("input[name='prodnum']").val();
     var quantity = $("input[name='quantity']").val();
     var totalSettlePrice = $("input[name='totalSettlePrice']").val();
+
+    var orderCheck = $("input[name='orderCheck']");
 
     var data = {
         'userName': userName,
@@ -107,19 +114,55 @@ function orderBuy() {
     };
 
     
+
+    if(receiverName==""){
+            alert("성명을 입력하세요!!!!");
+            receiverName.focus();
+            return false;
+    }
+    else if(receiverZonecode==""){
+        alert("주소를 입력하세요.");
+        receiverZonecode.focus();
+        return false;
+    }
+    else if(receiverAddress==""){
+        alert("주소를 입력하세요.");
+        receiverAddress.focus();
+        return false;
+    }
+    else if(receiverAddressSub==""){
+        alert("주소상세를 입력하세요.");
+        receiverAddressSub.focus();
+        return false;
+    }
+    else if(receiverCellPhone==""){
+        alert("휴대번호를 입력하세요.");
+        receiverCellPhone.focus();
+        return false;
+    }
+    else if(orderCheck.is(":checked") == false ){
+        alert("구매 진행 동의에 체크해주세요.");
+        orderCheck.focus();
+        return false;
+    }
+    
+
+    
     $.ajax({
       type: 'POST', 
       url: '/order/complete', //서버측에서 가져올 페이지
       data: data, // {'userName': userName}처럼 json형태의 데이터를 서버로 전달. 
       success: function(response){ // 데이터 통신이 정상적으로 이루어졌을 때 호출하기.
         if(response) {
-          if(confirm('결제가 완료되었습니다.')) {
-            console.log("EEERere");
+          if(confirm('결제가 완료되었습니다. ')) {
+            alert("결제페이지 하단에서 주문번호를 확인해주세요.");
             console.log(response.message);
             alert(response.testorder);
             $('#post_output').html(response.testorder);
 
             // location.href="/ordernum";
+          }else{
+            alert("전송된 값 없음")
           }
         
         }
@@ -127,5 +170,14 @@ function orderBuy() {
       error: function(error){
         alert('오류가 발생하였습니다. 잠시 후 다시 시도해주세요.');
       }
-    });
+    })
 }
+
+
+
+
+
+
+
+
+

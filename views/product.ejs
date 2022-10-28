@@ -14,229 +14,33 @@
             <div class="product_tabs">
                 <ul class="pro_tab1">
                     <li class="pro_active pro_en"><a href="javascript:void(0);">BEST</a></li>
-                    <li class="pro_en"><a href="javascript:void(0);">NEW</a></li>
                     <li class="ko"><a href="javascript:void(0);">유형별</a></li>
                     <li class="ko"><a href="javascript:void(0);">어성초</a></li>
                 </ul>
-
-                <!-- 1017 test!! -->
-                <!-- <h1><%= title %></h1>
-                <p>Welcome to <%= title %></p>
-
-                <% for(let row of rows) { %>
-                <p><%= row.name%></p>
-                <p><%= row.kind%></p>
-                <p><%= row.price1%></p>
-                <p><%= row.price2%></p>
-                <p><%= row.content%></p>
-                <p><%= row.useyn%></p>
-                <img src="<%= row.image%>" alt="(S3)업로드한 이미지 가져오기" width="300"/>
-               
-                <hr />
-                <% } %> -->
-                <!-- 1017 test END !! -->
 
                 <!-- BEST 상품 tab-->
                 <div class="tabContent pro_active">
                     <div class="tabContentInner">
                         <div class="product_box1">
-                            <!-- BEST 상품 나열 -->
-                            <figure>
-                                <a href="/detail">
-                                    <div class="product_img img2">
-                                        <div class="overlay"></div>
-                                        <em class="rank_txt rank1">1</em>
+                            <!-- BEST 상품 나열 : 판매량순으로 정렬 -->
+                            <%results.forEach(( row, index )=>{%>
+                                <figure>
+                                    <a href="javascript:void(0);" onclick="javascript:location.href='/detail?prodnum=<%=row.prodnum%>'">
+                                        <div class="product_img_test">
+                                            <img class="test_content" src="<%= row.image%>" alt="(S3)업로드한 이미지 가져오기" />
+                                            <em class="rank_txt rank1"><%=index+1%></em>
+                                        </div>
+                                        <figcaption>
+                                            <h3><%= row.name%></h3>
+                                            <h4><%= row.engname%></h4>
+                                        </figcaption>
+                                    </a>
+                                    <div>
+                                        <span class="price">₩<%= row.price1%></span>
+                                        <span class="dc_price">₩<%= row.price2%></span>
                                     </div>
-                                    <figcaption>
-                                        <h3>헤이네이처 어성초 로션</h3>
-                                        <h4>Heynature Eoseongcho Lotion</h4>
-                                    </figcaption>
-                                </a>
-                                <div>
-                                    <span class="price">₩27,000</span>
-                                    <span class="dc_price">₩22,950</span>
-                                </div>
-                            </figure>
-                            <figure>
-                                <a href="/detail">
-                                    <div class="product_img img39">
-                                        <div class="overlay"></div>
-                                        <em class="rank_txt">2</em>
-                                    </div>
-                                    <figcaption>
-                                        <h3>어성초 스킨+앰플 세트</h3>
-                                        <h4>Eoseongcho skin+ample Set</h4>
-                                    </figcaption>
-                                </a>
-                                <div>
-                                    <span class="price">₩60,000</span>
-                                    <span class="dc_price">₩49,800</span>
-                                </div>
-                            </figure>
-                            <figure>
-                                <a href="/detail">
-                                    <div class="product_img img43">
-                                        <div class="overlay"></div>
-                                        <em class="rank_txt">3</em>
-                                    </div>
-                                    <figcaption>
-                                        <h3>어성초 3종세트(스킨/앰플/워터)</h3>
-                                        <h4>Eoseongcho 3-piece Set (skin/ample/water)</h4>
-                                    </figcaption>
-                                </a>
-                                <div>
-                                    <span class="price">₩95,000</span>
-                                    <span class="dc_price">₩78,850</span>
-                                </div>
-                            </figure>
-                            <figure>
-                                <a href="/detail">
-                                    <div class="product_img img38">
-                                        <div class="overlay"></div>
-                                        <em class="rank_txt">4</em>
-                                    </div>
-                                    <figcaption>
-                                        <h3>어성초 스킨+로션 세트</h3>
-                                        <h4>Eoseongcho skin+lotion Set</h4>
-                                    </figcaption>
-                                </a>
-                                <div>
-                                    <span class="price">₩52,000</span>
-                                    <span class="dc_price">₩41,600</span>
-                                </div>
-                            </figure>
-                            <figure>
-                                <a href="/detail">
-                                    <div class="product_img img18">
-                                        <div class="overlay"></div>
-                                        <em class="rank_txt">5</em>
-                                    </div>
-                                    <figcaption>
-                                        <h3>어성초 톤업 마스크</h3>
-                                        <h4>Eoseongcho Toneup Mask</h4>
-                                    </figcaption>
-                                </a>
-                                <div>
-                                    <span class="price"></span>
-                                    <span class="dc_price">₩4,000</span>
-                                </div>
-                            </figure>
-                            <figure>
-                                <a href="/detail">
-                                    <div class="product_img img1">
-                                        <div class="overlay"></div>
-                                        <em class="rank_txt">6</em>
-                                    </div>
-                                    <figcaption>
-                                        <h3>헤이네이처 어성초 스킨</h3>
-                                        <h4>Heynature Eoseongcho Skin</h4>
-                                    </figcaption>
-                                </a>
-                                <div class="price_box">
-                                    <span class="price">₩25,000</span>
-                                    <span class="dc_price">₩22,500</span>
-                                </div>
-                            </figure>
-                            <figure>
-                                <a href="/detail">
-                                    <div class="product_img img39">
-                                        <div class="overlay"></div>
-                                        <em class="rank_txt">7</em>
-                                    </div>
-                                    <figcaption>
-                                        <h3>어성초 스킨+앰플 세트</h3>
-                                        <h4>Eoseongcho skin+ample Set</h4>
-                                    </figcaption>
-                                </a>
-                                <div>
-                                    <span class="price">₩60,000</span>
-                                    <span class="dc_price">₩49,800</span>
-                                </div>
-                            </figure>
-                            <figure>
-                                <a href="/detail">
-                                    <div class="product_img img43">
-                                        <div class="overlay"></div>
-                                        <em class="rank_txt">8</em>
-                                    </div>
-                                    <figcaption>
-                                        <h3>어성초 3종세트(스킨/앰플/워터)</h3>
-                                        <h4>Eoseongcho 3-piece Set (skin/ample/water)</h4>
-                                    </figcaption>
-                                </a>
-                                <div>
-                                    <span class="price">₩95,000</span>
-                                    <span class="dc_price">₩78,850</span>
-                                </div>
-                            </figure>
-                            <figure>
-                                <a href="/detail">
-                                    <div class="product_img img38">
-                                        <div class="overlay"></div>
-                                        <em class="rank_txt">9</em>
-                                    </div>
-                                    <figcaption>
-                                        <h3>어성초 스킨+로션 세트</h3>
-                                        <h4>Eoseongcho skin+lotion Set</h4>
-                                    </figcaption>
-                                </a>
-                                <div>
-                                    <span class="price">₩52,000</span>
-                                    <span class="dc_price">₩41,600</span>
-                                </div>
-                            </figure>
-                            <figure>
-                                <a href="/detail">
-                                    <div class="product_img img7">
-                                        <div class="overlay"></div>
-                                        <em class="rank_txt">10</em>
-                                    </div>
-                                    <figcaption>
-                                        <h3>어성초 수딩젤</h3>
-                                        <h4>Eoseongcho Soothing gel</h4>
-                                    </figcaption>
-                                </a>
-                                <div>
-                                    <span class="price">₩21,000</span>
-                                    <span class="dc_price">₩12,600</span>
-                                </div>
-                            </figure>
-                            
-                        </div>
-                    </div>
-                </div>
-
-                <!-- NEW 상품 tab-->
-                <div class="tabContent">
-                    <div class="tabContentInner">
-                        <div class="product_box1">
-                            <!-- NEW 상품 나열 -->
-                            <figure>
-                                <a href="/detail">
-                                    <div class="product_img img5"><div class="overlay"></div></div>
-                                    <figcaption>
-                                        <h3>어성초 트리플 집중 세럼</h3>
-                                        <h4>Eoseongcho Triple Concentrate Serum</h4>
-                                    </figcaption>
-                                </a>
-                                <div>
-                                    <span class="price">₩37,000</span>
-                                    <span class="dc_price">₩33,300</span>
-                                </div>
-                            </figure>
-                            <figure>
-                                <a href="/detail">
-                                    <div class="product_img img7"><div class="overlay"></div></div>
-                                    <figcaption>
-                                        <h3>어성초 수딩젤</h3>
-                                        <h4>Eoseongcho Soothing gel</h4>
-                                    </figcaption>
-                                </a>
-                                <div>
-                                    <span class="price">₩21,000</span>
-                                    <span class="dc_price">₩12,600</span>
-                                </div>
-                            </figure>
+                                </figure>
+                            <%})%>
                         </div>
                     </div>
                 </div>
@@ -278,7 +82,8 @@
                                     <a href="javascript:void(0);">ETC</a>
                                 </li>
                             </ul>
-                            <!--유형별-ALL tab 상품-->
+                            
+                            <!--(완)유형별-ALL tab 상품-->
                             <div class="tabContent2 pro_active">
                                 <%rows.forEach(( row, index )=>{%>
                                 <figure>
@@ -567,21 +372,21 @@
                             <!-- 어성초 상품 (kind=10) 나열 -->
                             <%rows.forEach(( row, index )=>{%>
                                 <%if(row.kind=="10"){%>
-                            <figure>
-                                <a href="javascript:void(0);" onclick="javascript:location.href='/detail?prodnum=<%=row.prodnum%>'">
-                                    <div class="product_img_test">
-                                        <img class="test_content" src="<%= row.image%>" alt="(S3)업로드한 이미지 가져오기" />
+                                <figure>
+                                    <a href="javascript:void(0);" onclick="javascript:location.href='/detail?prodnum=<%=row.prodnum%>'">
+                                        <div class="product_img_test">
+                                            <img class="test_content" src="<%= row.image%>" alt="(S3)업로드한 이미지 가져오기" />
+                                        </div>
+                                        <figcaption>
+                                            <h3><%= row.name%></h3>
+                                            <h4><%= row.engname%></h4>
+                                        </figcaption>
+                                    </a>
+                                    <div>
+                                        <span class="price">₩<%= row.price1%></span>
+                                        <span class="dc_price">₩<%= row.price2%></span>
                                     </div>
-                                    <figcaption>
-                                        <h3><%= row.name%></h3>
-                                        <h4><%= row.engname%></h4>
-                                    </figcaption>
-                                </a>
-                                <div>
-                                    <span class="price">₩<%= row.price1%></span>
-                                    <span class="dc_price">₩<%= row.price2%></span>
-                                </div>
-                            </figure>
+                                </figure>
                             <%}})%>
                             
                             <div class="more_btn">

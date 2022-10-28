@@ -149,14 +149,24 @@ router.get('/delete_cart', (req, res) => {
 
 // 상품페이지 (/product)
 router.get('/product',(req, res, next) =>{
+    // * best상품  * //
+    // orders db에서 구매 가장 많은 prodnum 순서로 정렬
+    // 구매 많은 10개 상품전체정보 불러오기 console
+
     
-    //1017 상품 업로드 후 상품 뿌리기 테스트!!
- 
     db.connection.query('select * from product',(err,rows) =>{
         if (err) {
             console.error("err : " + err);
         } else {
-            res.render('product',{title : "상품 뿌리기 테스트", rows:rows, userId : req.session.userId })
+            // best 상품 10개 불러오기 !!!!
+            db.connection.query('select *,COUNT(*) from orders inner join product using (prodnum) group by prodnum order by count(*) desc limit 10;',(err,results) => {
+                // console.log(results);
+                if(err){
+                    console.error("err : " + err);
+                }else{
+                    res.render('product',{title : "상품 뿌리기 테스트", rows:rows, userId : req.session.userId, results:results })
+                }
+            })
         }
     })
 });
@@ -627,20 +637,28 @@ router.get('/cart',(req, res) =>{
             ////////////////////////////////////////// 1025 비회원-장바구니-쿠키에서 cart정보 가져와서 출력하기////////////////////////////
             var cart = req.cookies.cart; // cart 쿠키를 가져옴
             if(!cart){ //쿠키 없을 시
+                res.render('cart',{
+                    is_logined:false,
+                });
                 ////res.send("장바구니가 비어있습니다.");
                 ////res.render('cart');
             }else{ //쿠키 있을 시
-                var output='';
-                for(var prodnum in cart) //객체를 읽는 for문
-                //output에다가 추가
-                //ex) order객체를 이용하여 음료이름과 cart의 주문갯수를 가져옴ee
-                output = `<li>총 담은 상품수량,,,,${cart[prodnum]}개 담음</li>`;
+                console.log("비회원 장바구니 쿠키 존재! : " , req.cookies.cart);
+                res.render('cart',{
+                    is_logined:false,
+                    cart: cart
+                });
+                // var output='';
+                // for(var prodnum in cart) //객체를 읽는 for문
+                // //output에다가 추가
+                // //ex) order객체를 이용하여 음료이름과 cart의 주문갯수를 가져옴ee
+                // output = `<li>총 담은 상품수량,,,,${cart[prodnum]}개 담음</li>`;
             }
             //출력하기
-            res.send(`
-                <h1>Cart test!!!</h1>
-                <ul>${output}</ul>
-            `);
+            // res.send(`
+            //     <h1>Cart test!!!</h1>
+            //     <ul>${output}</ul>
+            // `);
 
         }
         
@@ -723,6 +741,24 @@ router.get('/admin_order', (req,res) => {
         }
     })
 })
+
+// (관리자용) 주문 배송상태 수정
+router.get('/order_update', (req, res) => {
+    let ordernum = req.query.ordernum;
+    db.connection.query('update orders set result=2 where ordernum=?',[ordernum], (err, row) => {
+        console.log(row);
+        if(err){
+            console.log("err : ", err);
+        } else{
+            res.redirect('admin_order');
+        }
+    } )
+
+})
+
+
+
+
 
 /* 1026(비회원)주문 목록 확인 */
 router.post('/guest_order', (req, res) => {
@@ -847,7 +883,9 @@ router.post('/order/complete', (req, res) => {
                     // 주문내역 테이블에 데이터 추가
                     db.connection.query(sql_1, function (error, result) {
                         if(!error) {
-                            return res.status(200).json({message:"saf", status:200});
+                            console.log("제발바라밥랍ㄹ: ", result.insertId);
+                            var testorder=result.insertId;
+                            return res.status(200).json({ message:"아으으으악", status:200 , testorder:testorder});
                         } else {
                             console.log(error);
                             return res.status(500).json({
@@ -865,39 +903,12 @@ router.post('/order/complete', (req, res) => {
             // 주문내역 테이블에 회원정보를 제외하고 데이터 추가
             db.connection.query(sql_1, function (error, result) {
                 if(!error) {
-                    // res.render('ordernum',{result:result});
-                    
 
                     //1027test....
                     // var testorder=result[0];
                     console.log("제발바라밥랍ㄹ: ", result.insertId);
                     var testorder=result.insertId;
-                    // db.connection.query('select * from orders where ordernum=?',[req.session.userId],(err,result)=>{
-                    // if( result.length > 0 ){
-                    //     var idx = result[0].idx;
-                    //     var userId = result[0].userId;
-    
-                    //     var sql_1 = `INSERT INTO orders (idx, userId, userPhoneNum, prodnum, indate, quantity, totalprice, receiverName, receiverZonecode, receiverAddress, receiverAddressSub, receiverPhoneNum, orderMemo) VALUES (${idx}, ${userId}, ${phoneNum}, ${prodnum}, NOW(), ${quantity}, ${totalprice}, ${receiverName}, ${receiverZonecode}, ${receiverAddress}, ${receiverAddressSub}, ${receiverPhoneNum}, ${orderMemo})`;
-                    //     // 주문내역 테이블에 데이터 추가
-                    //     db.connection.query(sql_1, function (error, result) {
-                    //         if(!error) {
-                    //             return res.status(200).json({message:"saf", status:200});
-                    //         } else {
-                    //             console.log(error);
-                    //             return res.status(500).json({
-                    //                 message: "에러"
-                    //             });
-                    //         }
-                    //     });
-                    // }
-
-
-
-
-
-
-
-                    /////
+                    
                     return res.status(200).json({ message:"아으으으악", status:200 , testorder:testorder}); //생성된 row 수
                 } else {
                     console.log(error);

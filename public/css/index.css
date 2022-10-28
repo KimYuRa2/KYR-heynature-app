@@ -131,7 +131,7 @@
   
   /* Product Quantity */
   .quantity {
-    padding-top: 20px;
+    padding-top: 25px;
     margin-right: 60px;
   }
   .quantity input {
@@ -172,6 +172,14 @@
     color: #43484D;
     font-weight: 300;
   }
+  .orderdate{
+    width: auto;
+    padding: 27px 60px;
+    text-align: center;
+    font-size: 16px;
+    color: #43484D;
+    font-weight: 300;
+  }
   
   /* Responsive */
   @media (max-width: 800px) {
@@ -190,7 +198,8 @@
     }
     .or_image,
     .quantity,
-    .description {
+    .description,
+    .orderdate {
       width: 100%;
       text-align: center;
       margin: 6px 0;

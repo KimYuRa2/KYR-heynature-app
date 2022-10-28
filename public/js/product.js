@@ -7,7 +7,7 @@
 
 /* 이중탭 */
 $(".pro_tab1 li").click(function(){
-    var num = $(".pro_tab1 li").index(this);//첫번째 탭 중 클릭한 li의 index(0-3)번호를 num에 저장
+    var num = $(".pro_tab1 li").index(this);//첫번째 탭 중 클릭한 li의 index(0-2)번호를 num에 저장
     $(".tabContent").removeClass("pro_active");//tabContent에 있던 pro_active클래스를 일단 모두 지움
     //eq() : 선택한 요소의 인덱스 번호에 해당하는 요소를 찾습니다.
     //클래스명이 tabContent인 모든 요소들 중 num(클릭한 pro_tab1 li의 index값)번째 요소만 반환
@@ -47,11 +47,10 @@ var countPage=1;
 $(".pro_tab1 li").click(function(){ //pro_tab1 li (new/best탭) 클릭하면(클릭한 li에 pro_active 클래스 추가됨)
     var cl_name=$(".tabContent.pro_active"); //클릭으로 pro_active가 추가된 li의 컨텐츠에 해당하는 tabContent를 cl_name에 저장
     var fig = cl_name.find("figure"); //cl_name 안의 figure들을 모두 찾아서 fig에 넣어줌
-    //alert("총 상품 갯수 : "+fig.length);
+    // alert("총 상품 갯수 : "+fig.length);
 
     var figNum2 = 12; //한 페이지 당 보일 상품의 수
     var btnOn = $(".more_btn"); //더보기 버튼
-    //alert("pro_tab2 li 클릭 / 총 상품갯수 : "+fig.length);
 
     /* 전체 페이지 계산 */
     var totalNum = Math.ceil(fig.length/figNum2); //전체페이지(totalNum) 계산
@@ -84,7 +83,7 @@ $(".pro_tab1 li").click(function(){
     //alert("페이지 index:"+num);
 
     /*pro_tab1:유형별(탭 두개인 페이지)이고, $(".pro_tab2 li").hasClass("pro_active")일 때 실행할것.*/
-    if( (num==2) && $(".tabContent").eq(num).hasClass("pro_active")){
+    if( (num==1) && $(".tabContent").eq(num).hasClass("pro_active")){
         var figNum = 12;
         var cl_name=$(".tabContent2.pro_active"); //클릭으로 pro_active가 추가된 li의 컨텐츠에 해당하는 tabContent2를 cl_name에 저장
         var fig = cl_name.find("figure"); //cl_name 안의 figure들을 모두 찾아서 fig에 넣어줌
@@ -115,7 +114,7 @@ $(".pro_tab2 li").click(function(){ //pro_tab2 li 클릭하면(클릭한 li에 p
     var cl_name=$(".tabContent2.pro_active"); //클릭으로 pro_active가 추가된 li의 컨텐츠에 해당하는 tabContent2를 cl_name에 저장
     var fig = cl_name.find("figure"); //cl_name 안의 figure들을 모두 찾아서 fig에 넣어줌
     var btnOn = $(".more_btn"); //더보기 버튼
-    //alert("pro_tab2 li 클릭 / 총 상품갯수 : "+fig.length);
+    // alert("pro_tab2 li 클릭 / 총 상품갯수 : "+fig.length);
 
     /* 전체 페이지 계산 */
     var totalNum = Math.ceil(fig.length/figNum2); //전체페이지 계산

@@ -21,6 +21,7 @@
             <th  style="border: 1px solid #444444;">주소지</th>
             <th  style="border: 1px solid #444444;">상세주소</th>
             <th  style="border: 1px solid #444444;">주문메모</th>
+            <th  style="border: 1px solid #444444;">배송상태</th>
             
         </tr>
     </thead>
@@ -39,6 +40,21 @@
             <th  style="border: 1px solid #444444;"><%=row.receiverAddress%></th>
             <th  style="border: 1px solid #444444;"><%=row.receiverAddressSub%></th>
             <th  style="border: 1px solid #444444;"><%=row.orderMemo%></th>
+            <th  style="border: 1px solid #444444;">
+                <%if (row.result==1){%>
+                    <%="배송 전"%>
+                <%}else{%>
+                    <%="배송 완료"%>
+                <%}%>
+            </th>
+            <th  style="border: 1px solid #444444;">
+                <%if (row.result==1){%>
+                <button type="button" onclick="location.href='/order_update?ordernum=<%=row.ordernum%>' ">
+                    배송완료
+                </button>
+                <%}%>
+                <!-- <button type="button" onclick="location.href='/order_delete?prodnum=<%=row.prodnum%>' ">삭제</button> -->
+            </th>
         </tr>
         <%})%>
     </tbody>

@@ -35,7 +35,10 @@
                     <%results.forEach(( row, index )=>{%>
                         <!-- Product #1 -->
                         <div class="item">
-                            
+                            <!-- 주문번호 -->
+                            <div class="quantity">
+                                #<input type="text" name="name" value="<%=row.ordernum%>">.
+                            </div>
                 
                             <!-- 상품 이미지 -->
                             <div class="or_image">
@@ -56,6 +59,20 @@
                             <!-- 상품 가격 -->
                             <div class="total-price">
                                 <%=row.totalprice%>원
+                            </div>
+
+                            <!-- 주문 일시 -->
+                            <div class="orderdate">
+                                <%=row.indate%>
+                            </div>
+
+                            <!-- 배송상태 -->
+                            <div class="orderdate">
+                                <%if (row.result==1){%>
+                                    <%="배송 전"%>
+                                <%}else{%>
+                                    <%="배송 완료"%>
+                                <%}%>
                             </div>
                         </div>
                     <%})%>
