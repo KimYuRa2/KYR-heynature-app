@@ -77,7 +77,7 @@ main {
   }
   #form-container fieldset label {
     display: inline-block;
-    width: 120px;
+    /* width: 120px; */
     line-height: 45px;
     font-size: 14px;
     color: #1E1E1E;
@@ -87,6 +87,11 @@ main {
   #form-container fieldset label span {
     display: inline-block;
     color: tomato;
+    padding-left: 5px;
+  }
+  #form-container fieldset label span.blue {
+    display: inline-block;
+    color: slateblue;
     padding-left: 5px;
   }
   #form-container fieldset input {

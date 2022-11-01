@@ -3,7 +3,7 @@ const dotenv = require("dotenv");
 // # 환경변수 관리
 dotenv.config(); //config(현재디렉토리의 .env파일을 자동으로 인식하여 환경변수 세팅)라는 메서드를 실행하면, dotenv라는 모듈이 자동적으로 .env에 등록돼있는 변수들을 node.js에서 접근할 수 있도록  "process.env.환경변수"에 등록을 시켜줌!!
 
-
+const moment = require('moment'); // 날짜 포멧을 위한 모듈
 const express = require('express');
 const router = express.Router(); 
 // 20220513 express-ejs-layouts
@@ -11,11 +11,10 @@ var expressLayouts = require('express-ejs-layouts');
 const {check, validationResult} = require('express-validator');
 
 /* db.js 파일 연결 */
-const db = require('../db');
+// const db = require('../db');
 
 /* 1006 session test*/
 var cookieParser = require('cookie-parser');
-/* 1005 session test */
 const fs = require('fs');
 const mysql = require('mysql');
 const bodyParser = require('body-parser');
@@ -33,6 +32,21 @@ const { title } = require("process");
 const { isReadable } = require("stream");
 // const path = require('path'); //설치X
 // const fs = require('fs'); // 설치 x
+
+
+// * db 연결
+/* ura31 - heroku cleardb */
+var connection = mysql.createPool({
+    host :  process.env.DB_HOST,
+    user : process.env.DB_USER,
+    password : process.env.DB_PSWORD,
+    port : '3306',
+    database : process.env.DB_DATABASE,
+    dateStrings:'date',
+    multipleStatements : true // 다중쿼리 사용 설정 - 여러 쿼리를 ';'를 기준으로 한번에 보낼 수 있게한다.
+});
+
+
 
 //sdk 로딩 방법 : aws.config.loadFromPath() 메서드를 호출할 때 매개변수로 AWS SDK 환경 설정 파일 경로를 전달하기
 //1013 s3 설정 - https://myunji.tistory.com/403 
@@ -59,6 +73,8 @@ let upload = multer({
 router.use(expressLayouts);
 
 
+
+
 /********************** route, routing ***********************/
 
 
@@ -76,7 +92,7 @@ router.get('/',(req, res) =>{
 /***************** 상품 *****************/
 // (관리자용)상품전체목록
 router.get('/admin_prod', (req,res) => {
-    db.connection.query('select * from product',(err,rows) =>{
+    connection.query('select * from product',(err,rows) =>{
         if (err) {
             console.error("err : " + err);
         } else {
@@ -88,7 +104,7 @@ router.get('/admin_prod', (req,res) => {
 // (관리자용) 상품수정
 router.get('/prod_update', (req, res) => {
     let prodnum = req.query.prodnum;
-    db.connection.query(`select * from product where prodnum=?`,[prodnum], (err,row) => {
+    connection.query(`select * from product where prodnum=?`,[prodnum], (err,row) => {
         console.log(row);
         if(err) {
             console.error("err : ", err);
@@ -100,7 +116,7 @@ router.get('/prod_update', (req, res) => {
 
 // (관리자용) 상품 수정 post
 router.post('/prod_update', upload.single("imgFile"), function(req, res, next){
-    console.log("s3 이미지 경로 : " , req.file.location);
+    // console.log("s3 이미지 경로 : " , req.file.location);
     const name = req.body.name;
     const engname = req.body.engname;
     const kind = req.body.kind;
@@ -114,7 +130,7 @@ router.post('/prod_update', upload.single("imgFile"), function(req, res, next){
     const datas = [name, engname, kind, price1, price2, content, image,stock, useyn];
 
     
-    db.connection.query(`update product set name=?,engname=?,kind=?,price1=?,price2=?,content=?,image=?,stock=?,useyn=? where prodnum=${prodnum}`,datas,(err,rows)=>{
+    connection.query(`update product set name=?,engname=?,kind=?,price1=?,price2=?,content=?,image=?,stock=?,useyn=? where prodnum=${prodnum}`,datas,(err,rows)=>{
         if (err) {
             console.error("err : " + err);
           } else {
@@ -129,15 +145,74 @@ router.post('/prod_update', upload.single("imgFile"), function(req, res, next){
 /* 장바구니 삭제 */
 router.get('/delete_cart', (req, res) => {
     let cartnum = req.query.cartnum;
+    let delnum = req.query.delnum;
 
+    // 로그인 여부 체크
+    if(req.session.is_logined) { //1) 로그인 되어있으면 cart테이블에서 지우기
+        /* db에서 상품 정보 완전히삭제 */
+        console.log("삭제 선택한 cartnum : ",cartnum)
+        connection.query(`delete from cart where cartnum=${cartnum}`,
+        (err, result) => {
+            if(err) throw err;
+            res.redirect('/cart');
+        })
+    }else{ // 2) 로그인 안되어있으면 쿠키에서 삭제
+        
+        // cart 쿠키를 가져옴
+        // cart 쿠키 중 delnum번째 쿠키를 지운다.
+        // cart페이지로 리다이렉트
 
-    /* db에서 상품 정보 완전히삭제 */
-    db.connection.query(`delete from cart where cartnum=${cartnum}`,
-    (err, result) => {
-        if(err) throw err;
+        var cart = req.cookies.cart; // cart 쿠키를 가져옴
+        console.log("cart : ", cart);
+        console.log("상품index..,, 몇번째 상품을 삭제하려는가? : ",delnum);
+        // console.log(cart[294]);
+        // console.log(cart['294']);
+        console.log(Object.keys(cart)[delnum]);
+        var test=Object.keys(cart)[delnum];
+        res.clearCookie("cart[Object.keys(cart)[delnum]]");
+        console.log("dmddkkdd",cart);
         res.redirect('/cart');
-    })
-})
+        // cart[prodnum] = parseInt(cart[prodnum]) + quantity; //상품수를 증가시킴 쿠키는 기본적으로 문자이므로 parseInt해야됨
+   
+        // var sql_tt = `select * from product where prodnum in (?)`; // product테이블에서, prodnum(현재 상품번호)과 Object.keys(cart)(=쿠키 키값 배열로 가져온것들) 중 일치하는 row를 가져옴=> 쿠키에 들어있는 상품 전체 정보 가져옴
+        //     connection.query(sql_tt, [Object.keys(cart)], (err,results) => {
+        //         console.log("select * from product where prodnum in ( Object.keys(cart) ) : ", results);  // 쿠키 key값으로 들어있는 상품 전체 정보 확인
+        //         console.log("result!!!!!",results);
+                
+        //         var cc = results[delnum].prodnum;
+        //         console.log("CC : ", cc);
+        //         cart[cc] = 0;
+        //         console.log("cart!!!!! : ",cart);
+                
+        //         res.clearCookie('cart');
+        //         console.log("clear cookie : ", cart)
+        //         res.redirect('/cart');
+        //         });
+
+        // console.log(Object.keys(cart)); // 상품번호 ex) [ '264', '634' ] // 주어진 객체의 속성 이름들을 일반적인 반복문과 동일한 순서로 순회되는 열거할 수 있는 배열로 반환
+        // console.log("삭제할 것!!! : ",(Object.keys(cart))[delnum]);
+        // console.log("삭제할 것2!!! : ",(Object.values(cart))[delnum]);
+        // Object.keys(cart)[delnum]="0"
+        // Object.values(cart)[delnum]="0"
+        // console.log("삭제이후!!! : ",(Object.keys(cart))[delnum]);
+        // console.log("삭제할이후!!! : ",(Object.values(cart))[delnum]);
+        
+        // console.log("0으로 만들기전 :cart[ ((Object.keys(cart))[delnum]) ]:",cart[ ((Object.keys(cart))[delnum]) ]);
+        // cart[ ((Object.keys(cart))[delnum]) ] = 0;
+        // console.log("cart[ ((Object.keys(cart))[delnum]) ]:",cart[ ((Object.keys(cart))[delnum]) ]);
+        
+        // res.clearCookie('cart');
+        // console.log("삭제 후 : ",cart);
+        
+
+        //req.cookies.cart에서 해당 상품 key만 delete 후 출력.
+
+        // res.clearCookie('cart')
+
+    }
+});
+
+        
 
 
 
@@ -154,12 +229,13 @@ router.get('/product',(req, res, next) =>{
     // 구매 많은 10개 상품전체정보 불러오기 console
 
     
-    db.connection.query('select * from product',(err,rows) =>{
+    connection.query(' select * from product where useyn="y" ',(err,rows) =>{
         if (err) {
             console.error("err : " + err);
         } else {
-            // best 상품 10개 불러오기 !!!!
-            db.connection.query('select *,COUNT(*) from orders inner join product using (prodnum) group by prodnum order by count(*) desc limit 10;',(err,results) => {
+            // best 상품 10개 불러오기 !!!! : select *,COUNT(*) from orders inner join product using (prodnum) group by prodnum order by count(*) desc limit 10;
+            // + 재고 0인 상품은 빼고 보여주기.
+            connection.query('select *,COUNT(*) from orders inner join product using (prodnum) where useyn="y" group by prodnum order by count(*) desc limit 10;',(err,results) => {
                 // console.log(results);
                 if(err){
                     console.error("err : " + err);
@@ -185,7 +261,7 @@ router.post('/upload', upload.single("imgFile"), function(req, res, next){
     const useyn = req.body.useyn;
     const datas = [name, engname, kind, price1, price2, content, image,stock, useyn];
 
-    db.connection.query('insert into product(name,engname, kind, price1, price2, content, image, stock, useyn) values(?,?,?,?,?,?,?,?,?)',datas,(err,rows)=>{
+    connection.query('insert into product(name,engname, kind, price1, price2, content, image, stock, useyn) values(?,?,?,?,?,?,?,?,?)',datas,(err,rows)=>{
         if (err) {
             console.error("err : " + err);
           } else {
@@ -208,7 +284,7 @@ router.get('/deleteProduct', (req, res) => {
     let prodnum = req.query.prodnum;
 
     /** 1) s3에 등록된 이미지 먼저 삭제 */
-    db.connection.query(`select image from product where prodnum=${prodnum}`,
+    connection.query(`select image from product where prodnum=${prodnum}`,
     (err, result) => {
         const deletetest=result[0].image.slice(-17);// 이미지 key 추출!!!
         console.log("slice 테스트 : ", deletetest); 
@@ -223,7 +299,7 @@ router.get('/deleteProduct', (req, res) => {
     })  
 
     /* 2) db에서 상품 정보 완전히삭제 */
-    db.connection.query(`delete from product where prodnum=${prodnum}`,
+    connection.query(`delete from product where prodnum=${prodnum}`,
     (err, result) => {
         if(err) throw err;
         res.redirect('/product');
@@ -237,7 +313,7 @@ router.get('/search',(req, res) => {
         let result_value = req.query.result;
     
         let sql = "SELECT * FROM product where name like ? or engname like ?";
-        db.connection.query(sql, ["%" + result_value +"%", "%" + result_value +"%"], (err, result) => {
+        connection.query(sql, ["%" + result_value +"%", "%" + result_value +"%"], (err, result) => {
           if (err) {
             console.log(err);
           }else {
@@ -263,9 +339,10 @@ router.get('/detail',(req, res,next) =>{
     var sql1 = `select * from product where prodnum=${prodnum};`; // 해당 상품번호의 상품정보 가져옴
     sql1= mysql.format(sql1,prodnum);
 
-    var sql2 = 'select * from review_detail ORDER BY id DESC;'; // 상품 리뷰 가져옴 (최근 작성한게 가장 위에 오도록)
-    
-    db.connection.query(sql1 + sql2,(err,rows,field)=>{
+    var sql2 = `select * from review_detail where prodnum=${prodnum} ORDER BY id DESC`; // 상품 리뷰 가져옴 (최근 작성한게 가장 위에 오도록)
+    sql2 = mysql.format(sql2, prodnum);
+
+    connection.query(sql1 + sql2,(err,rows,field)=>{
         
         var sql1_result = rows[0];	//sql1 의 결과값
         var sql2_result = rows[1];	//sql2 의 결과값
@@ -288,7 +365,7 @@ router.get('/detail',(req, res,next) =>{
 
 /* notice */
 router.get('/cscenter',(req, res,next) =>{
-    db.getAllNotice((rows) => {
+    getAllNotice((rows) => {
         res.render('cscenter',{ rows : rows , userId : req.session.userId });
     })
 });
@@ -309,7 +386,7 @@ router.post('/store',
         let content = param['content'];
         let title = param['title'];
         
-        db.insertNotice(title,content, () => { //
+        insertNotice(title,content, () => { //
             console.log("submit");
             res.redirect('/cscenter');
         })
@@ -319,7 +396,7 @@ router.post('/store',
 router.get('/updatenotice',(req,res)=>{
     let id = req.query.id;
 
-    db.getNoticeById(id, (row)=>{
+    getNoticeById(id, (row)=>{
         if(typeof id === 'undefined' || row.length <= 0){
             res.status(404).json({error : 'undefined notice'});
         }else{
@@ -338,11 +415,11 @@ router.post('/updatenotice' ,
         let content = param['content'];
 
         if( errs['errors'].length > 0 ){ //에러가 있다면
-            db.getNoticeById(id, (row)=>{
+            getNoticeById(id, (row)=>{
                 res.render('updatenotice', {row: row[0], errs: errs['errors']} )
             });
         } else{ //에러가 없다면 notice 수정하기
-            db.updateNoticeById(id, title, content, ()=> {
+            updateNoticeById(id, title, content, ()=> {
                 res.redirect('/cscenter');
             });
         }
@@ -350,7 +427,7 @@ router.post('/updatenotice' ,
 
 router.get('/deleteNotice',(req,res)=>{
     let id = req.query.id;
-    db.deleteNoticeById(id, ()=>{
+    deleteNoticeById(id, ()=>{
         res.redirect('/cscenter');
     });
 });
@@ -362,23 +439,47 @@ router.get('/deleteNotice',(req,res)=>{
 /******************* 리뷰 ***************************/
 
 router.get('/review_write', (req,res,next) => {
+    let r_imgFile = req.file;
     res.render('review_write');
 })
 
-router.post('/store2',
- [check('content').isLength({min:1, max:3000})],
- function(req,res,next){
-    //let errs = validationResult(req);
+//
+// detail 페이지 (상품디테일. + 리뷰페이지)
+// router.get('/detail',(req, res,next) =>{
+
+//     let prodnum = req.query.prodnum; //상품 index번호
+//     console.log("prodnum : ", prodnum);
+
+//     var sql1 = `select * from product where prodnum=${prodnum};`; // 해당 상품번호의 상품정보 가져옴
+//     sql1= mysql.format(sql1,prodnum);
+
+//     var sql2 = 'select * from review_detail ORDER BY id DESC;'; // 상품 리뷰 가져옴 (최근 작성한게 가장 위에 오도록)
     
-    // if(errs['errors'].length > 0){ //에러가 있다면, 화면에 에러 출력하기
-    //     res.render('newNotice',{errs : errs['errors']});
-    // }else{ //에러 없으면 실행
+//     connection.query(sql1 + sql2,(err,rows,field)=>{
+        
+//         var sql1_result = rows[0];	//sql1 의 결과값
+//         var sql2_result = rows[1];	//sql2 의 결과값
+
+//         if (err) {
+//             console.error("err : " + err);
+//         } else {
+//             res.render('detail', { sql1_result : sql1_result[0], sql2_result : sql2_result, userId : req.session.userId });
+//         }
+//     })
+// });
+
+// 리뷰 저장
+router.post('/store2',
+ upload.single("r_imgFile"),
+ function(req,res,next){
         let param = JSON.parse(JSON.stringify(req.body));
         let content = param['content'];
         let username = param['username'];
         let starcount = param['starcount'];
+        let r_imgFile = JSON.parse(JSON.stringify(req.file.location));
+        let prodnum = param['prodnum'];
         
-        db.insertdetail(username,content, starcount, () => { //
+        insertdetail(username,content, starcount ,r_imgFile,prodnum, () => { //
             console.log("submit");
             res.write("<script>alert('success')</script>");
             // res.write("<script>window.location=\"/detail?prodnum=<%=row.prodnum%>\"</script>");
@@ -390,7 +491,7 @@ router.post('/store2',
 
 router.get('/deletedetail',(req,res)=>{
     let id = req.query.id;
-    db.deletedetailById(id, ()=>{
+    deletedetailById(id, ()=>{
         // res.redirect('/detail');
         res.write("<script>alert('delete success')</script>");
         res.write("<script>window.location=\"/product\"</script>");
@@ -401,7 +502,7 @@ router.get('/deletedetail',(req,res)=>{
 
 
 
-/************************** 회원가입 / 로그인 / 로그아웃 **********************************/
+/************************** 1. 2. 회원가입 / 로그인 / 로그아웃 **********************************/
 
 /* 로그인 - 1006 */
 router.get('/login',(req, res) =>{
@@ -417,7 +518,7 @@ router.get('/login',(req, res) =>{
     if(req.session.is_logined) { //1) 로그인 되어있으면 (order테이블에 있는 주문목록 데이터 띄우기)
         console.log("로그인됨. 마이페이지-주문목록으로 이동!");
         // 로그인 아이디의 idx 조회
-        db.connection.query('select * from users where userId=?', [req.session.userId], (err,result)=>{
+        connection.query('select * from users where userId=?', [req.session.userId], (err,result)=>{
             if( result.length > 0 ){
                 userIdx = result[0].idx; // userIdx : 현재 로그인 된 user의 idx
 
@@ -428,7 +529,7 @@ router.get('/login',(req, res) =>{
 
 
                 // 주문 테이블 뿌리기
-                db.connection.query(sql_t, userIdx, function (error, results) {
+                connection.query(sql_t, userIdx, function (error, results) {
                     if(!error) {
                         // console.log("results[0].price2 :",results[0].price2 );
                         // console.log("quantity :",results[0].quantity );
@@ -463,50 +564,62 @@ router.post('/login', (req, res, next) => {
     const userId = req.body.userId;
     const userPassword = req.body.userPassword;
 
-    db.connection.query('select * from users where userId = ?', [userId], (err,data) => {
-        // 로그인 확인
-        console.log(data[0]); // 일치하는 userID로 찾은 DB에 저장된 user 정보
-        console.log(userId); // 입력한 userId
-        console.log(data[0].userId); // DB에 저장된 userID
-        console.log(data[0].userPassword); // DB에 저장된 userPassword
-        console.log(userId == data[0].userId); //userId 입력값 === db에 저장된 값
-        console.log(bcrypt.compareSync( userPassword, data[0].userPassword )); //userPassword 입력값 === db에 저장된 값
-        
-        if( userId == data[0].userId && bcrypt.compareSync( userPassword, data[0].userPassword ) ){ 
-            console.log('로그인 성공');
-            // 세션에 추가
-            req.session.is_logined = true;
-            req.session.userName = data[0].userName;
-            req.session.userId = data[0].userId ;
-            req.session.userPassword = data[0].userPassword;
-            //추가!1024
-            req.session.userPhoneNum= data[0].userPhoneNum;
-            req.session.userEmail= data[0].userEmail;
-            req.session.userZonecode= data[0].userZonecode;
-            req.session.userAddress= data[0].userAddress;
-            req.session.userAddressSub= data[0].userAddressSub;
+    // 오류처리 수정완!!
+    connection.query('select * from users where userId = ?', [userId], (err,row) => {
+        if(err) console.log(err);
+        //로그인 확인
+        // console.log(data[0]); // 일치하는 userID로 찾은 DB에 저장된 user 정보
+        // console.log(userId); // 입력한 userId
+        // console.log(data[0].userId); // DB에 저장된 userID
+        // console.log(data[0].userPassword); // DB에 저장된 userPassword
+        // console.log(userId == data[0].userId); //userId 입력값 === db에 저장된 값
+        // console.log(bcrypt.compareSync( userPassword, data[0].userPassword )); //userPassword 입력값 === db에 저장된 값
 
-            req.session.save(function(){ // 세션 스토어에 적용하는 작업
-                res.render('main',{ // 로그인 성공 시 main페이지로 + 정보전달
-                    userName : data[0].userName,
-                    userId : data[0].userId ,
-                    userPhoneNum : data[0].userPhoneNum,
+        if(row.length > 0){
+            console.log(row[0]);
+            console.log("얍");
+            bcrypt.compare( userPassword, row[0].userPassword, (err, data) => {
+                if(data){
+                    //성공
+                    console.log('로그인 성공');
+                    // 세션에 추가
+                    req.session.is_logined = true;
+                    req.session.userName = row[0].userName;
+                    req.session.userId = row[0].userId ;
+                    req.session.userPassword = row[0].userPassword;
                     //추가!1024
-                    userPhoneNum: data[0].userPhoneNum,
-                    userEmail: data[0].userEmail,
-                    userZonecode: data[0].userZonecode,
-                    userAddress: data[0].userAddress,
-                    userAddressSub: data[0].userAddressSub,
+                    req.session.userPhoneNum= row[0].userPhoneNum;
+                    req.session.userEmail= row[0].userEmail;
+                    req.session.userZonecode= row[0].userZonecode;
+                    req.session.userAddress= row[0].userAddress;
+                    req.session.userAddressSub= row[0].userAddressSub;
 
-                    is_logined : true
-                });
-            });
-        }else{ // 로그인 실패 시 login페이지로 
-            console.log('로그인 실패');
-            res.send(`
-                <h1>로그인에 실패하셨습니다.</h1>
-                <a href="/login">Back</a>
-            `);
+                    req.session.save(function(){ // 세션 스토어에 적용하는 작업
+                        res.render('main',{ // 로그인 성공 시 main페이지로 + 정보전달
+                            userName : row[0].userName,
+                            userId : row[0].userId ,
+                            userPhoneNum : row[0].userPhoneNum,
+                            //추가!1024
+                            userPhoneNum: row[0].userPhoneNum,
+                            userEmail: row[0].userEmail,
+                            userZonecode: row[0].userZonecode,
+                            userAddress: row[0].userAddress,
+                            userAddressSub: row[0].userAddressSub,
+        
+                            is_logined : true
+                        });
+                    });
+                }else{ // 로그인 실패 시 login페이지로 
+                    //실패
+                    console.log('로그인 실패');
+                    res.writeHead(200, {'Content-Type': 'text/html; charset=utf-8'}); //한글 설정
+            res.write("<script language=\"javascript\">alert('로그인에 실패하셨습니다. 다시 시도해 주십시오.')</script>");
+            res.write("<script language=\"javascript\" charset=\'UTF-8\'>window.location=\"/login\"</script>"); // main 페이지로 이동
+                }
+
+            })
+        }else{
+            console.log("ID가 존재하지 않습니다.");
         }
     })
 })
@@ -530,12 +643,12 @@ router.post('/join', (req,res,next)=> { //회원가입 form 에서 제출을 누
     const userAddressSub = req.body.userAddressSub;
 
 
-    db.connection.query('select * from users where userId=?',[userId],(err,data)=>{
+    connection.query('select * from users where userId=?',[userId],(err,data)=>{
         if( data.length == 0 ){ // 중복되는 userId가 없으면
             console.log("회원가입 성공");
             bcrypt.hash(userPassword, null, null, function(err, hash){     //bcrypt hash 명령문.
                 var params = [userId, hash, userName, userPhoneNum, userEmail, userZonecode, userAddress, userAddressSub]; // userPassword에 암호화된 값(hash)을 넣기 위함
-                db.connection.query('insert into users(userId, userPassword, userName, userPhoneNum, userEmail, userZonecode,userAddress, userAddressSub) values(?, ?, ?, ?, ?, ?, ?, ?)', params, function(err, rows){
+                connection.query('insert into users(userId, userPassword, userName, userPhoneNum, userEmail, userZonecode,userAddress, userAddressSub) values(?, ?, ?, ?, ?, ?, ?, ?)', params, function(err, rows){
                     if(err){
                         console.log(err);
                         res.status(500).send("ERROR!");
@@ -547,7 +660,6 @@ router.post('/join', (req,res,next)=> { //회원가입 form 에서 제출을 누
             });
         }else{ // 중복되는 userId가 있으면
             // console.log("회원가입 실패");
-            // res.redirect('/join'); // 회원가입 실패 시 회원가입 페이지로 다시 이동.
             res.writeHead(200, {'Content-Type': 'text/html; charset=utf-8'}); //한글 설정
             res.write("<script language=\"javascript\">alert('회원가입 실패 : 이미 존재하는 ID입니다.')</script>");
             res.write("<script language=\"javascript\" charset=\'UTF-8\'>window.location=\"/join\"</script>"); // main 페이지로 이동
@@ -570,7 +682,7 @@ router.get('/logout',(req,res)=>{
 
 
 
-/************************ 장바구니 (cart) ******************************/
+/************************ 4. 장바구니 (cart) ******************************/
 
 /* 장바구니 출력 - 1019 */
 router.get('/cart',(req, res) =>{
@@ -584,7 +696,7 @@ router.get('/cart',(req, res) =>{
         if(req.session.is_logined) { //1) 로그인 되어있으면 (cart테이블에 있는 데이터 띄우기)
 
             // 로그인 아이디의 idx 조회
-            db.connection.query('select * from users where userId=?',[req.session.userId],(err,result)=>{
+            connection.query('select * from users where userId=?',[req.session.userId],(err,result)=>{
                 if( result.length > 0 ){
                     userIdx = result[0].idx; // userIdx : 현재 로그인 된 user의 idx
 
@@ -596,11 +708,11 @@ router.get('/cart',(req, res) =>{
 
 
                     // 장바구니 테이블 뿌리기
-                    db.connection.query(sql_t, [userIdx],  function (error, results) { // result => 로그인되어있는 아이디의 상품번호로 상품정보 가져왔음.
+                    connection.query(sql_t, [userIdx],  function (error, results) { // result => 로그인되어있는 아이디의 상품번호로 상품정보 가져왔음.
                         if(!error) {
                             console.log(results);
-                            console.log("results[0].price2 :",results[0].price2 )
-                            console.log("results[0].quantity : ", results[0].quantity);
+                            // console.log("results[0].price2 :",results[0].price2 )
+                            // console.log("results[0].quantity : ", results[0].quantity);
 
                             console.log(results.length);
                             var totale = [];
@@ -632,33 +744,45 @@ router.get('/cart',(req, res) =>{
             });
 
             
-        } else { // 2) 로그인 X. 비회원 장바구니 (쿠키에 저장)
+        } else { // 2) 로그인 X. 비회원 장바구니 출력 (쿠키에 저장)
             console.log('비로그인 상태!');
             ////////////////////////////////////////// 1025 비회원-장바구니-쿠키에서 cart정보 가져와서 출력하기////////////////////////////
             var cart = req.cookies.cart; // cart 쿠키를 가져옴
             if(!cart){ //쿠키 없을 시
                 res.render('cart',{
+                    results : [],
                     is_logined:false,
                 });
-                ////res.send("장바구니가 비어있습니다.");
-                ////res.render('cart');
             }else{ //쿠키 있을 시
-                console.log("비회원 장바구니 쿠키 존재! : " , req.cookies.cart);
-                res.render('cart',{
-                    is_logined:false,
-                    cart: cart
+                // console.log("비회원 장바구니 쿠키 존재! : " , req.cookies.cart);
+
+                // console.log("Object.keys(cart) : ",Object.keys(cart)); // 쿠키 키값 배열로 가져오기
+                var sql_tt = `select * from product where prodnum in (?)`; // product테이블에서, prodnum(현재 상품번호)과 Object.keys(cart)(=쿠키 키값 배열로 가져온것들) 중 일치하는 row를 가져옴=> 쿠키에 들어있는 상품 전체 정보 가져옴
+                connection.query(sql_tt, [Object.keys(cart)], (err,results) => {
+                    console.log("select * from product where prodnum in ( Object.keys(cart) ) : ", results);  // 쿠키 key값으로 들어있는 상품 전체 정보 확인
+                    var totale = [];
+                    var qty;
+                    for (var i = 0; i < results.length; i++) {
+                        qty = cart[results[i].prodnum]; // 구매수량
+                        // console.log("qty: ",qty);
+                        // console.log("results[i].prodnum : ", results[i].prodnum);
+                        totale[i] = results[i].price2 * qty; // 구매금액
+                        results[i].totalPrice = totale[i]; // **구매금액(=상품총금액)** 항목 추가
+                        results[i].quantity = qty;   // **구매수량** 항목 추가
+                        // console.log("results[i].totalPrice : ", results[i].totalPrice);
+                        // console.log("results[i].quantity : ", results[i].quantity);
+
+                        // console.log("results[i] : ", results[i])
+                    }
+                    
+                    return res.render("cart",{
+                        results : results,
+                        is_logined : false,
+                    });
+                    
                 });
-                // var output='';
-                // for(var prodnum in cart) //객체를 읽는 for문
-                // //output에다가 추가
-                // //ex) order객체를 이용하여 음료이름과 cart의 주문갯수를 가져옴ee
-                // output = `<li>총 담은 상품수량,,,,${cart[prodnum]}개 담음</li>`;
             }
-            //출력하기
-            // res.send(`
-            //     <h1>Cart test!!!</h1>
-            //     <ul>${output}</ul>
-            // `);
+           
 
         }
         
@@ -669,7 +793,7 @@ router.get('/cart',(req, res) =>{
 router.post('/cart',(req, res) =>{
     try {
 
-        var prodnum = JSON.parse(req.body.prodnum); // 현재 상품번호
+        var prodnum = JSON.parse(req.body.prodnum); // 현재 상품번호 / json.parse(JSON 문자열을 JavaScript 객체로 변환)
         var quantity = JSON.parse(req.body.quantity); //갯수
         var userIdx;
 
@@ -677,13 +801,13 @@ router.post('/cart',(req, res) =>{
         if(req.session.is_logined) { //1) 로그인 되어있으면 (cart테이블에 저장하기)
 
             // 로그인 아이디의 idx 조회
-            db.connection.query('select * from users where userId=?',[req.session.userId],(err,result)=>{
+            connection.query('select * from users where userId=?',[req.session.userId],(err,result)=>{
                 if( result.length > 0 ){
                     userIdx = result[0].idx;
 
                     var sql_1 = `INSERT INTO cart (idx, prodnum, quantity, indate) VALUES (${userIdx}, ${prodnum}, ${quantity}, NOW())`;
-                    // 장바구니 테이블에 데이터 추가
-                    db.connection.query(sql_1, function (error, result) {
+                    // 장바구니(cart) 테이블에 데이터 추가
+                    connection.query(sql_1, function (error, result) {
                         if(!error) {
                             return res.status(200).json(result.affectedRows);
                         } else {
@@ -696,7 +820,7 @@ router.post('/cart',(req, res) =>{
             });
 
             
-        } else { // 2) 로그인 X. 비회원 장바구니 (쿠키에 저장)
+        } else { // 2) 로그인 X. 비회원 장바구니 저장하기 (쿠키에 저장)
             console.log('비로그인 상태!');
 
             if(req.cookies.cart){//이미 쿠키값이 있다면
@@ -710,11 +834,12 @@ router.post('/cart',(req, res) =>{
                 cart[prodnum] = 0;   
             }
 
-            // cart객체 안에 존재하는 prodnum(상품수)를 담은상품수량(req.body.quantity)만큼 증가시킴
+            // cart객체 안에 존재하는 prodnum(상품수)를, 담은상품수량(req.body.quantity)만큼 증가시킴
             cart[prodnum] = parseInt(cart[prodnum]) + quantity; //상품수를 증가시킴 쿠키는 기본적으로 문자이므로 parseInt해야됨
-            
-            res.cookie('cart', cart); //res.cookie( name, value, [options] ) : cart객체를 쿠키에 전달
-
+            // console.log( "담은 prodnum(상품번호)(key) : ",prodnum,"이고, 총 ",cart[prodnum],"개가 담겨있음.")
+            // 쿠키 생성
+            res.cookie('cart', cart); //res.cookie( name, value, [options] ) : cart객체를 쿠키에 전달(option maxage설정X => 브라우저 종료 시 쿠키삭제)
+            // console.log("카트에담음: ",cart);
             return res.status(200).json(cart);
         }
         
@@ -730,10 +855,9 @@ router.post('/cart',(req, res) =>{
 /********************** 상품 주문 (order) ***************************/
 
 
-
 // (관리자용)주문전체목록
 router.get('/admin_order', (req,res) => {
-    db.connection.query('select * from orders',(err,rows) =>{
+    connection.query('select * from orders',(err,rows) =>{
         if (err) {
             console.error("err : " + err);
         } else {
@@ -745,7 +869,7 @@ router.get('/admin_order', (req,res) => {
 // (관리자용) 주문 배송상태 수정
 router.get('/order_update', (req, res) => {
     let ordernum = req.query.ordernum;
-    db.connection.query('update orders set result=2 where ordernum=?',[ordernum], (err, row) => {
+    connection.query('update orders set result=2 where ordernum=?',[ordernum], (err, row) => {
         console.log(row);
         if(err){
             console.log("err : ", err);
@@ -755,8 +879,6 @@ router.get('/order_update', (req, res) => {
     } )
 
 })
-
-
 
 
 
@@ -770,7 +892,7 @@ router.post('/guest_order', (req, res) => {
     const ordernum = req.body.ordernum;
 
    // orders테이블에서 receiverName. ordernum으로 주문정보 찾기(1개 나옴)
-    db.connection.query('select * from orders where receiverName = ? AND ordernum = ? ', [receiverName, ordernum], (err,data) => {
+    connection.query('select * from orders where receiverName = ? AND ordernum = ? ', [receiverName, ordernum], (err,data) => {
         if(err) return console.log(err);
         // var prodnum = data[0].prodnum;
         // console.log(" data[0].prodnum : ", data[0].prodnum);
@@ -784,7 +906,7 @@ router.post('/guest_order', (req, res) => {
                 console.log("비회원 주문정보 있음."); 
 
                 var sql_tt=`select * from product where prodnum=?`;
-                db.connection.query(sql_tt, [prodnum], (err,result) => {
+                connection.query(sql_tt, [prodnum], (err,result) => {
                     var or_image = result[0].image;
                     var or_prodname = result[0].name;
 
@@ -806,6 +928,41 @@ router.post('/guest_order', (req, res) => {
     })
 });
 
+/* 물품 재고 확인 */
+router.post('/product/stock',(req, res) =>{
+    try {
+
+        var prodnum = JSON.parse(req.body.prodnum); // 현재 상품번호
+        var quantity = JSON.parse(req.body.quantity); //갯수
+
+        
+        var sql1 = `select stock, useyn from product where prodnum=${prodnum};`;// 현재 상품번호에 해당하는 상품의 모든 정보를 얻어옴
+
+        connection.query(sql1, function (error, result) {
+            if(!error) {
+                if(result[0].stock <= 0 || quantity > result[0].stock || result[0].useyn == 'n') {    // 재고가 없는 경우
+                    return res.status(202).json({ // status(202) : 요청은 받아들여졌으나, 아직 동작을 수행하지 않은 상태로, 요청이 적절함을 의미
+                        result_code: "fail",
+                        message: result[0].stock <=5 ? `재고가 부족합니다.(남은 개수: ${result[0].stock})` : '재고가 부족합니다.'   //재고 수량이 5개 이하면 남은 개수도 같이 표시
+                    });
+                } else { // 재고 충분함 (성공)
+                    return res.status(200).json({result_code: "success"});
+                }
+            } else {
+                return res.status(500).json({
+                    message: "에러"
+                });
+            }
+        });
+        
+    } catch (e) {
+        console.log("에러 : " + e);
+        return res.status(500).json({
+            message: "에러"
+          });
+    }
+});
+
 
 
 
@@ -818,11 +975,11 @@ router.post('/order', (req, res) => {
 
     var sql1 = `select * from product where prodnum=${prodnum};`;// 현재 상품번호에 해당하는 상품의 모든 정보를 얻어옴
 
-    db.connection.query(sql1, function (error, result) {
+    connection.query(sql1, function (error, result) {
         if(!error) {
             totalPrice = result[0].price2 * quantity; // 총금액
             totalPrice2 = result[0].price2 * quantity + 2500; // 총금액 + 배송비
-            console.log("result[0] : ", result[0]); // 
+            console.log("result[0] : ", result[0]); 
             console.log('totalprice : ', totalPrice);
             return res.render("order", { 
                 userId : req.session.userId ,
@@ -835,7 +992,7 @@ router.post('/order', (req, res) => {
                 totalPrice2 : totalPrice2,
                 quantity : quantity,
                 numberWithCommas : function (x) {
-                    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+                    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','); //x(숫자) 1000단위로 쉼표찍기
                 },
             });
         } else {
@@ -855,7 +1012,7 @@ router.get('/ordernum',(req,res) => {
 /* 2) 주문내역 저장(결제) : 테이블에 저장(비회원의 경우 회원정보 관련은 제외하고 저장함) */
 router.post('/order/complete', (req, res) => {
     try {
-        var userName = JSON.stringify(req.body.userName); //req.body.userName 를 문자열로 변환 => 서버로 데이터를 보내기 위함
+        var userId = JSON.stringify(req.body.userId); //req.body.userName 를 문자열로 변환 => 서버로 데이터를 보내기 위함
         var phoneNum = JSON.stringify(req.body.userPhoneNum);
         var userEmail = JSON.stringify(req.body.userEmail);
 
@@ -870,63 +1027,145 @@ router.post('/order/complete', (req, res) => {
         var quantity = JSON.parse(req.body.quantity);
         var totalprice = JSON.parse(req.body.totalSettlePrice);
 
-        // 로그인 여부 체크
-        if(req.session.is_logined) { // 1) 로그인 되어있으면 : order테이블에 주문내역 저장 
+        var currentStock = 0; // 현재 상품재고
 
-            // 로그인 아이디의 idx 조회
-            db.connection.query('select * from users where userId=?',[req.session.userId],(err,result)=>{
-                if( result.length > 0 ){
-                    var idx = result[0].idx;
-                    var userId = result[0].userId;
+        var sql1 = `select * from product where prodnum=${prodnum};`;// 현재 상품번호에 해당하는 상품의 모든 정보를 얻어옴
+        connection.getConnection(function (err, pool){
+            pool.query(sql1, function (error, result) {
+                if(!error){
+                    currentStock = result[0].stock;
+                    if(currentStock <= 0 || quantity > currentStock || result[0].useyn == 'n') {    // 재고가 없는 경우
+                        return res.status(202).json({
+                            result_code: "fail",
+                            message: currentStock <=5 ? `재고가 부족합니다.(남은 개수: ${currentStock})` : '재고가 부족합니다.'   //재고 수량이 5개 이하면 남은 개수도 같이 표시
+                        });
 
-                    var sql_1 = `INSERT INTO orders (idx, userId, userPhoneNum, prodnum, indate, quantity, totalprice, receiverName, receiverZonecode, receiverAddress, receiverAddressSub, receiverPhoneNum, orderMemo) VALUES (${idx}, ${userId}, ${phoneNum}, ${prodnum}, NOW(), ${quantity}, ${totalprice}, ${receiverName}, ${receiverZonecode}, ${receiverAddress}, ${receiverAddressSub}, ${receiverPhoneNum}, ${orderMemo})`;
-                    // 주문내역 테이블에 데이터 추가
-                    db.connection.query(sql_1, function (error, result) {
-                        if(!error) {
-                            console.log("제발바라밥랍ㄹ: ", result.insertId);
-                            var testorder=result.insertId;
-                            return res.status(200).json({ message:"아으으으악", status:200 , testorder:testorder});
-                        } else {
-                            console.log(error);
-                            return res.status(500).json({
-                                message: "에러"
-                            });
-                        }
-                    });
-                }
-            });
-
-        // 비회원
-        } else { // 2) 비회원이면 : order테이블에 (idx/userId(user정보)) 제외하고 주문내역 저장
-            var sql_1 = `INSERT INTO orders (userPhoneNum, prodnum, indate, quantity, totalprice, receiverName, receiverZonecode, receiverAddress, receiverAddressSub, receiverPhoneNum, orderMemo) VALUES (${phoneNum}, ${prodnum}, NOW(), ${quantity}, ${totalprice}, ${receiverName}, ${receiverZonecode}, ${receiverAddress}, ${receiverAddressSub}, ${receiverPhoneNum}, ${orderMemo})`;
-            
-            // 주문내역 테이블에 회원정보를 제외하고 데이터 추가
-            db.connection.query(sql_1, function (error, result) {
-                if(!error) {
-
-                    //1027test....
-                    // var testorder=result[0];
-                    console.log("제발바라밥랍ㄹ: ", result.insertId);
-                    var testorder=result.insertId;
+                    }else{ // 재고가 있는 경우
+    
+                        // 로그인 여부 체크
+                        if( req.session.is_logined){ // 1) 로그인 되어있으면 : order테이블에 주문내역 저장 
+                            
+                            // 로그인 아이디의 idx 조회
+                            pool.query('select * from users where userId=?',[req.session.userId],(err,result)=>{
+                                if( result.length > 0 ){
+                                    var idx = result[0].idx;
+                                    var userId = result[0].userId;
+                                    // console.log("result[0].userId : ", result[0].userId)
+    
+                                    // orders 테이블에 insert 및 product 테이블에 stock/useyn update 처리하는 것을 트랜잭션 기능으로 처리
+                                    pool.beginTransaction( function(err) {
+                                            if(err){
+                                                console.log("트랜잭션 시작 에러 : " + err);
+                                            }else {
+                                                var sql_1 = `INSERT INTO orders (idx, userId, userPhoneNum, prodnum, indate, quantity, totalprice, receiverName, receiverZonecode, receiverAddress, receiverAddressSub, receiverPhoneNum, orderMemo) VALUES (${idx}, "${userId}", ${phoneNum}, ${prodnum}, NOW(), ${quantity}, ${totalprice}, ${receiverName}, ${receiverZonecode}, ${receiverAddress}, ${receiverAddressSub}, ${receiverPhoneNum}, ${orderMemo})`;
+                                                
+                                                // 주문내역 테이블에 데이터 추가
+                                                pool.query(sql_1, function (error, result) {
+                                                    if(!error){
+                                                        console.log("제발바라밥랍ㄹ: ", result.insertId);
+                                                        var testorder=result.insertId;
+    
+                                                        var sql_2 = `UPDATE product SET stock = stock - ${quantity} WHERE prodnum=${prodnum};` // 구매 완료 이후 구매수량만큼 재고수량 차감
+    
+                                                        var resultStock = currentStock - quantity; // 구매 이후 재고수량 미리 구하기
+                                                        if(resultStock <= 0) { // 구매 이후 재고수량이 0이하인 경우, useyn = 'n'도 같이 처리
+                                                            sql_2 = `UPDATE product SET stock = stock - ${quantity}, useyn='n' WHERE prodnum=${prodnum};`
+                                                        }
+    
+                                                        pool.query(sql_2, function (error, result) {
+                                                            if (error) {
+                                                                pool.rollback();
+                                                                console.log("쿼리 에러 : " + error);
+                                                                return res.status(500).json({
+                                                                    message: "에러"
+                                                                });
+                                                            } else {
+                                                                // console.log(result);
+                                                                pool.commit();
                     
-                    return res.status(200).json({ message:"아으으으악", status:200 , testorder:testorder}); //생성된 row 수
-                } else {
-                    console.log(error);
+                                                                return res.status(200).json({ message:"아으으으악", status:200 , testorder:testorder});
+                                                            }
+                                                        });
+    
+                                                    } else {
+                                                        console.log(error);
+                                                        return res.status(500).json({
+                                                            message : "에러"
+                                                        });
+                                                    }
+                                                }); 
+                                            }
+                                        });
+                                }
+                            }); 
+                            
+                        // 비회원
+                        } else { // 2) 비회원이면 : order테이블에 (idx/userId(user정보)) 제외하고 주문내역 저장
+                
+                            pool.beginTransaction(function(err) {
+                                if(err) {
+                                    console.log("트랜잭션 시작 에러 : "+ err);
+                                }else {
+                                    var sql_1 = `INSERT INTO orders (userPhoneNum, prodnum, indate, quantity, totalprice, receiverName, receiverZonecode, receiverAddress, receiverAddressSub, receiverPhoneNum, orderMemo) VALUES (${phoneNum}, ${prodnum}, NOW(), ${quantity}, ${totalprice}, ${receiverName}, ${receiverZonecode}, ${receiverAddress}, ${receiverAddressSub}, ${receiverPhoneNum}, ${orderMemo})`;
+                
+                                    // 주문내역 테이블에 회원정보를 제외하고 데이터 추가
+                                    pool.query(sql_1, function (error, result) {
+                                        if(!error) {
+    
+                                            //1027test....
+                                            // var testorder=result[0];
+                                            console.log("제발바라밥랍ㄹ: ", result.insertId);
+                                            var testorder=result.insertId;
+    
+                                            var sql_2 = `UPDATE product SET stock = stock - ${quantity} WHERE prodnum=${prodnum};` // 구매 완료 이후 구매수량만큼 재고수량 차감
+                                
+                                            var resultStock = currentStock - quantity; // 구매 이후 재고수량 미리 구하기
+                                            if(resultStock <= 0) { // 구매 이후 재고수량이 0이하인 경우, useyn = 'n'도 같이 처리
+                                                sql_2 = `UPDATE product SET stock = stock - ${quantity}, useyn='n' WHERE prodnum=${prodnum};`
+                                            }
+    
+                                            pool.query(sql_2, function (error, result) {
+                                                if (error) {
+                                                    pool.rollback();
+                                                    console.log("쿼리 에러 : " + error);
+                                                    return res.status(500).json({
+                                                        message: "에러"
+                                                    });
+                                                } else {
+                                                    // console.log(result);
+                                                    pool.commit();
+    
+                                                    return res.status(200).json({ message:"아으으으악", status:200 , testorder:testorder});
+                                                }
+                                            });
+    
+                                        } else {
+                                            console.log(error);
+                                            return res.status(500).json({
+                                                message: "에러"
+                                            });
+                                        }
+                                    });
+                                }
+                            });
+                        } // 비회원 처리 끝
+                    }
+                } else{
                     return res.status(500).json({
                         message: "에러"
                     });
                 }
             });
-        }
+        })
         
     } catch (e) {
         console.log("에러 : " + e);
         return res.status(500).json({
             message: "에러"
-          });
+        });
     }
 });
-
+        
 
 
 
@@ -946,5 +1185,99 @@ router.get('/intro',(req, res) =>{
 
 
 
-module.exports = router
+
+/***************** function start ******************/
+
+/********* 공지사항 *********/
+
+/* 리스트 전체를 불러오는 함수 */
+
+function getAllNotice(callback){
+    connection.query('select * from heynature ORDER BY id DESC',
+    (err, rows, fields) => {
+        for(let i=0; i<rows.length;i++){
+            /* YYYY-MM-DD 형식으로 출력할 것 */
+            console.log('rows'+JSON.stringify(rows[i]));
+            rows[i].update_time = moment( rows[i].update_time).format('YYYY-MM-DD'); //db에서 date 타입을 Date로 했기에 필요없는 부분은 날리려구 포멧해주어서 다시 넣어준다.
+        }
+        if(err) throw err;
+        callback(rows);
+    })
+}
+
+
+/* 리스트에 새로운 내용을 추가하는 함수 */
+
+function insertNotice(title,content,callback){
+    connection.query(`insert into heynature (title,create_time, update_time,content) values ("${title}",now(),now(),"${content}")`,(err,result)=>{
+        if(err) throw err;
+        callback();
+    })
+}
+
+
+
+/* 리스트 중 id값이 일치하는 row만 불러오는 함수 */
+function getNoticeById(id, callback){
+    connection.query(`select * from heynature where id=${id}`,
+    (err, row, fields) => {
+        if(err) throw err;
+        callback(row);
+    })
+}
+
+
+/* 리스트를 수정하고 싶을 때 id값이 일치하는 부분을 수정하는 함수 */
+
+function updateNoticeById(id, title, content, callback){
+    connection.query(`update heynature set title='${title}',update_time=now(), content='${content}' where id=${id}`, (err, result)=>{
+        if(err) throw err;
+        callback();
+    })
+}
+
+/* 리스트 중 id값이 일치하는 부분을 삭제하는 함수 */
+
+function deleteNoticeById(id,callback){
+    connection.query(`delete from heynature where id=${id}`,
+    (err, result) => {
+        if(err) throw err;
+        callback();
+    });
+}
+
+
+/**************** 리뷰 ***************/
+
+//리뷰 전체 불러오기
+function getAlldetail(callback){
+    connection.query('select * from review_detail ORDER BY id DESC',
+    (err, rows, fields) => {
+        if(err) throw err;
+        callback(rows);
+    })
+}
+
+
+///리뷰 작성
+function insertdetail(username,content,starcount,r_imgFile,prodnum,callback){
+    connection.query(`insert into review_detail (username, update_time, content, star, r_imgFile,prodnum) values ("${username}", now(),"${content}","${starcount}","${r_imgFile}","${prodnum}")`,(err,result)=>{
+        if(err) throw err;
+        callback();
+    })
+}
+
+//리뷰 삭제
+function deletedetailById(id,callback){
+    connection.query(`delete from review_detail where id=${id}`,
+    (err, result) => {
+        if(err) throw err;
+        callback();
+    });
+}
+
+
+/***************** function end ******************/
+
 //내보내기
+module.exports = router

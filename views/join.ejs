@@ -9,11 +9,11 @@
             </div>
 
             <!-- 1006 session test -->
-            <form method="post">
+            <!-- <form method="post">
                 <ul>
                     <li>
                         <label>아이디*</label>
-                        <input type="text" name='userId' required>
+                        <input type="text" name="userId" required>
                     </li>
                     <li>
                         <label>비밀번호*</label>
@@ -45,84 +45,70 @@
                     </li>
                 </ul>
                 <input type="submit" value="회원가입">
-            </form>
+            </form> -->
 
 
-            <!-- <div id='form-container'>
+            <form method="POST" id='form-container'>
 
-                <h5 class="info_line">LOGIN INFORMATION</h5>  
+                <h5 class="info_line">REQUIRED INFORMATION</h5>  
 
                 <fieldset>
-                <label>아이디<span>*</span></label>
-                <input type="text" id='username' placeholder="아이디를 입력해주세요.">
-                <div class='failure-message hide msg'>4자 이상의 영문 혹은 영문과 숫자를 조합</div>
-                <div class='success-message hide msg success'>사용할 수 있는 아이디입니다.</div>
+                <label> 아이디<span>*</span> </label>
+                <!-- <input type="text" name="userId" required> -->
+                <input type="text"  name="userId" id='username' placeholder="아이디를 입력해주세요." required>
                 </fieldset>
 
                 <fieldset>
-                <label>비밀번호<span>*</span></label>
-                <input type="password" id='password' placeholder="비밀번호를 입력해주세요.">
-                <div class='password-message-wrap'>
-                    <span class='password-failure-length hide msg'>10자 이상 입력</span>
-                    <span class='password-failure-comb hide msg'>영문/숫자/특수문자(공백 제외)만 허용하며, 2개 이상 조합</span>
-                    <span class='password-failure-contn hide msg'>동일한 숫자 3개 이상 연속 사용 불가</span>
-                    <span class='password-failure-upper hide msg'>영어 대문자 하나 이상 포함</span>
-                    <span class='password-success-message hide msg success'>사용할 수 있는 비밀번호입니다.</span>
-                </div>
+                <label> 비밀번호<span>*</span> </label>
+                <!-- <input type="password" name="userPassword" required> -->
+                <input type="password"  name="userPassword" id='password' placeholder="비밀번호를 입력해주세요." required>
+                
                 </fieldset>
 
                 <fieldset>
-                <label>비밀번호 확인<span>*</span></label>
-                <input type="password" id='password-retype' placeholder="비밀번호를 한번 더 입력해주세요.">
-                <div class="mismatch-message hide msg">동일한 비밀번호를 입력해주세요.</div>
-                <div class="match-message hide msg success">동일한 비밀번호가 입력되었습니다.</div>
+                    <label> 이메일 <span>*</span> </label>
+                    <input type="text" class="text" name="userEmail" required>
                 </fieldset>
+
+                
 
 
                 <h5 class="info_line per_line">PERSONAL INFORMATION</h5>
 
                 <fieldset>
                 <label>이름<span></span></label>
-                <input type="text" id='name' placeholder="이름을 입력해주세요">
-                <div class="mismatch-message hide msg">이름을 입력해주세요.</div>
-                </fieldset>
-
-                <fieldset class="post">
-                <label>우편번호<span></span></label>
-                <input type="text" id='' placeholder="">
-                <span>
-                    <label>&nbsp;</label>
-                    <div class="post_btn"><button>POSTAL CODE</button></div>
-                </span>
+                <!-- <input type="text" name="userName" required> -->
+                <input type="text" name="userName" id='name' placeholder="이름을 입력해주세요">
                 </fieldset>
 
                 <fieldset>
-                    <label>기본주소<span></span></label>
-                    <input type="text" id='' placeholder="">
-                </fieldset>
-
-                <fieldset>
-                    <label>나머지주소<span></span></label>
-                    <input type="text" id='' placeholder="">
+                    <label> 휴대폰번호<span class="blue">(010-0000-0000)</span> </label>
+                    <input type="text" id="phoneNum" name="userPhoneNum" maxlength="13">    
                 </fieldset>
 
                 <fieldset class="post">
-                    <label>휴대폰번호<span></span></label>
-                    <div class="m_number">
-                    <input type="text" id='' placeholder="" value="010">
-                    <input type="text" id='' placeholder="">
-                    <input type="text" id='' placeholder="">
-                    </div>
-                    <span>
-                        <label>&nbsp;</label>
-                        <div class="post_btn"><button>인증하기</button></div>
-                    </span>
-                    </fieldset>
+                <label>우편번호<span class="blue">(클릭시 주소 검색창 활성화)</span></label>
+                <input id="member_post" type="text" class="text" name="userZonecode" readonly onclick="findAddr()">
+                </fieldset>
 
+                <fieldset>
+                    <label>주소<span class="blue">(클릭시 주소 검색창 활성화)</span></label>
+                    <input id="member_addr" type="text" class="text" name="userAddress" readonly onclick="findAddr()">
+                </fieldset>
+
+                <fieldset>
+                    <label>상세주소<span></span></label>
+                    <input type="text" class="text" name="userAddressSub">
+                </fieldset>
+
+            
 
                 <div class="btn_join">
-                    <a href="/"><button id="subit-button">회원가입</button></a>
+                    <input  id="subit-button" type="submit" value="회원가입">
                 </div>
-            </div> -->
+                    
+
+                
+            </form>
         </section>
   

@@ -66,6 +66,19 @@ window.open('/url','popup-test','width='+_width+',height='+_height+',left='+_lef
 ///////////////탭 버튼 구현///////////////////////////////
 
 $(document).ready(function(){
+
+  // 모달창 test
+  $(".product_review_comment_wrap").click(function(){
+    $(".review_wrap").fadeIn();
+  });
+  
+  $(".close").click(function(){
+    $(".review_wrap").fadeOut();
+  });
+
+
+  //
+
   var tabAnchor = $('.product_nav li a'),
       tabPanel = $('.product_nav_wrap');
 
@@ -141,10 +154,10 @@ for(var i = 0; i < btns.length; i++) {
     funcs[i] = detail_Modal(i);
   }
    
-  // 원하는 Modal 수만큼 funcs 함수를 호출합니다.
-  for(var j = 0; j < btns.length; j++) {
-    funcs[j]();
-  }
+// 원하는 Modal 수만큼 funcs 함수를 호출합니다.
+for(var j = 0; j < btns.length; j++) {
+  funcs[j]();
+}
 
 
 /************jquery start*************/
@@ -183,7 +196,7 @@ $(document).ready(function(){
   });
 
 
-  ///////////////////////////리뷰 페이지 넘버 작성////////////////
+///////////////////////////리뷰 페이지 넘버 작성////////////////
 
   var reviewTab = $('.product_review_paging>li>a'),
     reviewTabPanel = $('.review_page_section');
@@ -231,30 +244,29 @@ reviewTab.click(function (e) {
 
 /////////////리뷰 작성하기///////////////
 
-// Get the modal
+// Get the modal : 리뷰작성 폼
 var modal = document.getElementById("myModal");
 
-// Get the button that opens the modal
-var btn = document.getElementById("review_write_btn");
+// Get the button that opens the modal : 리뷰작성버튼
+var btn2 = document.getElementById("review_write_btn");
 
-// Get the <span> element that closes the modal
+// Get the <span> element that closes the modal : 리뷰작성 취소버튼
 var span = document.getElementsByClassName("cancel_btn")[0];
 
 var body = document.body
 
 
 // When the user clicks the button, open the modal 
-btn.onclick = function() {
+btn2.onclick = function() {
   modal.style.display = "block";
-  body.style.overflow = "hidden"
+  body.style.overflow = "hidden";
   body.style.height = "100%";
-
 }
 
 // When the user clicks on <span> (x), close the modal
 span.onclick = function() {
   modal.style.display = "none";
-  body.style.overflow = "auto"
+  body.style.overflow = "auto";
   body.style.height = "100%";
 }
 
@@ -334,6 +346,7 @@ function star5(){
   $('input[name=starcount]').attr('value',5);
 }
 
+
 ///////별 클릭 시 색깔 바뀌기 + 별 누적/////
 function starcount(){
   var star1 = document.querySelector("#star11")
@@ -362,7 +375,9 @@ function starcount(){
 }
 
 $.fn.generateStars = function() {
-  return this.each(function(i,e){$(e).html($('<span/>').width($(e).text()*16));});
+  return this.each(function(i,e){
+    $(e).html($('<span/>').width($(e).text()*16));
+  });
 };
 
 // 숫자 평점을 별로 변환하도록 호출하는 함수
@@ -387,7 +402,7 @@ $(function() {
 });
 
 
-/********************* 장바구니담기 ******************** */
+/********************* 장바구니담기 *********************/
 
 // 장바구니 담기 클릭 시
 function insertCart() {
@@ -418,7 +433,33 @@ function insertCart() {
 
 // 바로 구매하기 버튼 클릭 시
 function orderProduct() {
-  $('.forma').submit(); // "바로 구매하기" 버튼을 클릭함으로써  post('/order')로 상품번호, 상품 수를 보냄
+  var prodnum = $('#prodnum').val();
+  var quantity = $('#amount').val();
+  var data = {
+    'prodnum': prodnum, 
+    'quantity': quantity
+  };
+
+  // 재고가 있는지 체크 후 주문 페이지로 이동
+  $.ajax({
+    type: 'POST',
+    url: '/product/stock',
+    data: data,
+    success: function(response){
+      if(response) {
+        if(response.result_code == 'fail') { // 재고부족으로 구매불가
+          alert(response.message);
+          return false;
+        } else {
+          $('.forma').submit(); // "바로 구매하기" 버튼을 클릭함으로써  post('/order')로 상품번호, 상품 수를 보냄
+        }
+      }
+    },
+    error: function(error){
+      alert('오류가 발생하였습니다. 잠시 후 다시 시도해주세요.');
+    }
+  });
+  
 }
 
 //1026

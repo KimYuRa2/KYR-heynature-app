@@ -1,0 +1,21 @@
+.product_checkout2 {
+    width: 100%;
+    display: flex;
+    justify-content: right;
+    margin: 30px 0 50px; 
+    /* margin: 30px auto; */
+    justify-content: left;
+}
+.product_checkout_left2 {
+    color: #fff;
+    background-color: #222;
+    display: block;
+    font-weight: 600;
+    margin: 0 auto;
+    border: 1px solid #ccc;
+    padding: 12px 20px;
+    letter-spacing: 1px;
+    text-align: center;
+    white-space: nowrap;
+    overflow: hidden;
+}

@@ -2,15 +2,17 @@
     <li onclick="getShowCT()"><a class="ka" id="ka" href="javascript:void(0);"></a></li>
     <li><a class="top" id="top" href="javascript:void(0);"></a></li>
 </ul>
+
         <section class="w1200" onload="init()">
             <div class="product_wrap">
                 <!-- (관리자용) 상품 삭제 버튼 (/upload) -->
                 <% if(userId === 'admin1'){ %>
-                    <article class="write_btn_box">
+                    <!-- <article class="write_btn_box">
                         <div onclick="javascript:location.href='/deleteProduct?prodnum=<%=sql1_result.prodnum%>'">상품 삭제</div>
-                    </article>
+                    </article> -->
                 <%}%>
 
+                <!-- 상품 정보 / 구매 / 장바구니 -->
                 <div class="product_detail">
                     <div class="product_detail_left">
                         <div class="product_main_pic">
@@ -88,6 +90,7 @@
                 </div>
             </div>
 
+            <!-- SNS Review -->
             <div class="product_photoreviews_wrap">
                 <div class="product_photoreviews">
                     <h3>SNS Review</h3>
@@ -135,12 +138,14 @@
                 </div>
             </div>
 
+            <!-- 하단 탭메뉴 -->
             <ul class="product_nav">
                 <li id="first_li"><a href="#section1">상세정보</a></li>
                 <li><a href="#section2">리뷰</a></li>
                 <li><a href="#section3">배송정책</a></li>
             </ul>
 
+            <!-- 1) 상세정보탭 -->
             <section class="product_nav_wrap" id="section1">
                 <div class="picture_wrap">
                     <div>
@@ -154,11 +159,12 @@
                 </div>
             </section>
 
+            <!-- 2) 리뷰탭 -->
             <section class="product_nav_wrap" id="section2">
                 <div class="product_review">
                     <span>Photo Review</span>
                 </div>
-
+                <!-- 포토 리뷰 -->
                 <div class="product_review_widget_wrap">
                     <div class="product_review_widget">
                         <div class="product_review_total">+500</div>
@@ -170,103 +176,28 @@
                         </figure>
                     </div>
 
+                    <% sql2_result.forEach(( row, index )=>{%>
                     <div class="product_review_widget">
                         <figure class="event_on">
                             <a>
-                                <img src="../img/201126003107_ro.jpeg">
+                                <img src="<%= row.r_imgFile%>" alt="리뷰이미지"/>
+                                <!-- <img src="../img/201126003107_ro.jpeg"> -->
                             </a>
-                            <figcaption>김주*</figcaption>
+                            <figcaption><%=row.username%></figcaption>
                         </figure>
                     </div>
+                    <%});%>
 
-                    <div class="product_review_widget">
-                        <figure class="event_on">
-                            <a>
-                                <img src="../img/lotion_1.jpg">
-                            </a>
-                            <figcaption>박나*</figcaption>
-                        </figure>
-                    </div>
 
-                    <div class="product_review_widget">
-                        <figure>
-                            <a href="">
-                                <img src="../img/square__200926235221.jpeg">
-                            </a>
-                            <figcaption>이동*</figcaption>
-                        </figure>
-                    </div>
-
-                    <div class="product_review_widget">
-                        <figure>
-                            <a href="">
-                                <img src="../img/square__210107123840.jpeg">
-                            </a>
-                            <figcaption>최지*</figcaption>
-                        </figure>
-                    </div>
-
-                    <div class="product_review_widget">
-                        <figure>
-                            <a href="">
-                                <img src="../img/20200704_203558_ro.jpg">
-                            </a>
-                            <figcaption>신희*</figcaption>
-                        </figure>
-                    </div>
-
-                    <div class="product_review_widget">
-                        <figure>
-                            <a href="">
-                                <img src="../img/20201130_121443_1.jpg">
-                            </a>
-                            <figcaption>김순*</figcaption>
-                        </figure>
-                    </div>
-
-                    <div class="product_review_widget">
-                        <figure>
-                            <a href="">
-                                <img src="../img/220119010612.jpeg">
-                            </a>
-                            <figcaption>이화*</figcaption>
-                        </figure>
-                    </div>
-
-                    <div class="product_review_widget">
-                        <figure>
-                            <a href="">
-                                <img src="../img/220228190158_ro.jpeg">
-                            </a>
-                            <figcaption>용화*</figcaption>
-                        </figure>
-                    </div>
-
-                    <div class="product_review_widget">
-                        <figure>
-                            <a href="">
-                                <img src="../img/20170810111500.jpg">
-                            </a>
-                            <figcaption>우종*</figcaption>
-                        </figure>
-                    </div>
-
-                    <div class="product_review_widget">
-                        <figure>
-                            <a href="">
-                                <img src="../img/image_8_ro_9.jpg">
-                            </a>
-                            <figcaption>이정*</figcaption>
-                        </figure>
-                    </div>
 
                 </div>
 
+                <!-- 리뷰 -->
                 <div class="product_comment_wrap">
                     <div class="product_comment">
                         <article class="product_comment_contents">
-                            <div class="product_comment_title">상품평수</div>
-                            <div class="product_comment_total">100개</div>
+                            <div class="product_comment_title">상품평</div>
+                            <div class="product_comment_total"></div>
                         </article>
                         <article class="product_comment_classify_wrap">
                             <select class="product_comment_classify">
@@ -275,10 +206,12 @@
                             </select>
                         </article>
                     </div>
+
                     <!-- 리뷰 1페이지 start -->
                     <section class="review_page_section" id="review_section1">
                         <% sql2_result.forEach(( row, index )=>{%>
                             <div class="product_review_comment_wrap">
+
                                 <div class="product_review_comment">
                                     <div class="product_review_comment_left">
                                         <span class="star-prototype"><%=row.star%></span>
@@ -288,149 +221,57 @@
                                     <div class="product_review_comment_right">
                                         <div class="product_review_comment_detail"><%=row.content%></div>
                                         <div class="product_review_comment_where">알파리뷰에서 작성됨</div>
-                                    </div>
-                                    <div class="review_delete" onclick="javascript:location.href='/deletedetail?id=<%=row.id%>'">삭제</div>
+
+                                        <%if(row.r_imgFile){%>
+                                        <div class="product_review_comment_detail">
+                                            <img src="<%= row.r_imgFile%>" alt="리뷰이미지" style="width:200px;height:200px;display:block;float:right;"/>
+                                        </div>
+                                        <%}%>
+                                    
+                                        <!-- 본인만 지울수있도록,,수정하기 !! -->
+                                        <div class="review_delete" onclick="javascript:location.href='/deletedetail?id=<%=row.id%>'">
+                                            삭제
+                                        </div>
+                                        
+                                    </div>    
                                 </div>
                             </div>
                         <%})%>
                     </section>
-                    <!-- 리뷰 2페이지 start -->
-                    <section class="review_page_section" id="review_section2">
-                            <div class="product_review_comment_wrap">
-                                <div class="product_review_comment">
-                                    <div class="product_review_comment_left">
-                                        <div class="product_review_comment_star">★★★★</div>
-                                        <div class="product_review_comment_name">이일＊</div>
-                                        <div class="product_review_comment_date">2022-05-10</div>
-                                    </div>
-                                    <div class="product_review_comment_right">
-                                        <div class="product_review_comment_detail">사용하면 너무 촉촉해요. 지속감 완벽해!</div>
-                                        <div class="product_review_comment_where">알파리뷰에서 작성됨</div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="product_review_comment_wrap">
-                                <div class="product_review_comment">
-                                    <div class="product_review_comment_left">
-                                        <div class="product_review_comment_star">★★★★</div>
-                                        <div class="product_review_comment_name">심형＊</div>
-                                        <div class="product_review_comment_date">2022-04-28</div>
-                                    </div>
-                                    <div class="product_review_comment_right">
-                                        <div class="product_review_comment_detail">시간없어서 아무거나 바를땐 헤이네이처가 최고입니다.</div>
-                                        <div class="product_review_comment_where">알파리뷰에서 작성됨</div>
-                                    </div>
-                                </div>
-                            </div>
-                                        <div class="product_review_comment_wrap">
-                                            <div class="product_review_comment">
-                                                <div class="product_review_comment_left">
-                                                    <div class="product_review_comment_star">★★★★★</div>
-                                                    <div class="product_review_comment_name">정의＊</div>
-                                                    <div class="product_review_comment_date">2022-04-22</div>
-                                                </div>
-                                                <div class="product_review_comment_right">
-                                                    <div class="product_review_comment_detail">부모님도 좋아하셔서 저도 나중에 써봐야 할 듯.</div>
-                                                    <div class="product_review_comment_where">알파리뷰에서 작성됨</div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="product_review_comment_wrap">
-                                            <div class="product_review_comment">
-                                                <div class="product_review_comment_left">
-                                                    <div class="product_review_comment_star">★★★</div>
-                                                    <div class="product_review_comment_name">김지＊</div>
-                                                    <div class="product_review_comment_date">2022-04-03</div>
-                                                </div>
-                                                <div class="product_review_comment_right">
-                                                    <div class="product_review_comment_detail">세트로 살 걸 그랬어요. 다음엔 세트로 구입할게요.</div>
-                                                    <div class="product_review_comment_where">알파리뷰에서 작성됨</div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="product_review_comment_wrap">
-                                            <div class="product_review_comment">
-                                                <div class="product_review_comment_left">
-                                                    <div class="product_review_comment_star">★★★★</div>
-                                                    <div class="product_review_comment_name">설희＊</div>
-                                                    <div class="product_review_comment_date">2022-03-29</div>
-                                                </div>
-                                                <div class="product_review_comment_right">
-                                                    <div class="product_review_comment_detail">수분감이 오래가요 :)</div>
-                                                    <div class="product_review_comment_where">알파리뷰에서 작성됨</div>
-                                                </div>
-                                            </div>
-                                        </div>
-                    </section>
-                    <!-- 리뷰 3페이지 start -->
-                    <section class="review_page_section" id="review_section3">
-                        <div class="product_review_comment_wrap">
-                            <div class="product_review_comment">
-                                <div class="product_review_comment_left">
-                                    <div class="product_review_comment_star">★★★★★</div>
-                                    <div class="product_review_comment_name">박의＊</div>
-                                    <div class="product_review_comment_date">2022-05-10</div>
-                                </div>
-                                <div class="product_review_comment_right">
-                                    <div class="product_review_comment_detail">민감성 피부라 아무거나 사용하지 못했는데 너무 잘맞네요.</div>
-                                    <div class="product_review_comment_where">알파리뷰에서 작성됨</div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="product_review_comment_wrap">
-                            <div class="product_review_comment">
-                                <div class="product_review_comment_left">
-                                    <div class="product_review_comment_star">★★★★★</div>
-                                    <div class="product_review_comment_name">조민＊</div>
-                                    <div class="product_review_comment_date">2022-04-28</div>
-                                </div>
-                                <div class="product_review_comment_right">
-                                    <div class="product_review_comment_detail">헤이네이처 조아요!!!</div>
-                                    <div class="product_review_comment_where">알파리뷰에서 작성됨</div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="product_review_comment_wrap">
-                            <div class="product_review_comment">
-                                <div class="product_review_comment_left">
-                                    <div class="product_review_comment_star">★★★★★</div>
-                                    <div class="product_review_comment_name">사미＊</div>
-                                    <div class="product_review_comment_date">2022-04-22</div>
-                                </div>
-                                <div class="product_review_comment_right">
-                                    <div class="product_review_comment_detail">다른 곳에 비해 가성비 너무 좋아요~</div>
-                                    <div class="product_review_comment_where">알파리뷰에서 작성됨</div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="product_review_comment_wrap">
-                            <div class="product_review_comment">
-                                <div class="product_review_comment_left">
-                                    <div class="product_review_comment_star">★★★★★</div>
-                                    <div class="product_review_comment_name">정지＊</div>
-                                    <div class="product_review_comment_date">2022-04-03</div>
-                                </div>
-                                <div class="product_review_comment_right">
-                                    <div class="product_review_comment_detail">동생선물로 아주 안성만춤입니다.</div>
-                                    <div class="product_review_comment_where">알파리뷰에서 작성됨</div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="product_review_comment_wrap">
-                            <div class="product_review_comment">
-                                <div class="product_review_comment_left">
-                                    <div class="product_review_comment_star">★★★★★</div>
-                                    <div class="product_review_comment_name">서희＊</div>
-                                    <div class="product_review_comment_date">2022-03-29</div>
-                                </div>
-                                <div class="product_review_comment_right">
-                                    <div class="product_review_comment_detail">재구매해서 벌써 8번 구입했습니다.</div>
-                                    <div class="product_review_comment_where">알파리뷰에서 작성됨</div>
-                                </div>
-                            </div>
-                        </div>
-                    </section>
+                    
+                    
                 </div>
+
+                <!-- 모달창 test!!! -->
+                <% sql2_result.forEach(( row, index )=>{%>
+                <div class="dis ev_box_wrap" id="photo1">
+                    <div class="event_box">
+                        <a class="close">X</a>
+                        <div class="detail_title_box">
+                            <h4>Photo Review</h4>
+                            <p><%=row.username%></p>
+                        </div>
+                        <div class="con_box2">
+                            <div class="event_notice">
+                                <div class="review_image_wrap">
+                                    <img src="<%= row.r_imgFile%>" alt="리뷰이미지" style="width:100%;"/>
+                                </div>
+                                <div class="pr_option">
+                                    <div><span>피부타입</span></div>
+                                    <div><span>복합형, 민감성</span></div>
+                                    <span class="star-prototype" style="width:80px;"><%=row.star%></span>
+                                </div>
+                                <div class="pr_option_txt">
+                                    <p><%=row.content%></p>
+                                </div>
+                            </div> 
+                        </div>
+                    </div>
+                </div>
+                <%})%>
+                
+                <!-- 모달창 테스트 끝.-->
+
 
                 <div class="product_review_bottom">
                     <ul class="product_review_paging">
@@ -441,13 +282,15 @@
                         <li><a href="">5</a></li>
                         <li><a href="">6</a></li>
                     </ul>
+
+                    <!-- 리뷰작성버튼 -->
                     <div class="product_review_btnbox" id="review_write_btn">
                         <button id="myBtn"><a>리뷰 작성하기</a></button>
                     </div>
                 </div>
 
                 <!-- 이벤트 화면 팝업 start -->
-                <div  class="dis ev_box_wrap" id="photo1">
+                <!-- <div  class="dis ev_box_wrap" id="photo1">
                     <div class="event_box">
                         <a class="close">X</a>
                         <div class="detail_title_box">
@@ -498,7 +341,7 @@
                             </div> 
                         </div>
                     </div>
-                </div>
+                </div> -->
 
 
                 <!-- 리뷰 작성하기 start -->
@@ -507,7 +350,7 @@
                         <h3><%= err.param %> : <%= errs.msg %></h3>
                     <% }) %>
                 <% } %>
-                <form class="w1200" method="POST" action="/store2">
+                <form class="w1200" method="POST" action="/store2" enctype="multipart/form-data">
                     <div class="review_write_wrap disnone" id="myModal">
                         <div class="review_write_title_wrap">
                             <div class="review_write_title">
@@ -518,16 +361,20 @@
                                 <p>이 상품의 품질에 대해서 얼마나 만족하시나요?</p>
                             </div>
                         </div>
+                        
+                        <input type="hidden" name="prodnum" id="prodnum" value="<%=sql1_result.prodnum%>" />
+
                         <div class="naming">
                             <div>이름</div>
-                            <input type="text" id="username" name="username">
+                            <input type="text" id="username" name="username" value="<%=userId%>">
                         </div>
+
                         <div class="review_rating">
                             <div class="review_rating_left">
-                                <img src="../img/2.png">
+                                <img src="<%=sql1_result.image%>" alt="(S3)업로드한 이미지 가져오기" />
                             </div>
                             <div class="review_rating_right">
-                                <div class="review_rating_right_title">헤이네이처 어성초 로션 100ml</div>
+                                <div class="review_rating_right_title"><%=sql1_result.name%></div>
 
                                 <div class="starRev">
                                     <span id="star11" class="starR" onclick="star1()">별1</span>
@@ -537,7 +384,9 @@
                                     <span id="star55" class="starR" onclick="star5()">별5</span>
                                 </div>
 
+                                <!-- 별점 -->
                                 <input type="hidden" value="" name="starcount" id="starcount">
+
                             </div>
                         </div>
                         <div class="review_writing">
@@ -550,13 +399,9 @@
                         </div>
                         <div class="review_attach">
                             <div class="review_attach_left">사진첨부</div>
+                            <input type="file" name="r_imgFile" style="padding-top:20px;height:25px;">
                             <div class="ask_attach_file">
                                 <div class="insert">
-                                    <!-- <form id="btn_total" name="insertf" action="insertf" method="post" enctype="multipart/form-data"> -->
-                                        <label for="myFile">+ 추가</label>
-                                        <input type='file' id="myFile" name='' multiple/>
-                                        <div id="showFiles"></div>
-                                    <!-- </form> -->
                                 </div>
                             </div>
                         </div>
@@ -567,8 +412,10 @@
                     </div>
                 </form>
 
+
             </section>
 
+            <!-- 3) 배송교환정책탭-->
             <section class="product_nav_wrap" id="section3">
                 <div class="product_delivery_wrap">
                     <div class="product_delivery_title">배송 교환 정책</div>

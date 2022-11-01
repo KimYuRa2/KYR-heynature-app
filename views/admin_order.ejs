@@ -1,5 +1,10 @@
 <div style="padding:200px 80px;">
-
+    <ul id="kaTop">
+        <li onclick="getShowCT()"><a class="ka" id="ka" href="javascript:void(0);"></a></li>
+        <li><a class="top" id="top" href="javascript:void(0);"></a></li>
+    </ul>
+    
+    <h2 style="text-align : center; padding: 30px 0;">주문리스트 페이지</h2>
 
     <table style="border:5px solid #444444"
     
@@ -47,14 +52,19 @@
                     <%="배송 완료"%>
                 <%}%>
             </th>
+
             <th  style="border: 1px solid #444444;">
                 <%if (row.result==1){%>
                 <button type="button" onclick="location.href='/order_update?ordernum=<%=row.ordernum%>' ">
                     배송완료
                 </button>
                 <%}%>
+                    
+
+
                 <!-- <button type="button" onclick="location.href='/order_delete?prodnum=<%=row.prodnum%>' ">삭제</button> -->
             </th>
+
         </tr>
         <%})%>
     </tbody>

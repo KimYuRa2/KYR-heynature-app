@@ -647,7 +647,7 @@ input[name="sum2"]{
   width: 100%;
   padding: 7px;
   display: flex;
-  justify-content: space-around;
+  /* justify-content: space-around; */
   box-sizing: border-box;
 }
 
@@ -789,7 +789,7 @@ input[name="sum2"]{
   margin-top: 5px;
   font-size: 16px;
   color: #333336;
-  white-space: nowrap;
+  /* white-space: nowrap; */
 }
 
 .product_review_comment_where{
@@ -997,7 +997,17 @@ input[name="sum2"]{
   display:none;
   z-index: 1222;
 }
-
+.review_wrap { /*모달창*/
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(0, 0, 0, 0.7);
+  transition: opacity 500ms;
+  display:none;
+  z-index: 1222;
+}
 .detail_title_box {
   padding: 15px 20px;
   box-sizing: border-box;
@@ -1172,7 +1182,7 @@ input[name="sum2"]{
 }
 
 .pr_option>div:nth-child(2){
-  width: 90%;
+  width: 20%;
 }
 
 .pr_option>div:nth-child(2)>span{
@@ -1709,7 +1719,17 @@ span.star-prototype > * {
 }
 
 
-
+.review_image_wrap{
+  width: 100%;
+  /* height: 500px; */
+  /* padding-top:100%; */
+  margin: auto;
+  text-align: center;
+  /* background-image: url(../img/201126003107_ro.jpeg);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 100% auto; */
+}
 
 
 
