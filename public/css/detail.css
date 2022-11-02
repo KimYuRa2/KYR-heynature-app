@@ -645,10 +645,11 @@ input[name="sum2"]{
 
 .product_review_widget_wrap{
   width: 100%;
-  padding: 7px;
+  padding: 30px;
   display: flex;
   /* justify-content: space-around; */
   box-sizing: border-box;
+  overflow: auto;
 }
 
 .product_review_widget_wrap::-webkit-scrollbar-thumb{
@@ -734,6 +735,7 @@ input[name="sum2"]{
   width: 100%;
   display: flex;
   align-items: center;
+  justify-content: space-between;
   padding: 15px 10px;
   box-sizing: border-box;
 }
@@ -895,10 +897,12 @@ input[name="sum2"]{
   line-height: 19px;
   margin-left: 10px;
   cursor: pointer;
-  position: absolute;
-  right: 0;
+  /* position: absolute;
+  right: 0; */
   box-sizing: border-box;
   white-space: nowrap;
+
+  /* margin-right: 30px; */
 }
 
 .product_review_btnbox>button{
@@ -1244,7 +1248,7 @@ input[name="sum2"]{
   left: 50%;
   transform: translate(-50%);
   width: 70%;
-  margin: 50px auto;
+  margin: 20px auto;
   background-color: #fff;
   border-radius: 40px;
   padding: 30px;
@@ -1410,7 +1414,7 @@ input[name="sum2"]{
 
 .review_attach_left{
   width: 100px;
-  padding: 30px 20px;
+  padding: 20px 20px;
   font-size: 14px;
   color: #111;
   font-weight: bold;
@@ -1435,7 +1439,7 @@ input[name="sum2"]{
 }
 
 .review_btn{
-  padding-top: 30px;
+  /* padding-top: 30px; */
   box-sizing: border-box;
   text-align: center;
 }
@@ -1496,14 +1500,14 @@ input[name="sum2"]{
 }
 .starR.on{background-position:0 0;}
 
-span.star-prototype, span.star-prototype > * {
+span.star-prototype, span.star-prototype > span {
   height: 16px; 
   background: url(http://i.imgur.com/YsyS5y8.png) 0 -16px repeat-x;
   width: 80px;
   display: inline-block;
 }
 
-span.star-prototype > * {
+span.star-prototype > span {
   background-position: 0 0;
   max-width:80px; 
 }
@@ -1760,9 +1764,9 @@ span.star-prototype > * {
   }
 
   .product_review_widget_wrap{
-      height: 130px;
+      /* height: 130px; */
       overflow: auto;
-      padding-left: 250px;
+      /* padding-left: 250px; */
   }
 
   .product_more_txt>span{
@@ -2043,7 +2047,7 @@ span.star-prototype > * {
   }
 
   .product_review_widget_wrap{
-    padding-left: 450px;
+    /* padding-left: 450px; */
   }
 
   .attach_btn{

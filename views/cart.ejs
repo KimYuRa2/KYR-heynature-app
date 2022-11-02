@@ -75,8 +75,7 @@
             </div>
                 <div class="product_checkout_wrap">
                     <div class="product_checkout2">
-                       
-                        <a href="javascript:orderTotalProduct();" class="product_checkout_left2 font20">전체 구매하기</a>
+                        <a href="javascript:orderTotalProduct();" class="product_checkout_left2">전체 구매하기</a>
                     </div>
                 </div>
         </div>
@@ -99,9 +98,11 @@
                         <!-- Product #1 -->
                         <div class="item">
                             <div class="buttons">
+                                <!-- <input type="hidden" name="cartnum" value="<%=row.cartnum%>">
+                            <button type="button" onclick="location.href='/delete_cart?cartnum=<%=row.cartnum%>' " style="border:none;display: inline-block; -->
                                 <input type="hidden" name="index" value="<%=index%>">
-                                <input type="hidden" name="cartnum" value="<%=row.cartnum%>">
-                                <button type="button" onclick="location.href='/delete_cart?delnum=<%=index%>' " style="border:none;display: inline-block;
+                                <input type="hidden" name="prodnum" value="<%=row.prodnum%>">
+                                <button type="button" onclick="location.href='/delete_cart?prodnum=<%=row.prodnum%>' " style="border:none;display: inline-block;
                                     cursor: pointer; width: 18px; height: 17px; background: url('https://designmodo.com/demo/shopping-cart/delete-icn.svg') no-repeat center; margin-right: 20px;">
                                 </button>
                             </div>

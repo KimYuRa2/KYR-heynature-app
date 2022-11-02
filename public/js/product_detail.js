@@ -67,7 +67,7 @@ window.open('/url','popup-test','width='+_width+',height='+_height+',left='+_lef
 
 $(document).ready(function(){
 
-  // 모달창 test
+  // 포토리뷰 모달창
   $(".product_review_comment_wrap").click(function(){
     $(".review_wrap").fadeIn();
   });
@@ -76,20 +76,17 @@ $(document).ready(function(){
     $(".review_wrap").fadeOut();
   });
 
-
   //
 
   var tabAnchor = $('.product_nav li a'),
       tabPanel = $('.product_nav_wrap');
 
-    //링크를 클릭하면 할 일
+  //링크를 클릭하면 할 일
   tabPanel.hide();
   $('.product_nav_wrap:eq(0)').show();
   $('.product_nav li:eq(0)').addClass('first_active');
   $('.product_nav li:eq(1)').addClass('second_active');
   $('.product_nav li:eq(2)').addClass('second_active');
-
-  // $('tabAnchor_first').addClass('tab_firstcss');
 
     tabAnchor.click(function(e){
       e.preventDefault();
@@ -354,9 +351,6 @@ function starcount(){
   var star3 = document.querySelector("#star33")
   var star4 = document.querySelector("#star44")
   var star5 = document.querySelector("#star55")
-  if(star1.click){
-
-  }
 
 
   if(star1.click){
@@ -376,7 +370,7 @@ function starcount(){
 
 $.fn.generateStars = function() {
   return this.each(function(i,e){
-    $(e).html($('<span/>').width($(e).text()*16));
+    $(e).html($('<span/>').width($(e).text()*16)); // 16이 별1개 width
   });
 };
 

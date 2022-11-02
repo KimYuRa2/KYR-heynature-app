@@ -10,7 +10,7 @@
                     <!-- <article class="write_btn_box">
                         <div onclick="javascript:location.href='/deleteProduct?prodnum=<%=sql1_result.prodnum%>'">상품 삭제</div>
                     </article> -->
-                <%}%>
+                <%};%>
 
                 <!-- 상품 정보 / 구매 / 장바구니 -->
                 <div class="product_detail">
@@ -160,7 +160,7 @@
             </section>
 
             <!-- 2) 리뷰탭 -->
-            <section class="product_nav_wrap" id="section2">
+            <section class="product_nav_wrap" id="section2" >
                 <div class="product_review">
                     <span>Photo Review</span>
                 </div>
@@ -175,46 +175,118 @@
                             <figcaption>+Review</figcaption>
                         </figure>
                     </div>
-
+                    
                     <% sql2_result.forEach(( row, index )=>{%>
-                    <div class="product_review_widget">
-                        <figure class="event_on">
-                            <a>
-                                <img src="<%= row.r_imgFile%>" alt="리뷰이미지"/>
-                                <!-- <img src="../img/201126003107_ro.jpeg"> -->
-                            </a>
-                            <figcaption><%=row.username%></figcaption>
-                        </figure>
-                    </div>
+                        <%if(row.r_imgFile !== null) {%>
+                        <div class="product_review_widget">
+                            <figure class="event_on">
+                                <a>
+                                    <img src="<%= row.r_imgFile%>" alt="포토리뷰이미지"/>
+                                </a>
+                                <figcaption><%=row.username%></figcaption>
+                            </figure>
+                        </div>
+                        <%}%>
                     <%});%>
 
 
 
                 </div>
 
-                <!-- 리뷰 -->
+                <!-- 모달창 (포토리뷰) -->
+                <% sql2_result.forEach(( row, index )=>{%>
+                    <%if(row.r_imgFile !== null) {%>
+                    <div class="dis ev_box_wrap" id="photo1">
+                        <div class="event_box">
+                            <a class="close">X</a>
+                            <div class="detail_title_box">
+                                <h4>Photo Review</h4>
+                                <p><%=row.username%></p>
+                            </div>
+                            <div class="con_box2">
+                                <div class="event_notice">
+                                    <div class="review_image_wrap">
+                                        <img src="<%= row.r_imgFile%>" alt="리뷰이미지" style="width:100%;height: 300px;object-fit: contain;"/>
+                                    </div>
+                                    <div class="pr_option">
+                                        <div><span>피부타입</span></div>
+                                        <div><span>복합형, 민감성</span></div>
+                                        <span class="star-prototype" style="width:80px;">
+                                            <%if(is_logined){%>
+                                                <%=row.star%>
+                                            <%}else{%>
+                                                <%if(row.star===5){%>
+                                                    <span style="width:80px"></span>
+                                                <%}else if(row.star===4){%>
+                                                    <span style="width:64px"></span>
+                                                <%}else if(row.star===3){%>
+                                                    <span style="width:48px"></span>
+                                                <%}else if(row.star===2){%>
+                                                    <span style="width:32px"></span>
+                                                <%}else if(row.star===1){%>
+                                                    <span style="width:16px"></span>
+                                                <%}else{%>
+                                                    <span style="width:0px"></span>
+                                                <%}%>
+                                            <%}%>
+                                        </span>
+                                    </div>
+                                    <div class="pr_option_txt">
+                                        <p><%=row.content%></p>
+                                    </div>
+                                </div> 
+                            </div>
+                        </div>
+                    </div>
+                    <%}%>
+                <%});%>
+
+                <!-- 전체리뷰 -->
                 <div class="product_comment_wrap">
                     <div class="product_comment">
                         <article class="product_comment_contents">
                             <div class="product_comment_title">상품평</div>
-                            <div class="product_comment_total"></div>
+                            <!-- 리뷰작성버튼 -->
+                            <%if(is_logined){%>
+                                <div class="product_review_btnbox" id="review_write_btn">
+                                    <button id="myBtn"><a>리뷰 작성하기</a></button>
+                                </div>
+                            <%}else{%>
+                                <div style="color:#91949C">* 로그인을 하셔야 리뷰작성이 가능합니다.</div>    
+                            <%}%>
+                    
+                            <!-- <div class="product_comment_total">
+                                
+                            </div> -->
                         </article>
-                        <article class="product_comment_classify_wrap">
-                            <select class="product_comment_classify">
-                                <option value="최신">최신순</option>
-                                <option value="평점">별점순</option>
-                            </select>
-                        </article>
+                        
                     </div>
 
                     <!-- 리뷰 1페이지 start -->
                     <section class="review_page_section" id="review_section1">
                         <% sql2_result.forEach(( row, index )=>{%>
                             <div class="product_review_comment_wrap">
-
                                 <div class="product_review_comment">
                                     <div class="product_review_comment_left">
-                                        <span class="star-prototype"><%=row.star%></span>
+                                        <span class="star-prototype">
+                                            <%if(is_logined){%>
+                                                <%=row.star%>
+                                            <%}else{%>
+                                                <%if(row.star===5){%>
+                                                    <span style="width:80px"></span>
+                                                <%}else if(row.star===4){%>
+                                                    <span style="width:64px"></span>
+                                                <%}else if(row.star===3){%>
+                                                    <span style="width:48px"></span>
+                                                <%}else if(row.star===2){%>
+                                                    <span style="width:32px"></span>
+                                                <%}else if(row.star===1){%>
+                                                    <span style="width:16px"></span>
+                                                <%}else{%>
+                                                    <span style="width:0px"></span>
+                                                <%}%>
+                                            <%}%>
+                                        </span>
                                         <div class="product_review_comment_name"><%=row.username%></div>
                                         <div class="product_review_comment_date"><%=row.update_time%></div>
                                     </div>
@@ -229,120 +301,26 @@
                                         <%}%>
                                     
                                         <!-- 본인만 지울수있도록,,수정하기 !! -->
+                                        <%if(row.username === userId){%>
                                         <div class="review_delete" onclick="javascript:location.href='/deletedetail?id=<%=row.id%>'">
                                             삭제
                                         </div>
+                                        <%}%>
                                         
                                     </div>    
                                 </div>
                             </div>
-                        <%})%>
+                        <%});%>
                     </section>
                     
                     
                 </div>
 
-                <!-- 모달창 test!!! -->
-                <% sql2_result.forEach(( row, index )=>{%>
-                <div class="dis ev_box_wrap" id="photo1">
-                    <div class="event_box">
-                        <a class="close">X</a>
-                        <div class="detail_title_box">
-                            <h4>Photo Review</h4>
-                            <p><%=row.username%></p>
-                        </div>
-                        <div class="con_box2">
-                            <div class="event_notice">
-                                <div class="review_image_wrap">
-                                    <img src="<%= row.r_imgFile%>" alt="리뷰이미지" style="width:100%;"/>
-                                </div>
-                                <div class="pr_option">
-                                    <div><span>피부타입</span></div>
-                                    <div><span>복합형, 민감성</span></div>
-                                    <span class="star-prototype" style="width:80px;"><%=row.star%></span>
-                                </div>
-                                <div class="pr_option_txt">
-                                    <p><%=row.content%></p>
-                                </div>
-                            </div> 
-                        </div>
-                    </div>
-                </div>
-                <%})%>
-                
-                <!-- 모달창 테스트 끝.-->
-
-
                 <div class="product_review_bottom">
-                    <ul class="product_review_paging">
-                        <li><a href="#review_section1">1</a></li>
-                        <li><a href="#review_section2">2</a></li>
-                        <li><a href="#review_section3">3</a></li>
-                        <li><a href="">4</a></li>
-                        <li><a href="">5</a></li>
-                        <li><a href="">6</a></li>
-                    </ul>
-
-                    <!-- 리뷰작성버튼 -->
-                    <div class="product_review_btnbox" id="review_write_btn">
-                        <button id="myBtn"><a>리뷰 작성하기</a></button>
-                    </div>
+                    <!-- 리뷰버튼자리-->
                 </div>
 
-                <!-- 이벤트 화면 팝업 start -->
-                <!-- <div  class="dis ev_box_wrap" id="photo1">
-                    <div class="event_box">
-                        <a class="close">X</a>
-                        <div class="detail_title_box">
-                            <h4>Photo Review</h4>
-                            <p>김주*</p>
-                        </div>
-                        <div class="con_box2">
-                            <div class="event_notice">
-                                <div class="event_notice_img_wrap">
-                                </div>
-                                <div class="pr_option">
-                                    <div><span>피부타입</span></div>
-                                    <div><span>복합형, 민감성</span></div>
-                                    <div><span>★★★★★</span></div>
-                                </div>
-                                <div class="pr_option_txt">
-                                    <p>재주문의 재주문입니다-!^^
-                                    역시 믿고 쓰는 헤이네이처!
-                                    끈적임 없이 흡수되어서 너무 좋아요</p>
-                                </div>
-                            </div> 
-                        </div>
-                    </div>
-                </div>
-
-                <div  class="dis ev_box_wrap" id="photo2">
-                    <div class="event_box">
-                        <a class="close">X</a>
-                        <div class="detail_title_box">
-                            <h4>Photo Review</h4>
-                            <p>박나*</p>
-                        </div>
-                        <div class="con_box2">
-                            <div class="event_notice">
-                                <div class="event_notice_img_wrap ev_img">
-                                </div>
-                                <div class="pr_option">
-                                    <div><span>피부타입</span></div>
-                                    <div><span>수분 부족 지성</span></div>
-                                    <div><span>★★★★★</span></div>
-                                </div>
-                                <div class="pr_option_txt">
-                                    <p>펌핀했을때 묽지도 않고 부드럽게 발려요
-                                        밀림 현상도 없고 정말 빠르게 흡수되요
-                                        번들 거림이 없어서 너무 좋은 것 같아요 ㅋㅋ
-                                        향도 무난하고 이 위에 화장도 해봤는데 파운데이션도 안밀리고 떡지지도 않아서 너무 좋아요~</p>
-                                </div>
-                            </div> 
-                        </div>
-                    </div>
-                </div> -->
-
+            
 
                 <!-- 리뷰 작성하기 start -->
                 <% if(typeof errs !== 'undefined'){ %>
@@ -365,8 +343,8 @@
                         <input type="hidden" name="prodnum" id="prodnum" value="<%=sql1_result.prodnum%>" />
 
                         <div class="naming">
-                            <div>이름</div>
-                            <input type="text" id="username" name="username" value="<%=userId%>">
+                            <div>이름(userId)</div>
+                            <input type="text" id="username" name="username" value="<%=userId%>" readonly>
                         </div>
 
                         <div class="review_rating">
@@ -411,7 +389,6 @@
                         </div>
                     </div>
                 </form>
-
 
             </section>
 

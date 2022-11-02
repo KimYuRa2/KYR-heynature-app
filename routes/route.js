@@ -90,6 +90,7 @@ router.get('/',(req, res) =>{
 
 
 /***************** 상품 *****************/
+
 // (관리자용)상품전체목록
 router.get('/admin_prod', (req,res) => {
     connection.query('select * from product',(err,rows) =>{
@@ -117,105 +118,35 @@ router.get('/prod_update', (req, res) => {
 // (관리자용) 상품 수정 post
 router.post('/prod_update', upload.single("imgFile"), function(req, res, next){
     // console.log("s3 이미지 경로 : " , req.file.location);
-    const name = req.body.name;
-    const engname = req.body.engname;
-    const kind = req.body.kind;
-    const price1 = req.body.price1;
-    const price2 = req.body.price2;
-    const content = req.body.content;
-    const image = req.file.location; // image 경로 만들기
-    const stock = req.body.stock;
-    const useyn = req.body.useyn;
-    const prodnum = req.body.prodnum;
-    const datas = [name, engname, kind, price1, price2, content, image,stock, useyn];
 
-    
-    connection.query(`update product set name=?,engname=?,kind=?,price1=?,price2=?,content=?,image=?,stock=?,useyn=? where prodnum=${prodnum}`,datas,(err,rows)=>{
-        if (err) {
-            console.error("err : " + err);
-          } else {
-            console.log("rows: " + JSON.stringify(rows));
-            res.redirect("/admin_prod");
-          }
-    })
-
-})
-
-
-/* 장바구니 삭제 */
-router.get('/delete_cart', (req, res) => {
-    let cartnum = req.query.cartnum;
-    let delnum = req.query.delnum;
-
-    // 로그인 여부 체크
-    if(req.session.is_logined) { //1) 로그인 되어있으면 cart테이블에서 지우기
-        /* db에서 상품 정보 완전히삭제 */
-        console.log("삭제 선택한 cartnum : ",cartnum)
-        connection.query(`delete from cart where cartnum=${cartnum}`,
-        (err, result) => {
-            if(err) throw err;
-            res.redirect('/cart');
+    if(req.file !== undefined){ // 이미지가 있으면 실행!!
+        const name = req.body.name;
+        const engname = req.body.engname;
+        const kind = req.body.kind;
+        const price1 = req.body.price1;
+        const price2 = req.body.price2;
+        const content = req.body.content;
+        const image = req.file.location; // image 경로 만들기
+        const stock = req.body.stock;
+        const useyn = req.body.useyn;
+        const prodnum = req.body.prodnum;
+        const datas = [name, engname, kind, price1, price2, content, image,stock, useyn];
+        
+        connection.query(`update product set name=?,engname=?,kind=?,price1=?,price2=?,content=?,image=?,stock=?,useyn=? where prodnum=${prodnum}`,datas,(err,rows)=>{
+            if (err) {
+                console.error("err : " + err);
+            } else {
+                console.log("rows: " + JSON.stringify(rows));
+                res.redirect("/admin_prod");
+            }
         })
-    }else{ // 2) 로그인 안되어있으면 쿠키에서 삭제
-        
-        // cart 쿠키를 가져옴
-        // cart 쿠키 중 delnum번째 쿠키를 지운다.
-        // cart페이지로 리다이렉트
-
-        var cart = req.cookies.cart; // cart 쿠키를 가져옴
-        console.log("cart : ", cart);
-        console.log("상품index..,, 몇번째 상품을 삭제하려는가? : ",delnum);
-        // console.log(cart[294]);
-        // console.log(cart['294']);
-        console.log(Object.keys(cart)[delnum]);
-        var test=Object.keys(cart)[delnum];
-        res.clearCookie("cart[Object.keys(cart)[delnum]]");
-        console.log("dmddkkdd",cart);
-        res.redirect('/cart');
-        // cart[prodnum] = parseInt(cart[prodnum]) + quantity; //상품수를 증가시킴 쿠키는 기본적으로 문자이므로 parseInt해야됨
-   
-        // var sql_tt = `select * from product where prodnum in (?)`; // product테이블에서, prodnum(현재 상품번호)과 Object.keys(cart)(=쿠키 키값 배열로 가져온것들) 중 일치하는 row를 가져옴=> 쿠키에 들어있는 상품 전체 정보 가져옴
-        //     connection.query(sql_tt, [Object.keys(cart)], (err,results) => {
-        //         console.log("select * from product where prodnum in ( Object.keys(cart) ) : ", results);  // 쿠키 key값으로 들어있는 상품 전체 정보 확인
-        //         console.log("result!!!!!",results);
-                
-        //         var cc = results[delnum].prodnum;
-        //         console.log("CC : ", cc);
-        //         cart[cc] = 0;
-        //         console.log("cart!!!!! : ",cart);
-                
-        //         res.clearCookie('cart');
-        //         console.log("clear cookie : ", cart)
-        //         res.redirect('/cart');
-        //         });
-
-        // console.log(Object.keys(cart)); // 상품번호 ex) [ '264', '634' ] // 주어진 객체의 속성 이름들을 일반적인 반복문과 동일한 순서로 순회되는 열거할 수 있는 배열로 반환
-        // console.log("삭제할 것!!! : ",(Object.keys(cart))[delnum]);
-        // console.log("삭제할 것2!!! : ",(Object.values(cart))[delnum]);
-        // Object.keys(cart)[delnum]="0"
-        // Object.values(cart)[delnum]="0"
-        // console.log("삭제이후!!! : ",(Object.keys(cart))[delnum]);
-        // console.log("삭제할이후!!! : ",(Object.values(cart))[delnum]);
-        
-        // console.log("0으로 만들기전 :cart[ ((Object.keys(cart))[delnum]) ]:",cart[ ((Object.keys(cart))[delnum]) ]);
-        // cart[ ((Object.keys(cart))[delnum]) ] = 0;
-        // console.log("cart[ ((Object.keys(cart))[delnum]) ]:",cart[ ((Object.keys(cart))[delnum]) ]);
-        
-        // res.clearCookie('cart');
-        // console.log("삭제 후 : ",cart);
-        
-
-        //req.cookies.cart에서 해당 상품 key만 delete 후 출력.
-
-        // res.clearCookie('cart')
-
+    }else{  // 이미지 필요함!!
+        console.log('이미지필요!!');
+        res.writeHead(200, {'Content-Type': 'text/html; charset=utf-8'}); //한글 설정
+        res.write("<script language=\"javascript\">alert('실패 : 상품이미지를 업로드하세요.')</script>");
+        res.write("<script language=\"javascript\" charset=\'UTF-8\'>window.location=\"/upload\"</script>"); // main 페이지로 이동
     }
-});
-
-        
-
-
-
+})
 
 
 
@@ -247,29 +178,38 @@ router.get('/product',(req, res, next) =>{
     })
 });
 
+
 // upload : 상품 이미지 업로드
 router.post('/upload', upload.single("imgFile"), function(req, res, next){
-    console.log("s3 이미지 경로 : " , req.file.location);
-    const name = req.body.name;
-    const engname = req.body.engname;
-    const kind = req.body.kind;
-    const price1 = req.body.price1;
-    const price2 = req.body.price2;
-    const content = req.body.content;
-    const image = req.file.location; // image 경로 만들기
-    const stock = req.body.stock;
-    const useyn = req.body.useyn;
-    const datas = [name, engname, kind, price1, price2, content, image,stock, useyn];
+    // console.log("s3 이미지 경로 : " , req.file.location);
+    let imgFile = req.file;
 
-    connection.query('insert into product(name,engname, kind, price1, price2, content, image, stock, useyn) values(?,?,?,?,?,?,?,?,?)',datas,(err,rows)=>{
-        if (err) {
-            console.error("err : " + err);
-          } else {
-            console.log("rows: " + JSON.stringify(rows));
-            res.redirect("/product");
-          }
-    })
-
+    if(req.file !== undefined){ // 이미지가 있으면 실행!!
+        const name = req.body.name;
+        const engname = req.body.engname;
+        const kind = req.body.kind;
+        const price1 = req.body.price1;
+        const price2 = req.body.price2;
+        const content = req.body.content;
+        const image = req.file.location; // image 경로 만들기
+        const stock = req.body.stock;
+        const useyn = req.body.useyn;
+        const datas = [name, engname, kind, price1, price2, content, image,stock, useyn];
+    
+        connection.query('insert into product(name,engname, kind, price1, price2, content, image, stock, useyn) values(?,?,?,?,?,?,?,?,?)',datas,(err,rows)=>{
+            if (err) {
+                console.error("err : " + err);
+            } else {
+                console.log("rows: " + JSON.stringify(rows));
+                res.redirect("/product");
+            }
+        })
+    }else{  // 이미지 필요함!!
+        console.log('이미지필요!!');
+        res.writeHead(200, {'Content-Type': 'text/html; charset=utf-8'}); //한글 설정
+        res.write("<script language=\"javascript\">alert('실패 : 상품이미지를 업로드하세요.')</script>");
+        res.write("<script language=\"javascript\" charset=\'UTF-8\'>window.location=\"/upload\"</script>"); // main 페이지로 이동
+    }
 })
   
 /* 상품 업로드 페이지 */
@@ -333,7 +273,7 @@ router.get('/search',(req, res) => {
 // detail 페이지 (상품디테일. + 리뷰페이지)
 router.get('/detail',(req, res,next) =>{
 
-    let prodnum = req.query.prodnum; //상품 index번호
+    let prodnum = req.query.prodnum; //상품 index번호. 상품페이지에서 detail(query)?prodnum=<%=row.prodnum%> => prodnum의 매개변수인, prodnum이라는 값(<%=row.prodnum%>)을 가져온다.
     console.log("prodnum : ", prodnum);
 
     var sql1 = `select * from product where prodnum=${prodnum};`; // 해당 상품번호의 상품정보 가져옴
@@ -352,7 +292,7 @@ router.get('/detail',(req, res,next) =>{
         if (err) {
             console.error("err : " + err);
         } else {
-            res.render('detail', { sql1_result : sql1_result[0], sql2_result : sql2_result, userId : req.session.userId });
+            res.render('detail', { sql1_result : sql1_result[0], sql2_result : sql2_result, userId : req.session.userId, is_logined : req.session.is_logined  });
         }
     })
 });
@@ -469,24 +409,30 @@ router.get('/review_write', (req,res,next) => {
 // });
 
 // 리뷰 저장
-router.post('/store2',
- upload.single("r_imgFile"),
- function(req,res,next){
-        let param = JSON.parse(JSON.stringify(req.body));
-        let content = param['content'];
-        let username = param['username'];
-        let starcount = param['starcount'];
+router.post('/store2', upload.single("r_imgFile"), function(req,res,next){
+
+    let param = JSON.parse(JSON.stringify(req.body)); // parse : JSON문자열의 구문을 분석하고, 그 결과에서 js값이나 객체를 생성. / / stringify : js값이나 객체를 JSON문자열로 변환
+    let content = param['content'];
+    let username = param['username'];
+    let starcount = param['starcount'];
+    let prodnum = param['prodnum'];
+
+    if(req.file !== undefined){ // 이미지가 있으면 실행!!
         let r_imgFile = JSON.parse(JSON.stringify(req.file.location));
-        let prodnum = param['prodnum'];
         
-        insertdetail(username,content, starcount ,r_imgFile,prodnum, () => { //
+        insertdetail(username, content, starcount , r_imgFile, prodnum, () => { //
             console.log("submit");
-            res.write("<script>alert('success')</script>");
-            // res.write("<script>window.location=\"/detail?prodnum=<%=row.prodnum%>\"</script>");
-            // res.redirect('/detail');
+            res.write("<script>alert('photo review success')</script>");
             res.write("<script>window.location=\"/product\"</script>");
         })
-    // }
+    }else{
+
+        insertdetail_text(username, content, starcount , prodnum, () => { //
+            console.log("submit");
+            res.write("<script>alert('text review success')</script>");
+            res.write("<script>window.location=\"/product\"</script>");
+        })
+    }
 });
 
 router.get('/deletedetail',(req,res)=>{
@@ -613,13 +559,16 @@ router.post('/login', (req, res, next) => {
                     //실패
                     console.log('로그인 실패');
                     res.writeHead(200, {'Content-Type': 'text/html; charset=utf-8'}); //한글 설정
-            res.write("<script language=\"javascript\">alert('로그인에 실패하셨습니다. 다시 시도해 주십시오.')</script>");
-            res.write("<script language=\"javascript\" charset=\'UTF-8\'>window.location=\"/login\"</script>"); // main 페이지로 이동
+                    res.write("<script language=\"javascript\">alert('로그인에 실패하셨습니다. 다시 시도해 주십시오.')</script>");
+                    res.write("<script language=\"javascript\" charset=\'UTF-8\'>window.location=\"/login\"</script>"); // main 페이지로 이동
                 }
 
             })
         }else{
             console.log("ID가 존재하지 않습니다.");
+            res.writeHead(200, {'Content-Type': 'text/html; charset=utf-8'}); //한글 설정
+            res.write("<script language=\"javascript\">alert('로그인에 실패하셨습니다. 다시 시도해 주십시오.')</script>");
+            res.write("<script language=\"javascript\" charset=\'UTF-8\'>window.location=\"/login\"</script>"); // main 페이지로 이동
         }
     })
 })
@@ -852,6 +801,46 @@ router.post('/cart',(req, res) =>{
 });
 
 
+/* 장바구니 삭제 */
+router.get('/delete_cart', (req, res) => {
+    let cartnum = req.query.cartnum;
+    let prodnum = req.query.prodnum; //비회원
+
+    // 로그인 여부 체크
+    if(req.session.is_logined) { //1) 로그인 되어있으면 cart테이블에서 지우기
+        /* db에서 상품 정보 완전히삭제 */
+        console.log("삭제 선택한 cartnum : ",cartnum)
+        connection.query(`delete from cart where cartnum=${cartnum}`,
+        (err, result) => {
+            if(err) throw err;
+            res.redirect('/cart');
+        })
+    }else{ // 2) 로그인 안되어있으면 쿠키에서 삭제
+        
+        // cart 쿠키를 가져옴
+        // cart 쿠키 객체를 복사해서 cart2에 저장
+        // cart2에서 상품번호가 prodnum인 상품을 삭제
+        // 'cart'쿠키를 지우고 , 삭제된 cart2를 다시 'cart'라는 쿠키로 재생성함.
+        // cart페이지로 리다이렉트
+        var cart = req.cookies.cart; // cart 쿠키를 가져옴
+        console.log("cart에서 상품번호가",prodnum,"인 상품을 삭제하기.");
+        // console.log("cart : ", cart);
+        var cart2=cart;
+        // console.log("cart2!!! ; ", cart2);
+        // console.log("cart2.prodnum",cart2.prodnum);
+        delete cart2[prodnum];
+        res.clearCookie('cart');
+
+        res.cookie('cart', cart2);
+
+        console.log("after delete.....",cart2);
+     
+        res.redirect('/cart');
+
+    }
+});
+
+
 /********************** 상품 주문 (order) ***************************/
 
 
@@ -1012,7 +1001,7 @@ router.get('/ordernum',(req,res) => {
 /* 2) 주문내역 저장(결제) : 테이블에 저장(비회원의 경우 회원정보 관련은 제외하고 저장함) */
 router.post('/order/complete', (req, res) => {
     try {
-        var userId = JSON.stringify(req.body.userId); //req.body.userName 를 문자열로 변환 => 서버로 데이터를 보내기 위함
+        var userId = JSON.stringify(req.body.userId); //req.body.userId(객체)를  (JSON)문자열로 변환 => 서버로 데이터를 보내기 위함
         var phoneNum = JSON.stringify(req.body.userPhoneNum);
         var userEmail = JSON.stringify(req.body.userEmail);
 
@@ -1023,7 +1012,7 @@ router.post('/order/complete', (req, res) => {
         var receiverPhoneNum = JSON.stringify(req.body.receiverCellPhone);
         var orderMemo = JSON.stringify(req.body.orderMemo);
 
-        var prodnum = JSON.parse(req.body.prodnum);
+        var prodnum = JSON.parse(req.body.prodnum); // JSON문자열의 구문을 분석하고, 그 결과에서 js값/객체를 생성함.
         var quantity = JSON.parse(req.body.quantity);
         var totalprice = JSON.parse(req.body.totalSettlePrice);
 
@@ -1191,13 +1180,12 @@ router.get('/intro',(req, res) =>{
 /********* 공지사항 *********/
 
 /* 리스트 전체를 불러오는 함수 */
-
 function getAllNotice(callback){
     connection.query('select * from heynature ORDER BY id DESC',
     (err, rows, fields) => {
         for(let i=0; i<rows.length;i++){
             /* YYYY-MM-DD 형식으로 출력할 것 */
-            console.log('rows'+JSON.stringify(rows[i]));
+            // console.log('rows'+JSON.stringify(rows[i]));
             rows[i].update_time = moment( rows[i].update_time).format('YYYY-MM-DD'); //db에서 date 타입을 Date로 했기에 필요없는 부분은 날리려구 포멧해주어서 다시 넣어준다.
         }
         if(err) throw err;
@@ -1218,6 +1206,7 @@ function insertNotice(title,content,callback){
 
 
 /* 리스트 중 id값이 일치하는 row만 불러오는 함수 */
+
 function getNoticeById(id, callback){
     connection.query(`select * from heynature where id=${id}`,
     (err, row, fields) => {
@@ -1247,6 +1236,7 @@ function deleteNoticeById(id,callback){
 }
 
 
+
 /**************** 리뷰 ***************/
 
 //리뷰 전체 불러오기
@@ -1260,8 +1250,17 @@ function getAlldetail(callback){
 
 
 ///리뷰 작성
-function insertdetail(username,content,starcount,r_imgFile,prodnum,callback){
+function insertdetail(username, content, starcount, r_imgFile, prodnum, callback){
+
     connection.query(`insert into review_detail (username, update_time, content, star, r_imgFile,prodnum) values ("${username}", now(),"${content}","${starcount}","${r_imgFile}","${prodnum}")`,(err,result)=>{
+        if(err) throw err;
+        callback();
+    })
+}
+///텍스트리뷰 작성
+function insertdetail_text(username, content, starcount, prodnum, callback){
+
+    connection.query(`insert into review_detail (username, update_time, content, star, prodnum) values ("${username}", now(),"${content}","${starcount}", "${prodnum}")`,(err,result)=>{
         if(err) throw err;
         callback();
     })
