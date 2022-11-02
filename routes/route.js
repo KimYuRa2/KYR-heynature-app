@@ -840,8 +840,10 @@ router.get('/delete_cart', (req, res) => {
             // console.log("fsdasf");
             res.cookie('cart','',{maxAge : 0});
             res.redirect('/cart');
+        }else{
+            res.redirect('/cart');
         }
-        res.redirect('/cart');
+       
 
     }
 });
