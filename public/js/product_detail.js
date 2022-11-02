@@ -457,9 +457,7 @@ function orderProduct() {
 }
 
 //1026
-// 바로 구매하기 버튼 클릭 시
 function guestLogin() {
-  $('.guest_login').submit(); // "바로 구매하기" 버튼을 클릭함으로써  post('/order')로 상품번호, 상품 수를 보냄
+  $('.guest_login').submit(); 
+
 }
-
-

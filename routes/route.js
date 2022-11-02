@@ -963,9 +963,11 @@ router.post('/order', (req, res) => {
     
 
     var sql1 = `select * from product where prodnum=${prodnum};`;// 현재 상품번호에 해당하는 상품의 모든 정보를 얻어옴
-
+    
     connection.query(sql1, function (error, result) {
+        console.log("여러개? : ",result );
         if(!error) {
+            console.log("sql1!!!!! :",sql1);
             totalPrice = result[0].price2 * quantity; // 총금액
             totalPrice2 = result[0].price2 * quantity + 2500; // 총금액 + 배송비
             console.log("result[0] : ", result[0]); 

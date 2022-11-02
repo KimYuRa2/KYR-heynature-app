@@ -35,6 +35,8 @@
               
                 <%results.forEach(( row, index )=>{%>
                     <!-- Product #1 -->
+                    <form class="formb" name="formb" action="/order" method="POST">
+
                     <div class="item">
                         <div class="buttons">
                             <input type="hidden" name="cartnum" value="<%=row.cartnum%>">
@@ -55,15 +57,9 @@
                             
                         <!-- 수량+/- -->
                         <div class="quantity">
-                                <!-- <button class="qt_btn plus-btn" type="button" name="button">
-                                <img src="https://designmodo.com/demo/shopping-cart/plus.svg" alt="" />
-                                </button> -->
 
                             <input type="text" name="name" value="<%=row.quantity%>">개
                                 
-                                <!-- <button class="qt_btn minus-btn" type="button" name="button">
-                                <img src="https://designmodo.com/demo/shopping-cart/minus.svg" alt="" />
-                                </button> -->
                         </div>
 
                         <div class="total-price" >
@@ -71,6 +67,8 @@
                         </div>
 
                     </div>
+
+                    </form>
                 <%})%>
             </div>
                 <div class="product_checkout_wrap">
@@ -134,7 +132,7 @@
 
                     <div class="product_checkout_wrap">
                         <div class="product_checkout2">
-                            <a href="javascript:orderTotalProduct();" class="product_checkout_left2 font20">전체 구매하기</a>
+                            <a href="javascript:orderProduct();" class="product_checkout_left2 font20">전체 구매하기</a>
                         </div>
                     </div>
                 </div>

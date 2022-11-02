@@ -47,7 +47,9 @@ $(document).ready(function(){
 
 
 //test1027
-// 바로 구매하기 버튼 클릭 시
+// 전체 구매하기 버튼 클릭 시
 function orderTotalProduct() {
-  $('.formb').submit(); // "바로 구매하기" 버튼을 클릭함으로써  post('/order')로 상품번호, 상품 수를 보냄
+
+
+//   $('.formb').submit(); // "바로 구매하기" 버튼을 클릭함으로써  post('/order')로 상품번호, 상품 수를 보냄
 }
