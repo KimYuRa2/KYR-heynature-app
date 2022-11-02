@@ -318,3 +318,14 @@ h6{
     display:inline-block;
     font-family: 'Nanum Barun Gothic';
 }
+
+@media only screen and (max-width: 425px)
+{  
+    .ch {
+        width: 280px;
+    }
+    .ch_list {
+        width: 230px;
+    }
+
+}

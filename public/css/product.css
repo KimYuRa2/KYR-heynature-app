@@ -588,7 +588,8 @@ body{
     #input{
         /*검색창 최종*/
         font-size : 14px;
-        width: 50%;
+        width: 100%;
+        margin-top: 50px;
     }
 }
 
@@ -597,3 +598,4 @@ body{
         padding:0 30px;
     }
 }
+

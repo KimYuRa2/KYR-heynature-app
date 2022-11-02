@@ -180,7 +180,32 @@
     color: #43484D;
     font-weight: 300;
   }
+
+@media only screen and (max-width: 1024px)
+{
+  .or_image {
+    margin-right: 20px;
+  }
+  .description {
+    margin-right: 20px;
+  }
+  .quantity {
+    margin-right: 30px;
+    width: 100px;
+  }
+  .orderdate {
+    white-space: nowrap;
+    padding: 27px 20px;
+  }
+  .total-price {
+  width: 120px;
+  }
+
+}
   
+
+
+
   /* Responsive */
   @media (max-width: 800px) {
     .shopping-cart {

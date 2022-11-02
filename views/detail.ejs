@@ -166,7 +166,7 @@
                 </div>
                 <!-- 포토 리뷰 -->
                 <div class="product_review_widget_wrap">
-                    <div class="product_review_widget">
+                    <!-- <div class="product_review_widget">
                         <div class="product_review_total">+500</div>
                         <figure class="reviwer">
                             <a>
@@ -174,7 +174,7 @@
                             </a>
                             <figcaption>+Review</figcaption>
                         </figure>
-                    </div>
+                    </div> -->
                     
                     <% sql2_result.forEach(( row, index )=>{%>
                         <%if(row.r_imgFile !== null) {%>
@@ -188,6 +188,9 @@
                         </div>
                         <%}%>
                     <%});%>
+                    <% if(!sql2_result){%>
+                        <h1>no review</h1>
+                    <%}%>
 
 
 
@@ -377,7 +380,7 @@
                         </div>
                         <div class="review_attach">
                             <div class="review_attach_left">사진첨부</div>
-                            <input type="file" name="r_imgFile" style="padding-top:20px;height:25px;">
+                            <input type="file" class="re_file_btn" name="r_imgFile" style="padding-top:20px;height:25px;">
                             <div class="ask_attach_file">
                                 <div class="insert">
                                 </div>
