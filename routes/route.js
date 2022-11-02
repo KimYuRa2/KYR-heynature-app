@@ -703,12 +703,11 @@ router.get('/cart',(req, res) =>{
                     is_logined:false,
                 });
             }else{ //쿠키 있을 시
-                // console.log("비회원 장바구니 쿠키 존재! : " , req.cookies.cart);
-
+                console.log("비회원 장바구니 쿠키 존재! : " , req.cookies.cart);
                 // console.log("Object.keys(cart) : ",Object.keys(cart)); // 쿠키 키값 배열로 가져오기
                 var sql_tt = `select * from product where prodnum in (?)`; // product테이블에서, prodnum(현재 상품번호)과 Object.keys(cart)(=쿠키 키값 배열로 가져온것들) 중 일치하는 row를 가져옴=> 쿠키에 들어있는 상품 전체 정보 가져옴
                 connection.query(sql_tt, [Object.keys(cart)], (err,results) => {
-                    console.log("select * from product where prodnum in ( Object.keys(cart) ) : ", results);  // 쿠키 key값으로 들어있는 상품 전체 정보 확인
+                    // console.log("select * from product where prodnum in ( Object.keys(cart) ) : ", results);  // 쿠키 key값으로 들어있는 상품 전체 정보 확인
                     var totale = [];
                     var qty;
                     for (var i = 0; i < results.length; i++) {
@@ -721,21 +720,17 @@ router.get('/cart',(req, res) =>{
                         // console.log("results[i].totalPrice : ", results[i].totalPrice);
                         // console.log("results[i].quantity : ", results[i].quantity);
 
-                        // console.log("results[i] : ", results[i])
-                    }
-                    
-                    return res.render("cart",{
-                        results : results,
-                        is_logined : false,
-                    });
-                    
+                            // console.log("results[i] : ", results[i])
+                        }
+                        
+                        return res.render("cart",{
+                            results : results,
+                            is_logined : false,
+                        });
                 });
             }
            
-
         }
-        
-
 });
 
 /* 장바구니 저장 */
@@ -825,16 +820,27 @@ router.get('/delete_cart', (req, res) => {
         var cart = req.cookies.cart; // cart 쿠키를 가져옴
         console.log("cart에서 상품번호가",prodnum,"인 상품을 삭제하기.");
         // console.log("cart : ", cart);
-        var cart2=cart;
-        // console.log("cart2!!! ; ", cart2);
-        // console.log("cart2.prodnum",cart2.prodnum);
+        var cart2 = {};
+        for(let key in cart){ /// 빈 객체에 cart 프로퍼티 전부를 복사해 넣음 (cart2는 cart의 완전히 독립적인 복제본)
+            cart2[key] = cart[key];
+        }
         delete cart2[prodnum];
-        res.clearCookie('cart');
 
+        // console.log("delete cart2[prodnum]; 후 cart !! : ", cart);
+        // console.log("delete cart2[prodnum]; 후 cart2 !! : ", cart2);
+        
+        res.cookie('cart','',{maxAge : 0});
+        // console.log("clearCookie후 cart!! : ", cart);
+        // console.log("clearCookie후 cart2!! : ", cart2);
         res.cookie('cart', cart2);
 
         console.log("after delete.....",cart2);
-     
+
+        if(Object.keys(cart2).length === 0 ){
+            // console.log("fsdasf");
+            res.cookie('cart','',{maxAge : 0});
+            res.redirect('/cart');
+        }
         res.redirect('/cart');
 
     }
