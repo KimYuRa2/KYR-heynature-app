@@ -649,11 +649,34 @@ input[name="sum2"]{
   display: flex;
   /* justify-content: space-around; */
   box-sizing: border-box;
-  overflow: auto;
+  /* overflow: auto; */
+  overflow-x:scroll;
 }
 
 .product_review_widget_wrap::-webkit-scrollbar-thumb{
   color: #90cb00;
+}
+
+/* 임의의 영역 생성 */
+.scrollBar { 
+  width: 100%;
+  overflow-x: scroll;
+}
+
+/* 아래의 모든 코드는 영역::코드로 사용 */
+
+.scrollBar::-webkit-scrollbar {
+    height: 10px; /*스크롤바 높이*/
+}
+
+.scrollBar::-webkit-scrollbar-thumb {
+    width: 40%; /* 스크롤바의 길이 */
+    background: #C5C2C2; /* 스크롤바의 색상 */
+    border-radius: 10px;
+}
+
+.scrollBar::-webkit-scrollbar-track {
+    background: rgba(33, 122, 244, .1);  /*스크롤바 뒷 배경 색상*/
 }
 
 .product_review_widget{

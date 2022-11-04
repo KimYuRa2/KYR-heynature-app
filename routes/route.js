@@ -187,7 +187,44 @@ router.get('/inquiry_read',(req,res,next)=>{
 })
 /********************/
 router.get('/popup',(req, res) => {
-    res.render('popup',{ layout: false });
+
+    // 로그인 아이디의 idx 조회
+    connection.query('select * from users where userId=?', [req.session.userId], (err,result)=>{
+        if( result.length > 0 ){
+            userIdx = result[0].idx; // userIdx : 현재 로그인 된 user의 idx
+            var sql_t = `select * from orders 
+                INNER JOIN product
+                ON orders.prodnum=product.prodnum
+                where idx=?;` ; // orders.prodnum=product.prodnum인 테이블끼리 합쳐진 결과를 검색. (+ idx="(값)"이어야함 !!)
+
+
+            // 주문 테이블 뿌리기
+            connection.query(sql_t, userIdx, function (error, results) {
+                if(!error) {
+                    // console.log("results[0].price2 :",results[0].price2 );
+                    // console.log("quantity :",results[0].quantity );
+                    //results에서 quantity,price2 가져오기
+                    // totalPrice[prodnum] = results[0].price2 * results[0].quantity;
+
+                    return res.render("popup",{
+                        // prodnum에 해당하는 상품명(name), 가격(price2), 이미지(image)
+                        results : results,
+                        is_logined : req.session.is_logined,
+                        userName : req.session.userName,
+                        userId : req.session.userId,
+                        userIdx : req.session.idx,
+                        layout: false 
+                    })
+                } else {
+                    return res.status(500).json({
+                        message: "에러"
+                    });
+                }
+            });   
+        }
+    });
+
+    // res.render('popup',{ layout: false });
 })
 
 
@@ -492,34 +529,22 @@ router.get('/deleteNotice',(req,res)=>{
 /******************* 리뷰 ***************************/
 
 router.get('/review_write', (req,res,next) => {
-    let r_imgFile = req.file;
-    res.render('review_write');
+    var prodnum = req.query.prodnum;
+    console.log("prodnum : ", prodnum);
+    var sql1 = `select * from product where prodnum=?;`; // 해당 상품번호의 상품정보 가져옴
+    // sql1= mysql.format(sql1,prodnum);
+    connection.query(sql1,[prodnum],(err,row,field)=>{
+        
+        var sql1_result = row[0];	//sql1 의 결과값
+
+        if (err) {
+            console.error("err : " + err);
+        } else {
+            res.render('review_write', { prodnum:prodnum,sql1_result : row[0],  userId : req.session.userId, is_logined : req.session.is_logined  });
+        }
+    })
 })
 
-//
-// detail 페이지 (상품디테일. + 리뷰페이지)
-// router.get('/detail',(req, res,next) =>{
-
-//     let prodnum = req.query.prodnum; //상품 index번호
-//     console.log("prodnum : ", prodnum);
-
-//     var sql1 = `select * from product where prodnum=${prodnum};`; // 해당 상품번호의 상품정보 가져옴
-//     sql1= mysql.format(sql1,prodnum);
-
-//     var sql2 = 'select * from review_detail ORDER BY id DESC;'; // 상품 리뷰 가져옴 (최근 작성한게 가장 위에 오도록)
-    
-//     connection.query(sql1 + sql2,(err,rows,field)=>{
-        
-//         var sql1_result = rows[0];	//sql1 의 결과값
-//         var sql2_result = rows[1];	//sql2 의 결과값
-
-//         if (err) {
-//             console.error("err : " + err);
-//         } else {
-//             res.render('detail', { sql1_result : sql1_result[0], sql2_result : sql2_result, userId : req.session.userId });
-//         }
-//     })
-// });
 
 // 리뷰 저장
 router.post('/store2', upload.single("r_imgFile"), function(req,res,next){
@@ -536,14 +561,14 @@ router.post('/store2', upload.single("r_imgFile"), function(req,res,next){
         insertdetail(username, content, starcount , r_imgFile, prodnum, () => { //
             console.log("submit");
             res.write("<script>alert('photo review success')</script>");
-            res.write("<script>window.location=\"/product\"</script>");
+            res.write("<script>window.location=\"/login\"</script>");
         })
-    }else{
 
+    }else{
         insertdetail_text(username, content, starcount , prodnum, () => { //
             console.log("submit");
             res.write("<script>alert('text review success')</script>");
-            res.write("<script>window.location=\"/product\"</script>");
+            res.write("<script>window.location=\"/login\"</script>");
         })
     }
 });

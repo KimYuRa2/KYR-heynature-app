@@ -8,6 +8,13 @@
 </head>
 <body>
     <h2>popoippupup</h2>
-    
+
+    <%results.forEach(( row, index )=>{%>
+        <div>
+            <input type="radio" id="one" name="order" value="fff">#<%=row.ordernum%>.<%=row.name%>
+        </div>
+    <%})%>
+
+    <input type="button" id="clickme" onclick="checkboxcheck();"  value="보내기" />
 </body>
 </html>

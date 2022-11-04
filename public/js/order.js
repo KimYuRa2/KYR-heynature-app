@@ -1,7 +1,3 @@
-// const { $ } = require("static");
-
-// const { $ } = require("static");
-
 $(document).ready(function() {
     $('.or-form-component input.text, .or-form-component textarea.text').on('focusout', function(e) {
         if( this.value != '' ) $(this).parent().addClass('has-value');

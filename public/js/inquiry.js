@@ -1,8 +1,5 @@
 function q_inquiryform_check() {
-
-
     q_clickSubmit();
-
 }
 
 function q_clickSubmit(){

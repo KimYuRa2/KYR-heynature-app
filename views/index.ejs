@@ -7,6 +7,7 @@
     <h3>My Page</h3>
 
     <div class="product_tabs">
+
         <div class="user_info_box">
             <ul style="display: flex; justify-content: space-between;">
                 <% if(is_logined == false){ %>
@@ -33,7 +34,7 @@
                     
               
                     <%results.forEach(( row, index )=>{%>
-                        <!-- Product #1 -->
+                        <!-- 주문상품 #1 -->
                         <div class="item">
                             <!-- 주문번호 -->
                             <div class="quantity">
@@ -73,16 +74,18 @@
                                 <%}else{%>
                                     <%="배송 완료"%>
                                     <!-- 리뷰버튼 -->
-                                    
+                                    <div class="product_review_btnbox" id="review_write_btn">
+                                        <button id="myBtn"><a href="javascript:void(0);" onclick="javascript:location.href='/review_write?prodnum=<%=row.prodnum%>';">리뷰 작성하기</a></button>
+                                    </div>
                                 <%}%>
                             </div>
                         </div>
                     <%})%>
 
-                    
                 </div>
         </div>
         <%}%>
+        <!-- 끝 - (일반-로그인 회원 전용) Order list -->
 
         
 

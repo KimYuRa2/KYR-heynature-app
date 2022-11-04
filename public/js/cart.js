@@ -1,9 +1,3 @@
-window.onload = function init() { 
-  console.log("10181018test");
-}
-
-
-///////////////////////////////////////////////
 // 장바구니 페이지 : 상품갯수 +/- 
 $(document).ready(function(){
 
@@ -44,12 +38,3 @@ $(document).ready(function(){
     });
 });
 
-
-
-//test1027
-// 전체 구매하기 버튼 클릭 시
-function orderTotalProduct() {
-
-
-//   $('.formb').submit(); // "바로 구매하기" 버튼을 클릭함으로써  post('/order')로 상품번호, 상품 수를 보냄
-}

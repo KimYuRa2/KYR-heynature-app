@@ -54,9 +54,6 @@ $(".more").click(function(){ //더보기버튼 클릭
         btnOn.hide();
         figCount = 0;            
     }else{
-        //alert("figNum-12,figNum 까지만 보여줘: "+ (figNum2-12)+figNum2);
-        //alert("figNum : "+figNum2);
-        //alert("fig.length : " + fig.length);
         $(".currentPage").text(countPage); // 현재페이지 숫자로 text 변경
         fig.slice(figNum2-12,figNum2).show();
         btnOn.show();              

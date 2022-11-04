@@ -1,4 +1,4 @@
-var autoHypenPhone = function(str){
+var autoHypenPhone = function(str){ // 휴대폰번호 유효성검사
   str = str.replace(/[^0-9]/g, '');
   var tmp = '';
   if( str.length < 4){
@@ -30,7 +30,6 @@ var autoHypenPhone = function(str){
 
 var phoneNum = document.getElementById('phoneNum');
 var receiverCellPhone = document.getElementById('receiverCellPhone');
-var inquiryphonenum = document.getElementById('inquiryphonenum');
 
 phoneNum.onkeyup = function(){
     console.log(this.value);

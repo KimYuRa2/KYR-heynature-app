@@ -1,24 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="../public/css/reset.css">
-    <link rel="stylesheet" href="../public/css/detail.css">
-</head>
-<body>
-    
 
-    <% if(typeof errs !== 'undefined'){ %>
-        <% errs.forEach(()=>{ %>
-            <h3><%= err.param %> : <%= errs.msg %></h3>
-        <% }) %>
-    <% } %>
-
-    <form class="w1200" method="POST" action="/store2">
-        <div class="review_write_wrap disnone" id="myModal">
+<div style="padding:200px;"> 
+    <form class="w1200" method="POST" action="/store2" enctype="multipart/form-data">
             <div class="review_write_title_wrap">
                 <div class="review_write_title">
                     <img src="../img/product_icon-xxhdpi.png">
@@ -28,27 +10,34 @@
                     <p>이 상품의 품질에 대해서 얼마나 만족하시나요?</p>
                 </div>
             </div>
+            
+            <input type="hidden" name="prodnum" id="prodnum" value="<%=prodnum%>" />
+
+            <div class="naming">
+                <div>이름(userId)</div>
+                <input type="text" id="username" name="username" value="<%=userId%>" readonly>
+            </div>
+
+            <!-- 주문내역 -->
+            
+
             <div class="review_rating">
                 <div class="review_rating_left">
-                    <img src="../img/2.png">
+                    <img src="<%=sql1_result.image%>" alt="(S3)업로드한 이미지 가져오기" />
                 </div>
                 <div class="review_rating_right">
-                    <div class="review_rating_right_title">헤이네이처 어성초 로션 100ml</div>
-                    <!-- <div class="review_rating_right_stars">
-                        <button class="mystar" value="1" type="button"></button>
-                        <button class="mystar" value="2" type="button"></button>
-                        <button class="mystar" value="3" type="button"></button>
-                        <button class="mystar" value="4" type="button"></button>
-                        <button class="mystar" value="5" type="button"></button>
-                    </div> -->
+                    <div class="review_rating_right_title"><%=sql1_result.name%></div>
 
                     <div class="starRev">
-                        <span class="starR on">별1</span>
-                        <span class="starR">별2</span>
-                        <span class="starR">별3</span>
-                        <span class="starR">별4</span>
-                        <span class="starR">별5</span>
+                        <span id="star11" class="starR on" onclick="star1()">별1</span>
+                        <span id="star22" class="starR" onclick="star2()">별2</span>
+                        <span id="star33" class="starR" onclick="star3()">별3</span>
+                        <span id="star44" class="starR" onclick="star4()">별4</span>
+                        <span id="star55" class="starR" onclick="star5()">별5</span>
                     </div>
+
+                    <!-- 별점 -->
+                    <input type="hidden" value="" name="starcount" id="starcount">
 
                 </div>
             </div>
@@ -56,30 +45,22 @@
                 <div class="review_writing_left">상세리뷰</div>
                 <div class="review_writing_right">
                     <div class="review_writing_content">
-                        <textarea name="content" id="content" placeholder="상품 품질에 대한 고객님의 솔직한 리뷰를 남겨주세요."></textarea>
+                        <textarea id="content" name="content" placeholder="상품 품질에 대한 고객님의 솔직한 리뷰를 남겨주세요."></textarea>
                     </div>
                 </div>
             </div>
             <div class="review_attach">
                 <div class="review_attach_left">사진첨부</div>
+                <input type="file" class="re_file_btn" name="r_imgFile" style="padding-top:20px;height:25px;">
                 <div class="ask_attach_file">
                     <div class="insert">
-                        <!-- <form id="btn_total" name="insertf" action="insertf" method="post" enctype="multipart/form-data"> -->
-                            <label for="myFile">+ 추가</label>
-                            <input type='file' id="myFile" name='' multiple/>
-                            <div id="showFiles"></div>
-                        <!-- </form> -->
-
                     </div>
                 </div>
             </div>
-
             <div class="review_btn">
-                <button type="submit" class="submit_btn">등록하기</button>
-                <button class="cancel_btn">취소하기</button>
+                <button type="submit" class="submit_btn" onClick="this.style.visibility='hidden'">등록하기</button>
+                <button type="button" class="cancel_btn" onclick="location.href='/login' ">취소하기</button>
             </div>
-        </div>
     </form>
 
-</body>
-</html>
+</div>
