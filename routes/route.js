@@ -33,6 +33,8 @@ const { isReadable } = require("stream");
 // const path = require('path'); //설치X
 // const fs = require('fs'); // 설치 x
 
+/* nodemailer */
+const nodemailer = require('nodemailer');
 
 // * db 연결
 /* ura31 - heroku cleardb */
@@ -70,12 +72,123 @@ let upload = multer({
 })
 
 
+
+
+
 router.use(expressLayouts);
 
 
 
 
 /********************** route, routing ***********************/
+router.get("/mail",(req,res) => {
+    res.render("mail")
+})
+router.post("/mail", (req,res,next) => {
+    let email = req.body.email;
+    let mailtitle=req.body.mailtitle;
+    let mailcontent=req.body.mailcontent;
+
+  let transporter = nodemailer.createTransport({
+    service: process.env.SERVICE,
+    host: process.env.MAILHOST,
+    port: process.env.MAILPORT,
+    auth: {
+      user: process.env.MAILID, // 보내는 메일의 주소
+      pass: process.env.MAILPASSWORD,   // 보내는 메일의 비밀번호
+    }
+  });
+
+  let mailOptions = {
+    from: process.env.MAILID, // 보내는 메일의 주소
+    to: email ,                     // 수신 메일 주소
+    subject: mailtitle,   // 제목
+    text: mailcontent  // 내용
+  };
+
+  transporter.sendMail(mailOptions, function(error, info){
+    if (error) {
+      console.log(error);
+    }
+    else {
+      console.log('Email sent: ' + info.response);
+    }
+  });
+
+  res.redirect("/admin_inquiry");
+})
+
+/******************* QA******************/
+// 문의하기 업로드
+router.post('/inquiry', upload.single("q_imgFile"), function(req, res, next){
+    // console.log("s3 이미지 경로 : " , req.file.location);
+    let q_imgFile = req.file;
+    const cate = req.body.cate;
+    const name = req.body.name; //이름
+    const phoneNum = req.body.phoneNum; //휴대폰번호
+    const email = req.body.email;
+    const q_title = req.body.q_title; //문의제목
+    const q_content = req.body.q_content; //문의내용
+
+    if(req.file !== undefined){ // 이미지가 있으면 실행!!
+
+        const image = req.file.location; // image 경로 만들기
+        const datas = [cate, name, phoneNum, email, q_title, q_content, image];
+    
+        connection.query('insert into inquiry(cate, name, phoneNum, email, q_title, q_content, image,create_time) values(?,?,?,?,?,?,?,now())',datas,(err,rows)=>{
+            if (err) {
+                console.error("err : " + err);
+            } else {
+                console.log("rows: " + JSON.stringify(rows));
+                // res.redirect("/cscenter");
+                res.writeHead(200, {'Content-Type': 'text/html; charset=utf-8'}); //한글 설정
+                res.write("<script language=\"javascript\">alert('문의해주셔서 감사합니다. 입력하신 이메일로 답변드리겠습니다.')</script>");
+                res.write("<script language=\"javascript\" charset=\'UTF-8\'>window.location=\"/cscenter\"</script>"); // main 페이지로 이동
+            }
+        })
+    }else{  // 첨부이미지x
+        const datas = [cate, name, phoneNum, email, q_title, q_content];
+
+        connection.query('insert into inquiry(cate, name, phoneNum, email, q_title, q_content, create_time) values(?,?,?,?,?,?,now())',datas,(err,rows)=>{
+            if (err) {
+                console.error("err : " + err);
+            } else {
+                console.log("rows: " + JSON.stringify(rows));
+                // res.redirect("/cscenter");
+                res.writeHead(200, {'Content-Type': 'text/html; charset=utf-8'}); //한글 설정
+                res.write("<script language=\"javascript\">alert('문의해주셔서 감사합니다. 입력하신 이메일로 답변드리겠습니다.')</script>");
+                res.write("<script language=\"javascript\" charset=\'UTF-8\'>window.location=\"/cscenter\"</script>"); // main 페이지로 이동
+            }
+        })
+    }
+})
+
+
+router.get('/admin_inquiry', (req,res) => {
+    connection.query('select * from inquiry',(err,rows) =>{
+        if (err) {
+            console.error("err : " + err);
+        } else {
+            res.render('admin_inquiry',{title : "문의하기 내용", rows:rows})
+        }
+    })
+});
+
+router.get('/inquiry_read',(req,res,next)=>{
+    let qnum = req.query.qnum;
+
+    connection.query(`select * from inquiry where qnum=${qnum}`, (err, row, fields) => {
+        if(err) throw err;
+        else{
+            res.render('inquiry_read', {row: row[0]})
+        }
+    })
+
+})
+/********************/
+router.get('/popup',(req, res) => {
+    res.render('popup',{ layout: false });
+})
 
 
 /************** 메인 *****************/
@@ -552,7 +665,7 @@ router.post('/login', (req, res, next) => {
                             userAddress: row[0].userAddress,
                             userAddressSub: row[0].userAddressSub,
         
-                            is_logined : true
+                            is_logined : true,
                         });
                     });
                 }else{ // 로그인 실패 시 login페이지로 

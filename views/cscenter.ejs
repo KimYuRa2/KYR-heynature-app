@@ -52,11 +52,12 @@
                     </div>
                 </div>
 
-                <!-- Q&A tab-->
+                <!-- Q&A tab -->
                 <div class="cs_tabContent">
                     <div class="cs_tabContentInner">
+
+                        <form name="inquiry_form" class="w1200" method="POST" action="/inquiry" enctype="multipart/form-data" style="padding-top: 100px; box-sizing: border-box;">
                         <div class="cs_box1">
-                            <!-- Q&A 나열 -->
                             <div class="ask_title">
                                 <p class="h3 bold">문의하기</p>
                             </div>
@@ -66,77 +67,84 @@
                                 <div class="ask_box">
                                     <div class="ask_txt">​​문의유형</div>
                                     <div class="ask_select">
-                                        <select>
+                                        <select name="cate" id="cate">
                                             <option value="회원/정보관리">회원/정보관리</option>
-                                            <option value="회원/정보관리">주문/결제</option>
-                                            <option value="회원/정보관리">배송</option>
-                                            <option value="회원/정보관리">반품/환불/교환/AS</option>
-                                            <option value="회원/정보관리">영수증/증빙서류</option>
-                                            <option value="회원/정보관리">상품/이벤트</option>
-                                            <option value="회원/정보관리">기타</option>
+                                            <option value="주문/결제">주문/결제</option>
+                                            <option value="배송">배송</option>
+                                            <option value="반품/환불/교환/AS">반품/환불/교환/AS</option>
+                                            <option value="영수증/증빙서류">영수증/증빙서류</option>
+                                            <option value="상품/이벤트">상품/이벤트</option>
+                                            <option value="기타">기타</option>
                                         </select>
                                     </div>
                                 </div>
                             </div>
+
                             <div class="ask_name_wrap">
                                 <div class="ask_box">
                                     <div class="ask_name">
-                                        <input type="text">
-                                        <span>이름</span>
+                                        <input type="text" name="name" id="name" required>
+                                        <span>이름* </span>
                                     </div>
                                 </div>
                             </div>
+
                             <div class="ask_phone_wrap">
                                 <div class="ask_box">
                                     <div class="ask_phone">
-                                        <input type="text">
-                                        <span>휴대폰</span>
+                                        <input type="text" id="inquiryphonenum" name="phoneNum" maxlength="13" required>
+                                        <span>휴대폰* </span>
                                     </div>
                                 </div>
                             </div>
+
                             <div class="ask_email_wrap">
                                 <div class="ask_box">
                                     <div class="ask_email">
-                                        <input type="text">
-                                        <span>이메일</span>
+                                        <input type="text" name="email" id="email" required>
+                                        <span>이메일(ex@example.com)* </span>
                                     </div>
                                 </div>
                             </div>
+
                             <div class="ask_title_wrap">
                                 <div class="ask_box">
                                     <div class="ask_title">
-                                        <input type="text">
-                                        <span>문의제목</span>
+                                        <input type="text" name="q_title" id="q_title" required>
+                                        <span>문의제목* </span>
                                     </div>
                                 </div>
                             </div>
+
                             <div class="ask_content_wrap">
                                 <div class="ask_box">
                                     <div class="ask_content">
-                                        <textarea></textarea>
-                                        <span>문의내용</span>
+                                        <textarea name="q_content" id="q_content" required></textarea>
+                                        <span>문의내용* </span>
                                     </div>
                                 </div>
                             </div>
+
                             <div class="ask_attach">
                                 <h1>첨부파일</h1>
-                            </div>
-                            <div class="ask_attach_file">
-                                <!-- 수정 -->
-                                <div class="insert">
-                                    <form name="insertf" action="insertf" method="post" enctype="multipart/form-data">
-                                        <label for="myFile">+ 추가</label>
-                                        <input type='file' id="myFile" name='' multiple/>
-                                    </form>
-                                    <div id="cs_showFiles"></div>
+
+                                <div class="ask_title_wrap">
+                                    <div class="ask_box">
+                                        <div class="ask_title2">
+                                            <input type="file" name="q_imgFile" id="q_imgFile" style="padding-top:20px;height:25px;">
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="ask_notice_wrap">
-                                
-                                <div class="ask_notice"><input type="checkbox"><span class="red">(필수)</span>
-                                    <a href="https://www.heynature.co.kr/html/privacy.html">    
-                                        <span class="black"> 비회원 개인정보 수집동의</span>
-                                    </a>
+
+
+                            <div class="ask_notice_wrap" style="padding: 90px 0 10px 28px;">
+                                <div class="ask_notice">
+                                    <div class="checkbox">
+                                        <input type="checkbox" name="orderCheck" id="termAgree_orderCheck" required>
+                                        <label for="termAgree_orderCheck"></label>
+                                        <span class="label-text"><span class="red">(필수)</span>비회원 개인정보 수집동의</span>
+                                    </div>
                                 </div>
                             </div>
 
@@ -149,12 +157,16 @@
                                         그 밖의 사항은 '헤이네이처(heynature)'의 개인정보처리방침을 준수합니다.</div>
                                 </div>
                             </div>
+
                             <div class="ask_submit_wrap">
-                                <div class="ask_submit">
-                                    <button>문의하기</button>
+                                <div class="update_submit">
+                                    <input type="button" onclick="inquiryform_check();" value="문의하기">
                                 </div>
                             </div>
+
                         </div>
+                        </form>
+
                     </div>
                 </div>
 

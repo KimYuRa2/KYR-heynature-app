@@ -166,16 +166,6 @@
                 </div>
                 <!-- 포토 리뷰 -->
                 <div class="product_review_widget_wrap">
-                    <!-- <div class="product_review_widget">
-                        <div class="product_review_total">+500</div>
-                        <figure class="reviwer">
-                            <a>
-                                <img src="../img/200707200959.jpeg">
-                            </a>
-                            <figcaption>+Review</figcaption>
-                        </figure>
-                    </div> -->
-                    
                     <% sql2_result.forEach(( row, index )=>{%>
                         <%if(row.r_imgFile !== null) {%>
                         <div class="product_review_widget">
@@ -191,9 +181,6 @@
                     <% if(!sql2_result){%>
                         <h1>no review</h1>
                     <%}%>
-
-
-
                 </div>
 
                 <!-- 모달창 (포토리뷰) -->
@@ -349,6 +336,10 @@
                             <div>이름(userId)</div>
                             <input type="text" id="username" name="username" value="<%=userId%>" readonly>
                         </div>
+
+                        <!-- 주문내역 -->
+                        <input type="button" value="팝업창 호출" onclick="showPopup();" />
+
 
                         <div class="review_rating">
                             <div class="review_rating_left">

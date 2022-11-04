@@ -1,0 +1,17 @@
+
+.q_list th{
+    padding : 20px;
+    border: 1px solid #444444;
+    vertical-align: middle; 
+    vertical-align: middle;
+}
+.q_list td{
+    padding : 15px;
+    border: 1px solid #444444;
+    vertical-align: middle;
+}
+
+.inquiry_table td{
+    padding: 15px;
+    
+}

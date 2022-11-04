@@ -1,0 +1,39 @@
+<div style="padding:200px 80px;">
+
+    <ul id="kaTop">
+        <li onclick="getShowCT()"><a class="ka" id="ka" href="javascript:void(0);"></a></li>
+        <li><a class="top" id="top" href="javascript:void(0);"></a></li>
+    </ul>
+
+    <h2 style="text-align : center; padding: 30px 0;">문의 목록</h2>
+
+    
+
+    <table class="q_list" style="border:5px solid #444444;" width="100%" height="200" cellspacing="5">
+        <caption style="font-size:20px; display:none;">문의 목록</caption>
+        <thead>
+            <tr align="center" bgcolor="white">
+                <th>번호</th>
+                <th>​문의유형</th>
+                <th>문의제목</th>
+                <th>날짜</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            <%rows.forEach(( row, index )=>{%>
+                
+                    <tr class="q_list" onClick=" location.href='/inquiry_read?qnum=<%=row.qnum%>' " align="center" bgcolor="white" style="cursor:pointer;">
+                        
+                        <td><%=row.qnum%></td>
+                        <td><%=row.cate%></td>
+                        <td><%=row.q_title%></td>
+                        <td><%=row.create_time%></td>
+                        
+                    </tr>
+                
+            <%})%>
+        </tbody>
+    </table>
+
+</div>

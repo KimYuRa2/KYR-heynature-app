@@ -34,7 +34,6 @@ dotenv.config(); //config(현재디렉토리의 .env파일을 자동으로 인�
 
 
 
-
 /*1006 session test */
 app.use(bodyParser.urlencoded({extended:false}));
 // 세션 (미들웨어) 6
@@ -60,7 +59,6 @@ app.use(express.urlencoded({extended:false}));
 app.use(cookieParser());
 app.use(logger('dev'));
 app.use('/', routers);//use : 미들웨어 등록
-
 
 
 

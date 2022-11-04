@@ -420,20 +420,98 @@ $(".cs_more").click(function(){ //더보기버튼 클릭
     }
 });
 
-
-
-/*********** insert file ************* */
-window.onload = function(){
-    target = document.getElementById('myFile');
-    target.addEventListener('change', function(){
-        fileList = "";
-        for(i = 0; i < target.files.length; i++){
-            fileList += target.files[i].name + '<br>';
-        }
-        target2 = document.getElementById('cs_showFiles');
-        target2.innerHTML = fileList;
-    });
+/** 문의하기 유효성검사 **/
+var autoHypenPhone = function(str){
+    str = str.replace(/[^0-9]/g, '');
+    var tmp = '';
+    if( str.length < 4){
+        return str;
+    }else if(str.length < 7){
+        tmp += str.substr(0, 3);
+        tmp += '-';
+        tmp += str.substr(3);
+        return tmp;
+    }else if(str.length < 11){
+        tmp += str.substr(0, 3);
+        tmp += '-';
+        tmp += str.substr(3, 3);
+        tmp += '-';
+        tmp += str.substr(6);
+        return tmp;
+    }else{              
+        tmp += str.substr(0, 3);
+        tmp += '-';
+        tmp += str.substr(3, 4);
+        tmp += '-';
+        tmp += str.substr(7);
+        return tmp;
+    }
+  
+    return str;
 }
+
+// cscenter - 문의하기
+inquiryphonenum.onkeyup = function(){
+    console.log(this.value);
+    this.value = autoHypenPhone( this.value ) ;  
+}
+
+function inquiryform_check() {
+
+    // var cate = document.getElementById(cate);//유형
+    var name = document.getElementById("name");//이름
+    var phoneNum = document.getElementById("inquiryphonenum");//휴대폰
+    var email = document.getElementById("email");//이메일
+    var q_title = document.getElementById("q_title");//문의제목
+    var q_content = document.getElementById("q_content");//문의내용
+    var orderCheck = document.getElementById("termAgree_orderCheck");//동의체크
+    
+
+    if(name.value == "") { //if(!name.value)
+        alert("이름을 입력해주세요.");
+        name.focus();
+        return false;
+    }
+    else if(phoneNum.value == "") { //if(!name.value)
+        alert("전화번호를 입력해주세요.");
+        phoneNum.focus();
+        return false;
+    }
+    else if(email.value == "") {
+        alert("이메일을 입력해주세요.");
+        email.focus();
+        return false;
+    }
+    else if(q_title.value == "") { 
+        alert("문의제목을 입력해주세요.");
+        q_title.focus();
+        return false;
+    }
+    else if(q_content.value == "") { //if(!name.value)
+        alert("문의내용을 입력해주세요.");
+        q_content.focus();
+        return false;
+    }
+    else if(!orderCheck.checked){
+        alert("비회원 개인정보 수집에 동의해주세요.");
+        orderCheck.focus();
+        return false;
+    }
+
+    clickSubmit();
+
+}
+
+function clickSubmit(){
+    if(confirm('문의를 남기시겠습니까?')){
+        // 입력값 전송
+        document.inquiry_form.submit();
+    }else{
+        return;
+    }
+}
+
+/*********** 공지사항 - 관리자 비밀번호 재확인 **********/
 
 function checkPw(){
     var pw = document.getElementById('pw').value;
@@ -442,4 +520,5 @@ function checkPw(){
        return false
    } else{
        return true
-   }}
+   }
+}

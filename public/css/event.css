@@ -112,6 +112,8 @@ main {
     display: flex;
     justify-content: space-between;
     flex-wrap: wrap;
+    margin-top: 80px;
+    margin-bottom: 80px;
 }
 .event_sec1 li {
     display: block;
@@ -220,6 +222,7 @@ main {
     position: fixed;
     width: 60%;
     max-width: 600px;
+    height:400px;
     top: 50%;
     left: 50%;
     border-radius: 10px;
@@ -260,21 +263,23 @@ main {
   }
   .con_box {
       width: 100%;
-      height: 750px;
+      height: 400px;
       padding: 20px;
       border-bottom-left-radius: 10px;
       border-bottom-right-radius: 10px;
       box-sizing: border-box;
       background-color: #FFFEFC;
+      overflow: auto;
   }
   .ev_notice {
-      height: 720px;
-      overflow: auto;
+      height: 400px;
+      /* overflow: auto; */
       margin-top: -5px;
   }
   .ev_notice>img {
     width: 100%;
     object-fit:cover;
+    margin-bottom: 20px;
   }
   .ev_notice::-webkit-scrollbar {
     display: none; /* Chrome, Safari, Opera*/

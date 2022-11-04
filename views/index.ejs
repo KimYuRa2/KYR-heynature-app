@@ -72,13 +72,19 @@
                                     <%="배송 전"%>
                                 <%}else{%>
                                     <%="배송 완료"%>
+                                    <!-- 리뷰버튼 -->
+                                    
                                 <%}%>
                             </div>
                         </div>
                     <%})%>
+
+                    
                 </div>
         </div>
         <%}%>
+
+        
 
 
         <!-- (관리자) 전용 상품관리 버튼 -->
@@ -87,6 +93,7 @@
                 <article class="write_btn_box">
                     <div onclick="javascript:location.href='/admin_prod'">상품관리</div>
                     <div onclick="javascript:location.href='/admin_order'">주문리스트</div>
+                    <div onclick="javascript:location.href='/admin_inquiry'">문의리스트</div>
                 </article>
             </div>
         <%}%>

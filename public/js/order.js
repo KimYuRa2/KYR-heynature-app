@@ -80,7 +80,7 @@ function findAddr(){
 
 function orderBuy() {
 
-    //회원가입처리
+    
     var userName = $("input[name='userName']").val();
     var userPhoneNum = $("input[name='userPhoneNum']").val();
     var userEmail = $("input[name='userEmail']").val();
@@ -116,7 +116,7 @@ function orderBuy() {
     
 
     if(receiverName==""){
-            alert("성명을 입력하세요!!!!");
+            alert("성명을 입력하세요.");
             receiverName.focus();
             return false;
     }

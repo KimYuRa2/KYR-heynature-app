@@ -30,6 +30,7 @@ var autoHypenPhone = function(str){
 
 var phoneNum = document.getElementById('phoneNum');
 var receiverCellPhone = document.getElementById('receiverCellPhone');
+var inquiryphonenum = document.getElementById('inquiryphonenum');
 
 phoneNum.onkeyup = function(){
     console.log(this.value);
