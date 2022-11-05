@@ -56,13 +56,10 @@ $(function() {
   });
 });
 
-//  $(".top").click(function(){
-//    $('body,html').animate({scrollTop:0},400); 
-//    return false;
-   
-//   })
 
 
+
+//footer에서 katop 위치, opacity변경 - main용
 $(window).scroll(function(){
   var scrT = $(window).scrollTop();
   var kaTop = document.querySelector("#chTop");
@@ -71,11 +68,14 @@ $(window).scroll(function(){
     $(kaTop).removeClass('chTop1')
     $(kaTop).addClass('chTop2')
   } else {
-
     $(kaTop).removeClass('chTop2')
     $(kaTop).addClass('chTop1')
   }
 });
+
+
+
+/** 채널톡(보이기만) **/
 
 function getShowCT(){
   /* 채널톡 열기 */

@@ -1,14 +1,10 @@
-// 자동 계산해주기
-//test
-
 window.onload = function init() { 
   // console.log("10181018test");
 }
 
-/******************* 1020 상품수량 + 자동계산 test ********************/
+/***************** 상품수량 + 자동계산 ********************/
 
 const amountform = document.getElementsByName("forma"),
-// sell_price=document.forms['forma'].elements['sell_price'],
 sell_price=document.forma.sell_price,
 amount=document.forma.amount,
 add=document.forma.add,
@@ -16,65 +12,65 @@ minus=document.forma.minus,
 totalsum=document.forma.totalsum;
 
 if(amountform){
-totalsum.value = sell_price.value;
-let amountval = amount.value;
-let totalsumval=totalsum.value;
-let priceval=sell_price.value;
-console.log(totalsum.value);
+  totalsum.value = sell_price.value;
+  let amountval = amount.value;
+  let totalsumval=totalsum.value;
+  let priceval=sell_price.value;
+  console.log(totalsum.value);
 
-if(add){
-  add.addEventListener('click',function(){
-    // alert("수량추가버튼");
-    amountval++; //수량추가
-    totalsumval=amountval*priceval;
-    amount.value=amountval;
-    totalsum.value=totalsumval;
-    console.log(amountval,totalsumval,priceval);
-  })
-}
-
-if(minus){
-  minus.addEventListener('click',function(){
-    if(amountval>1){
-      amountval--; //수량삭제
+  if(add){
+    add.addEventListener('click',function(){
+      // alert("수량추가버튼");
+      amountval++; //수량추가
       totalsumval=amountval*priceval;
       amount.value=amountval;
       totalsum.value=totalsumval;
       console.log(amountval,totalsumval,priceval);
-    }else{
-      amountval=1;
-    }
-  })
-}else{
-  amountval=1;
+    })
+  }
+
+  if(minus){
+    minus.addEventListener('click',function(){
+      if(amountval>1){
+        amountval--; //수량삭제
+        totalsumval=amountval*priceval;
+        amount.value=amountval;
+        totalsum.value=totalsumval;
+        console.log(amountval,totalsumval,priceval);
+      }else{
+        amountval=1;
+      }
+    })
+  }else{
+    amountval=1;
+  }
 }
-}
 
 
-/////////////인스타 섹션 팝업창 가운데 정렬
+/*** 인스타 섹션 팝업창 가운데 정렬 ***/
 
-function openPopup(){
-var _width = '900';
-var _height = '700';
+// function openPopup(){
+// var _width = '900';
+// var _height = '700';
 
-var _left = Math.ceil((window.screen.width-_width)/2);
-var _top = Math.ceil((window.screen.height-_height)/2);
-window.open('/url','popup-test','width='+_width+',height='+_height+',left='+_left+',top='+_top);
-}
+// var _left = Math.ceil((window.screen.width-_width)/2);
+// var _top = Math.ceil((window.screen.height-_height)/2);
+// window.open('/url','popup-test','width='+_width+',height='+_height+',left='+_left+',top='+_top);
+// }
 
 
-///////////////탭 버튼 구현///////////////////////////////
+/*** 탭 버튼 구현 ***/
 
 $(document).ready(function(){
 
-// 포토리뷰 모달창
-$(".product_review_comment_wrap").click(function(){
-  $(".review_wrap").fadeIn();
-});
+  // 포토리뷰 모달창
+  $(".product_review_comment_wrap").click(function(){
+    $(".review_wrap").fadeIn();
+  });
 
-$(".close").click(function(){
-  $(".review_wrap").fadeOut();
-});
+  $(".close").click(function(){
+    $(".review_wrap").fadeOut();
+  });
 
 //
 
@@ -116,8 +112,8 @@ $('.product_nav li:eq(2)').addClass('second_active');
   });
 });
 
-/////////////////////////////// 사진 리뷰 팝업/////////////
 
+/*** Photo Review 모달창 ***/
 var modals = document.getElementsByClassName("ev_box_wrap");
 var btns = document.getElementsByClassName("event_on");
 var spanes = document.getElementsByClassName("close");
@@ -129,10 +125,9 @@ function detail_Modal(num) {
     // 해당 클래스의 내용을 클릭하면 Modal을 띄웁니다.
     btns[num].onclick =  function() {
         modals[num].style.display = "block";
-        console.log(num);
+        console.log(num,"번째 포토모달!!!");
         body.style.overflow = "hidden"
         body.style.height = "100%";
-        
     };
     
     // <span> 태그(X 버튼)를 클릭하면 Modal이 닫습니다.
@@ -140,7 +135,6 @@ function detail_Modal(num) {
         modals[num].style.display = "none";
         body.style.overflow = "auto"
         body.style.height = "100%";
-        
     };
     
   };
@@ -157,10 +151,12 @@ funcs[j]();
 }
 
 
+
+
 /************jquery start*************/
 $(document).ready(function(){
 
-/************tab active*************/
+  /*** tab active ***/
   $(".tab1 li").click(function(){
     var num = $(".tab1 li").index(this);
     
@@ -193,51 +189,51 @@ $(document).ready(function(){
 });
 
 
-///////////////////////////리뷰 페이지 넘버 작성////////////////
+/*** 리뷰 페이지 넘버 작성 ***/
 
-var reviewTab = $('.product_review_paging>li>a'),
-  reviewTabPanel = $('.review_page_section');
+// var reviewTab = $('.product_review_paging>li>a'),
+//   reviewTabPanel = $('.review_page_section');
 
 //링크를 클릭하면 할 일
-reviewTabPanel.hide();
-$('.review_page_section:eq(0)').show();
-$('.product_review_paging li:eq(0)').addClass('review_first_tab_active');
-$('.product_review_paging li:eq(1)').addClass('review_first_tab_active_a');
-$('.product_review_paging li:eq(2)').addClass('review_first_tab_active_a');
-$('.product_review_paging li:eq(3)').addClass('review_first_tab_active_a');
-$('.product_review_paging li:eq(4)').addClass('review_first_tab_active_a');
-$('.product_review_paging li:eq(5)').addClass('review_first_tab_active_a');
+// reviewTabPanel.hide();
+// $('.review_page_section:eq(0)').show();
+// $('.product_review_paging li:eq(0)').addClass('review_first_tab_active');
+// $('.product_review_paging li:eq(1)').addClass('review_first_tab_active_a');
+// $('.product_review_paging li:eq(2)').addClass('review_first_tab_active_a');
+// $('.product_review_paging li:eq(3)').addClass('review_first_tab_active_a');
+// $('.product_review_paging li:eq(4)').addClass('review_first_tab_active_a');
+// $('.product_review_paging li:eq(5)').addClass('review_first_tab_active_a');
 
 
-reviewTab.click(function (e) {
+// reviewTab.click(function (e) {
 
-$('.product_review_paging li:eq(0)').removeClass('review_first_tab_active');
-$('.product_review_paging li:eq(1)').removeClass('review_first_tab_active_a');
-$('.product_review_paging li:eq(2)').removeClass('review_first_tab_active_a');
-$('.product_review_paging li:eq(3)').removeClass('review_first_tab_active_a');
-$('.product_review_paging li:eq(4)').removeClass('review_first_tab_active_a');
-$('.product_review_paging li:eq(5)').removeClass('review_first_tab_active_a');
-
-
-e.preventDefault();
+// $('.product_review_paging li:eq(0)').removeClass('review_first_tab_active');
+// $('.product_review_paging li:eq(1)').removeClass('review_first_tab_active_a');
+// $('.product_review_paging li:eq(2)').removeClass('review_first_tab_active_a');
+// $('.product_review_paging li:eq(3)').removeClass('review_first_tab_active_a');
+// $('.product_review_paging li:eq(4)').removeClass('review_first_tab_active_a');
+// $('.product_review_paging li:eq(5)').removeClass('review_first_tab_active_a');
 
 
+// e.preventDefault();
 
-reviewTab.parent('li').removeClass('review_tab_active');
-reviewTab.parent('li').addClass('review_tab_unactive')// 모두 빼고
-$(this).parent('li').addClass('review_tab_active'); //그 요소에만 추가
-$(this).parent('li').removeClass('review_tab_unactive');
 
-reviewTab.removeClass('review_tab_a_active');
-reviewTab.addClass('review_tab_a_unactive');
-$(this).addClass('review_tab_a_active');
-$(this).removeClass('review_tab_a_unactive');
-reviewTabPanel.hide();
 
-var review = $(this).attr('href');
-$(review).show();
+// reviewTab.parent('li').removeClass('review_tab_active');
+// reviewTab.parent('li').addClass('review_tab_unactive')// 모두 빼고
+// $(this).parent('li').addClass('review_tab_active'); //그 요소에만 추가
+// $(this).parent('li').removeClass('review_tab_unactive');
 
-});
+// reviewTab.removeClass('review_tab_a_active');
+// reviewTab.addClass('review_tab_a_unactive');
+// $(this).addClass('review_tab_a_active');
+// $(this).removeClass('review_tab_a_unactive');
+// reviewTabPanel.hide();
+
+// var review = $(this).attr('href');
+// $(review).show();
+
+// });
 
 /////////////리뷰 작성하기///////////////
 
@@ -274,7 +270,7 @@ if (event.target == modal) {
 }
 }
 
-////////// 첫번째 시작 화면시 li에만 기본 값 주기/////
+/***  첫번째 시작 화면시 li에만 기본 값 주기 ***/
 function myfunction(){
 var tabAnchor_first = $('.product_nav li')
 $('tabAnchor_first').addClass('tab_firstcss');
@@ -283,47 +279,47 @@ $('tabAnchor_first').addClass('tab_firstcss');
 
 /////////별 클릭 시 색깔 바뀌기 + 별 누적/////
 
-var Mystar = $('.mystar');
+// var Mystar = $('.mystar');
 
-Mystar.click(function(e){
-  e.preventDefault();
-Mystar.addClass('.star_unactive');
-Mystar.removeClass('.star_active');
-$(this).addClass('.star_active');
-$(this).removeClass('.star_unactive');
-})
+// Mystar.click(function(e){
+//   e.preventDefault();
+//   Mystar.addClass('.star_unactive');
+//   Mystar.removeClass('.star_active');
+//   $(this).addClass('.star_active');
+//   $(this).removeClass('.star_unactive');
+// })
 
 //////////////////////////////
-$('.starRev span').click(function(){
-$(this).parent().children('span').removeClass('on');
-$(this).addClass('on').prevAll('span').addClass('on');
-return false;
-});
+// $('.starRev span').click(function(){
+// $(this).parent().children('span').removeClass('on');
+// $(this).addClass('on').prevAll('span').addClass('on');
+// return false;
+// });
 
 
 
 
 ///////파일 첨부 버튼 ///////////
 
-window.addEventListener('load', function fileUp(){
-target = document.getElementById('myFile');
-target.addEventListener('change', function(){
-    fileList = "";
-    for(i = 0; i < target.files.length; i++){
-        fileList += target.files[i].name + '<br>';
-    }
-    target2 = document.getElementById('showFiles');
-    target2.innerHTML = fileList;
-});
-})
+// window.addEventListener('load', function fileUp(){
+// target = document.getElementById('myFile');
+// target.addEventListener('change', function(){
+//     fileList = "";
+//     for(i = 0; i < target.files.length; i++){
+//         fileList += target.files[i].name + '<br>';
+//     }
+//     target2 = document.getElementById('showFiles');
+//     target2.innerHTML = fileList;
+// });
+// })
 
 
 /********************* 별점 ******************** */
 $(document).ready(function(){
-$('#star12 a').click(function(){ 
-$(this).parent().children("a").removeClass("on");    
-$(this).addClass("on").prevAll("a").addClass("on");
-console.log($(this).attr("value"));
+  $('#star12 a').click(function(){ 
+  $(this).parent().children("a").removeClass("on");    
+  $(this).addClass("on").prevAll("a").addClass("on");
+  console.log($(this).attr("value"));
 });})
 
 
@@ -346,26 +342,26 @@ $('input[name=starcount]').attr('value',5);
 
 ///////별 클릭 시 색깔 바뀌기 + 별 누적/////
 function starcount(){
-var star1 = document.querySelector("#star11")
-var star2 = document.querySelector("#star22")
-var star3 = document.querySelector("#star33")
-var star4 = document.querySelector("#star44")
-var star5 = document.querySelector("#star55")
+  var star1 = document.querySelector("#star11")
+  var star2 = document.querySelector("#star22")
+  var star3 = document.querySelector("#star33")
+  var star4 = document.querySelector("#star44")
+  var star5 = document.querySelector("#star55")
 
 
-if(star1.click){
-  $('input[name=starcount]').attr('value',1);
-} else if(star2.click){
-  $('input[name=starcount]').attr('value',2);
-} else if(star3.click){
-  $('input[name=starcount]').attr('value',3);
-} else if(star4.click){
-  $('input[name=starcount]').attr('value',4);
-} else {
-  $('input[name=starcount]').attr('value',5);
-}
+  if(star1.click){
+    $('input[name=starcount]').attr('value',1);
+  } else if(star2.click){
+    $('input[name=starcount]').attr('value',2);
+  } else if(star3.click){
+    $('input[name=starcount]').attr('value',3);
+  } else if(star4.click){
+    $('input[name=starcount]').attr('value',4);
+  } else {
+    $('input[name=starcount]').attr('value',5);
+  }
 
-console.log()
+  console.log()
 }
 
 $.fn.generateStars = function() {
@@ -380,39 +376,20 @@ $('.star-prototype').generateStars();
 
 
 
-/********************* 별점 ******************** */
+/********************* 별점 *********************/
 
 
 $(function() {
-$('div#star').raty({
-  score: 3
-  ,path : "img/star1.png"
-  ,width : 200
-  ,click: function(score, evt) {
-    $("#starRating").val(score);
-    $("#displayStarRating").html(score);
-  }
+  $('div#star').raty({
+    score: 3
+    ,path : "img/star1.png"
+    ,width : 200
+    ,click: function(score, evt) {
+      $("#starRating").val(score);
+      $("#displayStarRating").html(score);
+    }
+  });
 });
-});
-
-/******************** 주문내역팝업 *********************/
-function showPopup() { 
-  window.open("popup", "a", "width=400, height=300, left=100, top=50"); 
-}
-
-
-
-// function checkboxcheck(){
-//   // var userid = document.getElementById("userid").value;
-//   var username = document.getElementById("username").value;
-//   // var selected = document.querySelector('input[type=radio][name=order]:checked');
-//   // window.opener.document.getElementById("userid").value = userid;
-//   window.opener.document.getElementById("username").value = username;
-//   // window.opener.document.getElementById("selected").value = selected;
-
-//   alert(selected.value);
-//   window.close();
-//   }
 
 
 /********************* 장바구니담기 *********************/
@@ -443,6 +420,9 @@ $.ajax({
   }
 });
 }
+
+
+
 
 // 바로 구매하기 버튼 클릭 시
 function orderProduct() {
@@ -476,7 +456,7 @@ $.ajax({
 }
 
 //1026
-function guestLogin() {
-$('.guest_login').submit(); 
+// function guestLogin() {
+// $('.guest_login').submit(); 
 
-}
+// }

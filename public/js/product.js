@@ -194,20 +194,5 @@ $(".more_tab1").click(function(){ //더보기버튼 클릭//오류!!!!!3페이�
     }
 });
        
-/* .overlay : nav버튼 클릭 시 이미지 어둡게. */
-// $(function(){
-//     $("#nav_menu").click(function(){
-//         $(".overlay").show();
-//         $("#main").css('opacity','0.2');
-//         //$("#main").css('background-color', ''); //background color 속성 삭제 안됨 ㅠ
-//     });
-// });
-// $(function(){
-//     $(".closebtn").click(function(){
-//         $(".overlay").hide();
-//         $("#main").css('opacity','1');
-//         //$("#main").css('backgroundColor','#FFFEFC');
-//     });
-// });
 
 

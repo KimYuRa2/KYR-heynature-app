@@ -1,8 +1,12 @@
 /* header - searchbar(0615수정) */
 
+
+
+
 function bannerX(){
     document.getElementById("banner").style.display = "none" ;
 }
+
 function openNav() {
   document.getElementById("mySidenav").style.width = "320px";
   document.getElementById("main").style.marginRight = "320px";
@@ -22,10 +26,10 @@ function closeNav() {
 
 $(".top").click(
   function(){
-  $('body,html').animate({scrollTop:0},400); // 숫자는 움직이는 시간 클릭한 곳에서 Top 까지의 이동시간이라 보면 되겠다.
+  $('body,html').animate({scrollTop:0},400); // 숫자는 움직이는 시간: 클릭한 곳에서 Top 까지의 이동시간 설정
   return false;
 });
- $(".top").click(
+$(".top").click(
   function(){
     $(".pagination .mactive").removeClass("mactive"); 
 });
@@ -35,10 +39,9 @@ $(".top").click(
 });
 
 /*
-    header - searchbar(0615)
-    돋보기 클릭 시 - 돋보기 사라짐 + 검색창 보이기
-    X 클릭 시 - 돋보기 보이기 + 검색창 사라짐
+    header - searchbar
 */
+
 function getShowSearchbar(){
   // input박스 보이기
   document.getElementById("input").style.display = "block" ;
@@ -76,11 +79,12 @@ $(window).scroll(function(){
   var scrT = $(window).scrollTop();
   var kaTop = document.querySelector("#kaTop");
   console.log(scrT); //스크롤 값 확인용
-  if(scrT == $(document).height() - $(window).height()){
+  if(scrT == $(document).height() - $(window).height()) {
     $(kaTop).removeClass('ka_top1')
     $(kaTop).addClass('ka_top2')
   } else {
-    document.getElementById("kaTop").style.display = "block";
+    // document.getElementById("kaTop").style.display = "block";
+    $("#kaTop").css("display", "block");
     $(kaTop).removeClass('ka_top2')
     $(kaTop).addClass('ka_top1')
   }

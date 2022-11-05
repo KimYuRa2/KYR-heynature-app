@@ -1,5 +1,5 @@
- const express = require('express')
- const app = express()
+const express = require('express')
+const app = express()
 // const port = process.env.PORT || 3000; 
 
 
@@ -10,11 +10,11 @@ var logger = require('morgan');
 /* 1005 session test */
 const fs = require('fs');
 const mysql = require('mysql');
-const bodyParser = require('body-parser');
+const bodyParser = require('body-parser'); //post방식 전송을 위해서 필요
 const path = require('path');
-const session = require('express-session');
+const session = require('express-session'); //세션 사용을 위한 모듈 
 const crypto = require('crypto');
-const FileStore = require('session-file-store')(session); // 세션을 파일에 저장
+const FileStore = require('session-file-store')(session); // 세션을 파일에 저장하기 위함
 
 
 //# 환경변수 관리 ( "dotenv"사용 : 어떤 os에서 개발하더라도 , 동일하게 환경변수를 등록하고 가져올 수 있게됨.)
@@ -33,24 +33,17 @@ dotenv.config(); //config(현재디렉토리의 .env파일을 자동으로 인�
 
 
 
+/** 미들웨어 등록 **/
 
 /*1006 session test */
 app.use(bodyParser.urlencoded({extended:false}));
 // 세션 (미들웨어) 6
 app.use(session({
-    // secret: 'login1006', // 데이터를 암호화 하기 위해 필요한 옵션
-    secret: process.env.SESSION_SECRET,
+    secret: process.env.SESSION_SECRET, // 데이터를 암호화하기 위해 필요한 옵션
     resave: false, // 요청이 왔을때 세션을 수정하지 않더라도 다시 저장소에 저장되도록
     saveUninitialized: true, // 세션이 필요하면 세션을 실행시칸다(서버에 부담을 줄이기 위해)
-    store : new FileStore(), // 세션이 데이터를 저장하는 곳
-    proxy: true,
-    // 이거 지워야 세션 잘 작동..
-    // cookie: { 
-    //   httpOnly: true,
-    //   secure: true,
-    //   maxAge: 1000 * 60 * 10,
-    //   sameSite: "none",
-    // }
+    store : new FileStore(), // 세션이 데이터를 저장하는 곳 (파일에 저장)
+    proxy: true
 }));
 
 app.use(expressLayouts);//express-ejs-layout 사용
@@ -58,7 +51,7 @@ app.use(express.json());
 app.use(express.urlencoded({extended:false}));
 app.use(cookieParser());
 app.use(logger('dev'));
-app.use('/', routers);//use : 미들웨어 등록
+app.use('/', routers);// route.js 가상경로 설정 
 
 
 
@@ -77,8 +70,8 @@ app.set('layout extractScripts', true);
 
 const mySub1=``
 
-//css + img + js 경로(/public/css+img+js) 설정 
-app.use(express.static(__dirname + '/public'));
+// 기본path를 /public으로 설정 - css + img + js 경로(/public/css+img+js) 설정 
+app.use(express.static(__dirname + '/public')); 
 
 
 //css + img 경로 설정

@@ -30,8 +30,6 @@ const multerS3 = require("multer-s3");
 const multer = require('multer');
 const { title } = require("process");
 const { isReadable } = require("stream");
-// const path = require('path'); //설치X
-// const fs = require('fs'); // 설치 x
 
 /* nodemailer */
 const nodemailer = require('nodemailer');
@@ -305,23 +303,25 @@ router.post('/prod_update', upload.single("imgFile"), function(req, res, next){
 
 // 상품페이지 (/product)
 router.get('/product',(req, res, next) =>{
-    // * best상품  * //
-    // orders db에서 구매 가장 많은 prodnum 순서로 정렬
-    // 구매 많은 10개 상품전체정보 불러오기 console
 
-    
     connection.query(' select * from product where useyn="y" ',(err,rows) =>{
         if (err) {
             console.error("err : " + err);
         } else {
             // best 상품 10개 불러오기 !!!! : select *,COUNT(*) from orders inner join product using (prodnum) group by prodnum order by count(*) desc limit 10;
-            // + 재고 0인 상품은 빼고 보여주기.
-            connection.query('select *,COUNT(*) from orders inner join product using (prodnum) where useyn="y" group by prodnum order by count(*) desc limit 10;',(err,results) => {
+            // + 재고 0(useyn="n")인 상품은 제외.
+            var sql1 = `select *,COUNT(*) from orders
+             inner join product 
+             using (prodnum) where useyn="y"
+             group by prodnum 
+             order by count(*) desc 
+             limit 10;`;
+            connection.query(sql1,(err,results) => {
                 // console.log(results);
                 if(err){
                     console.error("err : " + err);
                 }else{
-                    res.render('product',{title : "상품 뿌리기 테스트", rows:rows, userId : req.session.userId, results:results })
+                    res.render('product', {title : "상품 뿌리기 테스트", rows:rows, userId : req.session.userId, results:results })
                 }
             })
         }
@@ -586,21 +586,18 @@ router.get('/deletedetail',(req,res)=>{
 
 
 
-/************************** 1. 2. 회원가입 / 로그인 / 로그아웃 **********************************/
+/************************** 회원가입 / 로그인 / 로그아웃 ********************************/
 
-/* 로그인 - 1006 */
+/* 로그인페이지 */
 router.get('/login',(req, res) =>{
-    console.log('로그인 페이지 &&');
+    console.log('로그인 페이지');
     console.log(req.session);
 
-    /////////// 1025 /////////////
-    // var prodnum = req.body.prodnum; // 현재 상품번호
-    // var quantity = req.body.quantity; //갯수
     var userIdx;
 
     // 로그인 여부 체크
-    if(req.session.is_logined) { //1) 로그인 되어있으면 (order테이블에 있는 주문목록 데이터 띄우기)
-        console.log("로그인됨. 마이페이지-주문목록으로 이동!");
+    if(req.session.is_logined) { //1) 로그인 되어있으면 (order테이블에 있는 주문(구매)목록 데이터 띄우기)
+        console.log("로그인됨. 마이페이지-주문목록으로 이동! (/index) (로그인페이지X)");
         // 로그인 아이디의 idx 조회
         connection.query('select * from users where userId=?', [req.session.userId], (err,result)=>{
             if( result.length > 0 ){
@@ -613,14 +610,15 @@ router.get('/login',(req, res) =>{
 
 
                 // 주문 테이블 뿌리기
-                connection.query(sql_t, userIdx, function (error, results) {
+                connection.query(sql_t, userIdx, function (error, results) { 
                     if(!error) {
                         // console.log("results[0].price2 :",results[0].price2 );
                         // console.log("quantity :",results[0].quantity );
                         //results에서 quantity,price2 가져오기
                         // totalPrice[prodnum] = results[0].price2 * results[0].quantity;
+
                         return res.render("index",{
-                            // prodnum에 해당하는 상품명(name), 가격(price2), 이미지(image)
+                            // prodnum에 해당하는 상품명(name), 가격(price2), 이미지(image) .. 필요
                             results : results,
                             is_logined : req.session.is_logined,
                             userName : req.session.userName,
@@ -636,6 +634,7 @@ router.get('/login',(req, res) =>{
             }
         });
     }else{ // 2) 로그인 안돼있으면, 로그인 페이지 그대로 띄움
+        console.log("로그인 안됨. 로그인 페이지 그대로 띄움 (/login) ");
         res.render('login',{ 
             is_logined : false
         });
@@ -643,13 +642,13 @@ router.get('/login',(req, res) =>{
 
 });
 
-
+/* 로그인처리 */
 router.post('/login', (req, res, next) => {
     const userId = req.body.userId;
     const userPassword = req.body.userPassword;
 
     // 오류처리 수정완!!
-    connection.query('select * from users where userId = ?', [userId], (err,row) => {
+    connection.query('select * from users where userId = ?', [userId], (err,row) => { 
         if(err) console.log(err);
         //로그인 확인
         // console.log(data[0]); // 일치하는 userID로 찾은 DB에 저장된 user 정보
@@ -659,7 +658,7 @@ router.post('/login', (req, res, next) => {
         // console.log(userId == data[0].userId); //userId 입력값 === db에 저장된 값
         // console.log(bcrypt.compareSync( userPassword, data[0].userPassword )); //userPassword 입력값 === db에 저장된 값
 
-        if(row.length > 0){
+        if(row.length > 0){ // users(회원)테이블에 userId 존재
             console.log(row[0]);
             console.log("얍");
             bcrypt.compare( userPassword, row[0].userPassword, (err, data) => {
@@ -712,7 +711,7 @@ router.post('/login', (req, res, next) => {
 })
 
 
-/* 회원가입 - 1006 */
+/* 회원가입 */
 router.get('/join',(req, res) =>{
     console.log("회원가입 페이지");
     res.render('join');
@@ -722,9 +721,10 @@ router.post('/join', (req,res,next)=> { //회원가입 form 에서 제출을 누
     console.log('회원가입 페이지');
     const userId = req.body.userId;
     const userPassword = req.body.userPassword;
+    const userEmail = req.body.userEmail;
+
     const userName = req.body.userName;
     const userPhoneNum = req.body.userPhoneNum;
-    const userEmail = req.body.userEmail;
     const userZonecode = req.body.userZonecode;
     const userAddress = req.body.userAddress;
     const userAddressSub = req.body.userAddressSub;
@@ -753,6 +753,7 @@ router.post('/join', (req,res,next)=> { //회원가입 form 에서 제출을 누
         }
     })
 })
+
 
 /* 로그아웃 - 1006 */
 router.get('/logout',(req,res)=>{
@@ -1048,16 +1049,16 @@ router.post('/guest_order', (req, res) => {
                     res.render('guest_order',{ data : data[0], or_image : or_image, or_prodname : or_prodname });
                 })
             }else{
-                res.send(`
-                    <h1>비회원 주문정보 없음. 주문 정보 틀림.</h1>
-                    <a href="/login">Back</a>
-                `);
+                console.log("주문조회 실패");
+                res.writeHead(200, {'Content-Type': 'text/html; charset=utf-8'}); //한글 설정
+                res.write("<script language=\"javascript\">alert('주문조회에 실패하셨습니다. 다시 시도해 주십시오.')</script>");
+                res.write("<script language=\"javascript\" charset=\'UTF-8\'>window.location=\"/login\"</script>"); // login페이지로 이동
             }
-        }else{
-            res.send(`
-                <h1>비회원 주문정보 없음.</h1>
-                <a href="/login">Back</a>
-            `);
+        } else{
+            console.log("주문조회 실패");
+            res.writeHead(200, {'Content-Type': 'text/html; charset=utf-8'}); //한글 설정
+            res.write("<script language=\"javascript\">alert('주문조회에 실패하셨습니다. 다시 시도해 주십시오.')</script>");
+            res.write("<script language=\"javascript\" charset=\'UTF-8\'>window.location=\"/login\"</script>"); // login페이지로 이동
         }
    
     })

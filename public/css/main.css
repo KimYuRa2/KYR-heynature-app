@@ -26,6 +26,12 @@ h6{
     width:100%;
     height:100vh;
 }
+/*swiper*/
+.swiper-horizontal>.swiper-pagination-bullets, .swiper-pagination-bullets.swiper-pagination-horizontal, .swiper-pagination-custom, .swiper-pagination-fraction {
+    top: 25px;
+}
+
+
 /*home section1 start*/
 .main1,.main1_2,.main1_3{
     position:relative; 
@@ -70,10 +76,9 @@ h6{
 #chTop{
     position:fixed;
     z-index: 7;
-
 }
 .chTop1{
-    right:15px; 
+    right:15px;
     bottom:65px;
 }
 .chTop2{
@@ -127,6 +132,8 @@ h6{
     position:absolute;
     border-radius: 2px;
 }
+
+/*2페이지 - 흘러가는 이미지*/
 .m2_r1{
     opacity: 0.8;
     top: 30%;
@@ -174,14 +181,9 @@ h6{
     to {right: 85%;}
   }
 
-    
-
-
-
 @keyframes m2move4{
     from {right: 20% ;}
     to {right: 85%;}
-
 }
 
 @keyframes m2move6{
@@ -496,9 +498,6 @@ transition: transform 0.8s ease-in-out;
         /* padding:0 20px; */
         box-sizing: border-box;
     }
-    /* .main4_cont>figure>div video{
-        height:350px;
-    } */
 
     .main4_cont figcaption>a>h2{
         font-size:28px;
@@ -531,9 +530,9 @@ transition: transform 0.8s ease-in-out;
         width:33.333%;
     }
 
-  }
+}
 
-  @media only screen and (max-width: 768px) {
+@media only screen and (max-width: 768px) {
     .m_dis{
         display:none;
     }
@@ -579,9 +578,6 @@ transition: transform 0.8s ease-in-out;
      .main4_cont>figure{
         width:85%;
     }
-    /* .main4_cont>figure>div video{
-        height:320px;
-    }  */
     .main4_cont figcaption>a>h2{
         font-size:24px;
     }
@@ -607,9 +603,4 @@ transition: transform 0.8s ease-in-out;
     .insta>li{
         width:50%;
     }
-  }
-  /* @media only screen and (max-width: 450px) {
-    .main4_cont>figure{
-        width:80%;
-    }
-  } */
+}
