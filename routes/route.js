@@ -292,7 +292,7 @@ router.post('/prod_update', upload.single("imgFile"), function(req, res, next){
         console.log('이미지필요!!');
         res.writeHead(200, {'Content-Type': 'text/html; charset=utf-8'}); //한글 설정
         res.write("<script language=\"javascript\">alert('실패 : 상품이미지를 업로드하세요.')</script>");
-        res.write("<script language=\"javascript\" charset=\'UTF-8\'>window.location=\"/upload\"</script>"); // main 페이지로 이동
+        res.write("<script language=\"javascript\" charset=\'UTF-8\'>window.location=\"/admin_prod\"</script>"); // main 페이지로 이동
     }
 })
 
@@ -844,7 +844,7 @@ router.get('/cart',(req, res) =>{
             }else{ //쿠키 있을 시
                 console.log("비회원 장바구니 쿠키 존재! : " , req.cookies.cart);
                 // console.log("Object.keys(cart) : ",Object.keys(cart)); // 쿠키 키값 배열로 가져오기
-                var sql_tt = `select * from product where prodnum in (?)`; // product테이블에서, prodnum(현재 상품번호)과 Object.keys(cart)(=쿠키 키값 배열로 가져온것들) 중 일치하는 row를 가져옴=> 쿠키에 들어있는 상품 전체 정보 가져옴
+                var sql_tt = `select * from product where prodnum in (?)`; //(?) ..!!!! product테이블에서, prodnum(현재 상품번호)과 Object.keys(cart)(=쿠키 키값 배열로 가져온것들) 중 일치하는 row를 가져옴=> 쿠키에 들어있는 상품 전체 정보 가져옴
                 connection.query(sql_tt, [Object.keys(cart)], (err,results) => {
                     // console.log("select * from product where prodnum in ( Object.keys(cart) ) : ", results);  // 쿠키 key값으로 들어있는 상품 전체 정보 확인
                     var totale = [];

@@ -398,7 +398,7 @@ $(function() {
 function insertCart() {
 
 var prodnum = $('#prodnum').val();
-var quantity = $('#amount').val();
+var quantity = $('#amount').val()
 var data = {
   'prodnum': prodnum, 
   'quantity': quantity

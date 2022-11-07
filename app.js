@@ -2,6 +2,10 @@ const express = require('express')
 const app = express()
 // const port = process.env.PORT || 3000; 
 
+//helmet
+const helmet = require('helmet');
+//
+const nocache = require('nocache');
 
 var expressLayouts = require('express-ejs-layouts');
 var cookieParser = require('cookie-parser');
@@ -20,6 +24,8 @@ const FileStore = require('session-file-store')(session); // 세션을 파일에
 //# 환경변수 관리 ( "dotenv"사용 : 어떤 os에서 개발하더라도 , 동일하게 환경변수를 등록하고 가져올 수 있게됨.)
 const dotenv = require("dotenv");
 
+//X-Powered-By 헤더 제거
+app.disable('x-powered-by');
 
 const routers = require('./routes/route.js');
 const { builtinModules } = require('module');
@@ -53,7 +59,15 @@ app.use(cookieParser());
 app.use(logger('dev'));
 app.use('/', routers);// route.js 가상경로 설정 
 
+/* commenting helmet.noCache as it is deprecated, using `nocache` package instead */
+// helmet.noCache()
+app.use(nocache());
+//
 
+// helmet.contentSecurityPolicy 제외한 기본 10개 미들웨어 사용
+app.use(helmet({
+    contentSecurityPolicy: false // cross-site 허용
+}));
 
 
 //app.use(cors()) // test를 하기위해서 세팅 "실제 서버에 배포할 땐 아이피를 설정해야 함"
