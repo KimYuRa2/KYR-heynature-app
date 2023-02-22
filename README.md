@@ -8,6 +8,12 @@
 
 > 앞서 팀프로젝트로 진행했던 헤이네이처 프로젝트에서 개인적으로 부족했던 부분들을 보완하고, 기능들을 추가하여 쇼핑몰 사이트로 구현했습니다.
 
+### 사용 기술 스택
+> (Frontend) html, css, javascript, jquery/ (Backend) node.js / (DB) mysql + (Image server) AWS S3 / (Deploy) heroku -≫ fly.io 배포
+
+### 추가한 주요 기능
+> 회원가입, 로그인, 상품/재고/주문/공지사항 관리, 상품구매, 장바구니, 구매정보 확인, 검색, 텍스트+포토 리뷰, 베스트상품, 페이징, 문의하기(nodemailer모듈) + 추가적으로 필요한 페이지 생성 (ex. 회원가입 페이지, 회원개인/장바구니 페이지, 주문페이지, ... )
+
 ### 🏠 [Homepage](https://heynature.fly.dev)
 
 ## Install
