@@ -451,10 +451,6 @@ var autoHypenPhone = function(str){
 }
 
 // cscenter - 문의하기
-inquiryphonenum.onkeyup = function(){
-    console.log(this.value);
-    this.value = autoHypenPhone( this.value ) ;  
-}
 
 function inquiryform_check() {
 
@@ -501,6 +497,13 @@ function inquiryform_check() {
     clickSubmit();
 
 }
+
+const phoneNumHypen= document.getElementById("inquiryphonenum");
+phoneNumHypen.onkeyup = function(){
+    console.log(this.value);
+    this.value = autoHypenPhone( this.value ) ;  
+}
+
 
 function clickSubmit(){
     if(confirm('문의를 남기시겠습니까?')){
