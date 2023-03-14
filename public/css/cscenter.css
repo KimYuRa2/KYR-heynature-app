@@ -1,13 +1,3 @@
-/* 220620 수정ddd */
-
-@font-face{
-    font-family: 'Circular-Std-Font2';
-    src:url('../fonts/CircularStd-Medium.woff') format('woff');
-}
-@font-face{
-    font-family: 'Circular-Std-Font-Bold';
-    src:url('../fonts/CircularStd-Bold.woff') format('woff');
-}
 
 body {
     font-family: 'Circular Std','Nanum Barun Gothic', Arial, sans-serif;
@@ -82,7 +72,6 @@ body {
     position:relative;
     font-weight: bold;
     font-family: 'Circular Std';
-    /* font-family: 'Circular-Std-Font'; */
 }
 .ko{
     font-family: 'Nanum Barun Gothic';
@@ -1346,12 +1335,6 @@ main{
         padding-left:30px;
         /* padding: 0 30px; */
     }
-    .cs_sec{ 
-        
-        /* padding-top : 150px; */
-        /* margin:200px auto 0; */
-        /* font-family: 'Circular-Std-Font'; */
-    }
 }
 
 
@@ -1415,8 +1398,6 @@ main{
 
     .cs_sec{ 
         padding-top : 200px;
-        /* margin: 195px auto 0;150+51=201 */
-        /* font-family: 'Circular-Std-Font'; */
     }
     .cs_sec>h3{
         font-size : 22px;
@@ -1426,7 +1407,6 @@ main{
     }
     .cs_tab1>li>a{
         font-size : 16px;
-        /* font-family: 'Circular-Std-Font'; */
     }
     .cs_tab2>li>a{
         line-height: 15px;

@@ -1,5 +1,3 @@
-/* 220620 수정 dfd*/
-
 body{
   font-family: 'NanumBarunGothic';
   background-color: #fffefc;
@@ -338,7 +336,7 @@ input[name="sum2"]{
   letter-spacing: -2px;
   display: block;
   text-align: center;
-  font-family: 'Circular-Std-Font';
+  font-family: 'Circular Std';
 }
 
 .product_photoreviews_contents{
@@ -629,7 +627,7 @@ input[name="sum2"]{
 
 .product_review>span{
   font-size: 22px;
-  font-family: 'Circular-Std-Font';
+  font-family: 'Circular Std';
   font-weight: bold;
 }
 
@@ -721,7 +719,7 @@ input[name="sum2"]{
 
 .product_review_widget:first-child figcaption{
   text-align:start;
-  font-family: 'Circular-Std-Font';
+  font-family: 'Circular Std';
 }
 
 .product_comment_wrap{

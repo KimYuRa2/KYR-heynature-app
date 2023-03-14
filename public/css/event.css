@@ -1,7 +1,5 @@
 
-body * {
-    font-family: 'NanumBarunGothic','Circular-Std-Font';
-}
+
 body {
     background-color: #FFFEFC;
     position: relative;
@@ -30,7 +28,7 @@ main {
     font-size:28px;
     font-weight: bold;
     text-align: center;
-    font-family: 'Circular-Std-Font';
+    font-family: 'Circular Std';
 }
 
 .e_tab1{
@@ -57,7 +55,7 @@ main {
     color:#000;
     position:relative;
     font-weight: bold;
-    font-family: 'Circular-Std-Font';
+    font-family: 'Circular Std';
 }
 
 /* hover test */
@@ -157,7 +155,7 @@ main {
     color: #000;
     font-size: 16px;
     margin-top: 8px;
-    font-family: 'Circular-Std-Font';
+    font-family: 'Circular Std';
 }
 .event_oning h3>p {
     font-weight: normal;

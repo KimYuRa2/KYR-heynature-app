@@ -1,14 +1,4 @@
-@font-face{
-    font-family: 'Circular-Std-Font2';
-    src:url('../fonts/CircularStd-Medium.woff') format('woff');
-}
-@font-face{
-    font-family: 'Circular-Std-Font-Bold';
-    src:url('../fonts/CircularStd-Bold.woff') format('woff');
-}
 
-
-/***** header (searchbox) :0615 - HEYNATURE >common.css로 옮김 ******/
 
 
 /************************ main ******************************/
@@ -17,7 +7,7 @@ main{
 }
 
 body{
-    font-family:'Circular Std','Nanum Barun Gothic', Arial, sans-serif;
+    font-family:'Circular Std', Arial, sans-serif;
     font-style: normal;
     font-weight: 400;
     -webkit-font-smoothing: antialiased;
@@ -66,7 +56,8 @@ body{
     font-family: 'Circular Std';
 }
 .ko{
-    font-family: 'Nanum Barun Gothic';
+    font-family: 'NanumBarunGothic';
+    /* font-family: 'Nanum Barun Gothic'; */
 }
 
 
@@ -254,15 +245,16 @@ body{
 .tabContent figcaption>h3{
     font-size: 12px;
     line-height: 22px;
-    
-    font-family: 'Nanum Barun Gothic';
+    /*한글폰트*/
+    /* font-family: 'Nanum Barun Gothic'; */
+    font-family: 'NanumBarunGothic';
 }
 .tabContent figcaption>h4{
     /* margin-top:2px; */
     font-weight: bold;
     font-size:14px;
     line-height: 20px;
-    font-family: 'Circular-Std-Font-Bold';
+    font-family: 'Circular Std';
 }
 .tabContent figure>div{
     margin-top:20px;
@@ -295,7 +287,8 @@ body{
     color: #000;
     line-height: 40px;
     font-size: 13px;
-    font-family: 'Nanum Barun Gothic';
+    /* font-family: 'Nanum Barun Gothic'; */
+    font-family: 'NanumBarunGothic';
 }
 .more_btn>a>span{
     font-size : 11px;

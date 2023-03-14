@@ -1,13 +1,3 @@
-@font-face{
-    font-family: 'Circular-Std-Font2';
-    src:url('../fonts/CircularStd-Medium.woff') format('woff');
-}
-@font-face{
-    font-family: 'Circular-Std-Font-Bold';
-    src:url('../fonts/CircularStd-Bold.woff') format('woff');
-}
-
-
 .ch{
     width:370px;
     height:590px;
@@ -119,7 +109,7 @@
     padding: 5px 15px;
     box-sizing: border-box;
     position:relative;
-    font-family:  'Nanum Barun Gothic';
+    font-family: 'NanumBarunGothic';
 }
 .list_title{
     color: rgba(0, 0, 0, 0.5);
@@ -173,10 +163,10 @@ h6{
     display: inline-block;
 }
 .content_txt span{
-    font-family: 'Nanum Barun Gothic';
+    font-family: 'NanumBarunGothic';
 }
 .content_txt p{
-    font-family: 'Nanum Barun Gothic';
+    font-family: 'NanumBarunGothic';
 }
 .list_enter_wrap{
     position:absolute;
@@ -195,7 +185,7 @@ h6{
     text-align: center;
     font-size: 12px;
     margin-right: 5px;
-    font-family:'Nanum Barun Gothic';
+    font-family: 'NanumBarunGothic';
 }
 .list_enter_btn{
     background-image: url(../img/output-onlinepngtools_arrow.png);
@@ -245,7 +235,7 @@ h6{
 }
 .new_chat_btn span{
     margin-left: 5px;
-    font-family: 'Nanum Barun Gothic';
+    font-family: 'NanumBarunGothic';
 }
 .operating_hour{
     width:100%;
@@ -263,7 +253,7 @@ h6{
 }
 .operating_hour>h6{
     display: inline-block;
-    font-family: 'Nanum Barun Gothic';
+    font-family: 'NanumBarunGothic';
 }
 
 .ch_list3{
@@ -278,7 +268,7 @@ h6{
     color: rgba(0, 0, 0, 0.5);
     line-height: 60px;
     display: inline-block;
-    font-family: 'Nanum Barun Gothic';
+    font-family: 'NanumBarunGothic';
 }
 .call_icon{
     width:36px;
@@ -316,7 +306,7 @@ h6{
 }
 .ch_list4>h6{
     display:inline-block;
-    font-family: 'Nanum Barun Gothic';
+    font-family: 'NanumBarunGothic';
 }
 
 @media only screen and (max-width: 425px)
