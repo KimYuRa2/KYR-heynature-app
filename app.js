@@ -1,6 +1,8 @@
 const express = require('express')
+const cors = require('cors')
 const app = express()
-// const port = process.env.PORT || 3000; 
+
+app.use(cors())
 
 //helmet
 const helmet = require('helmet');
@@ -40,9 +42,22 @@ dotenv.config(); //config(현재디렉토리의 .env파일을 자동으로 인�
 
 
 /** 미들웨어 등록 **/
+// application/json
+// app.use( express.json() ); //요청(req) 본문을 json 형태로 파싱
+
+// application/x-www-form-urlencoded방식의 Content-Type데이터를 받아줌. (jquery.ajax의 기본타입)
+// application/x-www-form-urlencoded : html "form submit"에서 주로 사용하는 타입이며, 기본적인 Content-Type으로 불립니다
+// x-www-form-urlencoded :내가 body에 보내는 데이터 타입이 "form" 방식이라는것을 명시하는것이다.
+/*
+    인코딩이 필요하기 때문에 크기가 큰 데이터는 해당 타입으로 보내기 적합하지 않습니다
+    ?name=Binary+Yun&age=25
+    따라서 해당 타입으로 요청을 보내면 url 뒤에 위와 같은 형태로 전송됩니다
+*/
+// x-www-form-urlencoded를 파싱.
+app.use(bodyParser.urlencoded({extended:false})); //이렇게 하면 post에서 json 데이터를 받을 수 있다. 받을 때 req.body 형태로 받으면 된다.
+
 
 /*1006 session test */
-app.use(bodyParser.urlencoded({extended:false}));
 // 세션 (미들웨어) 6
 app.use(session({
     secret: process.env.SESSION_SECRET, // 데이터를 암호화하기 위해 필요한 옵션
@@ -70,13 +85,11 @@ app.use(helmet({
 }));
 
 
-//app.use(cors()) // test를 하기위해서 세팅 "실제 서버에 배포할 땐 아이피를 설정해야 함"
-
 //view(html파일들) 경로 설정"/views");
 
 //화면 엔진을 ejs로 설정한다.
 app.set('view engine', 'ejs');
-//app.engine('html', require('ejs').renderFile); //html문서로 되어있는 ejs엔진
+
 
 //express-ejs-layouts 설정
 app.set('layout','layout'); //layout 이름으로 ejs파일 만듦.
@@ -86,12 +99,6 @@ const mySub1=``
 
 // 기본path를 /public으로 설정 - css + img + js 경로(/public/css+img+js) 설정 
 app.use(express.static(__dirname + '/public')); 
-
-
-//css + img 경로 설정
-//app.use(express.static(path.join(__dirname,'public')));
-
-
 
 
 module.exports = app;
